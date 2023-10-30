@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head><title>
+Heart Catherization Form
+</title></head>
+
+<body>
+<h1>HeartForms- Heart Catherization Form</h1>
+<hr>
+<a href="index.html">
+                HeartForms Home</a>     /
+<a href="Surgery Fill out Form.html">
+                Blank Heart Surgery Form</a>     /
+<a href="Heart_Cath_form.html">
+                Heart Cath Form</a>     /
+<a href="KCCQ12.html">
+                KCCQ-12</a>     /
+<a href="NYHA_HF_Scale.html">
+                NYHA Classification for Heart Failure</a>     /
+<a href="ROS_doc.html">
+                Review of Systems</a>
+
+<hr>
+
+<table content="width=device-width, initial-scale=1"; border= "1px solid black;">
+<tr><td>Last Name: <input type="text" id="lname" name="lname"></td>
+	<td>First Name: <input type="text" id="fname" name="fname"></td></tr>
+<tr><td>Your clinic/ hospital:<input type="text" id="clinic" name="clinic"></td>
+	<td rowspan="7"><b>Common Cardiac Studies:</b><br>
+    <br>Cardiac Catherization with possible intervention (Angioplasty/ Stent)<br>
+    	<button onclick="Copytext1()">Copy</button><br>
+    Right Heart Catherization<br>
+    	<button onclick="Copytext2()">Copy</button><br>
+    Percutaneous Coronary Intervention (PCI)<br>
+    	<button onclick="Copytext3()">Copy</button><br>
+    </td></tr>
+
+<tr><td>Physician performing procedure:<input type="text" id="physician" name ="physician" value=""></td></tr>
+
+<tr><td>Procedure to be performed: <input type="text" id="procedure" name="procedure" value=""></td></tr>
+
+<tr><td>Where is the procedure being done:<input type="text" id="location" name="location" value=""></td></tr>
+
+<tr><td>On the date of: <input type="date" id="procdate" name= "procdate" value=""></td></tr>
+
+<tr><td>Arrive at the location at: <input type="time" id="proctime" name="proctime" value=""></td></tr>
+
+<tr><td>Your facility's phone number: <input type="number" id="phoneno" name="phoneno"></td></tr>
+
+</table>
+
+<!--
+MEDICATIONS
+-->
+<form id="medform"><h3>Medications to ask about:</h3>
+
+<label for="meds1">Coumadin/ Warfarin:</label>
+    <select id="meds1" name="meds1" size="1">
+                <option>No</option>
+                 <option value="Coumadin/ Warfarin">Yes</option>
+     </select><br>
+
+<label for="meds2">Eliquis/ Xarelto/ '-xaban':</label>
+    <select id="meds2" name="meds2" size="1">
+            <option>No</option>
+            <option value="Apixaban">Apixaban</option>
+            <option value="Betrixaban">Betrixaban</option>
+            <option value="Edoxaban">Edoxaban</option>
+            <option value="Eliquis">Eliquis</option>
+            <option value="Xarelto">Xarelto</option>
+        </select><br>
+<label for="meds3">Insulin-Long Acting:</label>
+	<select id="meds3" name="meds3" size="1">
+    	<option>No</option>
+        <option value="Glargine">Inuslin Glargine</option>
+        <option value="Basaglar">Basaglar</option>
+        <option value="Lantus">Lantus</option>
+        <option value="Toujeo">Toujeo</option>
+        <option value="Determir">Insulin Detemir</option>
+        <option value="Levemir">Levemir</option>
+        <option value="Insulin Degludec">Insulin Degludec</option>
+        <option value="Tresiba">Tresiba</option>
+        </select><br>
+<label for="meds4">Insulin-Short Acting:</label>
+	<select id="meds4" name="meds4" size="1">
+    	<option>No</option>
+        <option value="Regular">Regular(R)</option>
+        <option value="Novolin">Novolin</option>
+        <option value="Velosulin">Velosulin (For Inuslin Pump)</option>
+    </select><br>
+<label for="meds5">Metformin:</label>
+    <select id="meds5" name="meds5" size="1">
+            <option>No</option>
+        	<option value="Metformin">Metformin</option>
+            <option value="Glumetza">Glumetza</option>
+            <option value="Riomet">Riomet</option>
+            <option value="Kmetformin-alogliptin (Kazano)">Metformin-alogliptin (Kazano)</option>
+            <option value="metformin-canagliflozin (Invokamet)">metformin-canagliflozin (Invokamet)</option>
+        	<option value="metformin-dapagliflozin (Xigduo XR)">metformin-dapagliflozin (Xigduo XR)</option>
+            <option value="metformin-empagliflozin (Synjardy)">metformin-empagliflozin (Synjardy)</option>
+        	<option value="metmorfin-ertugliflozin (Segluromet)">metmorfin-ertugliflozin (Segluromet)</option>
+            <option value="metformin-glipizide">metformin-glipizide</option>
+        	<option value="metformin-glyburide (Glucovance)">metformin-glyburide (Glucovance)</option>
+            <option value="metformin-linagliptin (Jentadueto, Jentadueto XR)">metformin-linagliptin (Jentadueto, Jentadueto XR)</option>
+        	<option value="metformin-pioglitazone (Actoplus Met, Actoplus Met XR)">metformin-pioglitazone (Actoplus Met, Actoplus Met XR)</option>
+            <option value="metformin-repaglinide (PrandiMet)">metformin-repaglinide (PrandiMet)</option>
+        	<option value="metformin-rosiglitazone (Avandamet)">metformin-rosiglitazone (Avandamet)</option>
+            <option value="metformin-saxagliptin (Kombiglyze XR)">metformin-saxagliptin (Kombiglyze XR)</option>
+        	<option value="metformin-sitagliptin (Janumet, Janumet XR)">metformin-sitagliptin (Janumet, Janumet XR)</option>
+        </select><br>
+<label for="meds6">Sulfonylureas:</label>
+	<select id="meds6" name="meds6" size="1">
+    	<option>No</option>
+        <option value="glimepiride (Amaryl)">glimepiride (Amaryl)</option>
+        <option value="glimepiride-pioglitazone (Duetact)">glimepiride-pioglitazone (Duetact)</option>
+        <option value="gliclazide">gliclazide</option>
+        <option value="glipizide">glipizide</option>
+        <option value="glipizide ER (Glipizide XL, Glucotrol XL)">glipizide ER (Glipizide XL, Glucotrol XL)</option>
+        <option value="glipizide-metformin">glipizide-metformin</option>
+        <option value="glyburide (Glynase)">glyburide (Glynase)</option>
+        <option value="glyburide-metformin">glyburide-metformin</option>
+        </select><br>
+<label for="meds6">ED Medications:</label>
+    <select id="meds6" name="meds6" size="1">
+                <option>No</option>
+                <option value="Avanafil/ Stendra">Avanafil/ Stendra</option>
+                <option value="Cialis">Cialis</option>
+                <option value="Sildenafil">Sildenafil</option>
+                <option value="Tadalafil">Tadalafil</option>
+                <option value="Vardenafil">Vardenafil</option>
+                <option value="Viagra">Viagra</option>
+        </select><br>
+
+</form>
+
+
+<script>
+
+var copyText;
+function Copytext1() {
+	var copyText = "Cardiac Catherization with possible intervention (Angioplasty/ Stent)";
+	document.getElementById("procedure").value = copyText;
+ }
+ function Copytext2() {
+	var copyText = "Right Heart Catherization";
+	document.getElementById("procedure").value = copyText;
+ }
+ function Copytext3() {
+	var copyText = "Percutaneous Coronary Intervention (PCI)";
+	document.getElementById("procedure").value = copyText;
+ }
+
+
+</script>
+<br>Click the button to <button onclick="Fill_out(); medireco();">Generate Form</button>
+<br>CONTENT THAT WILL PRINT WILL BE BELOW THIS MESSAGE<br>
+<div id="printableArea">
+<h1><p id="Sch_Clinic" style= "text-align: center"></p></h1><hr>
+<p id="demo"></p>
+<p id="paraproc"></p>
+<p id="medrec"></p>
+</div>
+<input type="button" onclick="printDiv('printableArea')" value="Print Report" />
+
+
+<script>
+function Fill_out() {
+  var office_clinic = document.getElementById("clinic").value;
+  document.getElementById("Sch_Clinic").innerHTML = office_clinic;
+
+  var patlname = document.getElementById("lname").value;
+  var patfname = document.getElementById("fname").value;
+  document.getElementById("demo").innerHTML = ("<b>" + patfname + " " + patlname + "</b>" + " is scheduled for:" + "<br>");
+
+  var patproc = document.getElementById("procedure").value;
+  var procloca = document.getElementById("location").value;
+  var dateproc = document.getElementById("procdate").value;
+  var dateproc = new Date(dateproc);
+  var dateproc = dateproc.getTime();
+  dateproc = dateproc + (1*1000*60*60*24);
+  dateproc = new Date(dateproc);
+  let day = dateproc.getDate();
+  let month = dateproc.getMonth() + 1;
+  let year = dateproc.getFullYear();
+  let currentDate = `${month}/${day}/${year}`;
+
+  var timeproc = document.getElementById("proctime").value;
+  document.getElementById("paraproc").innerHTML = ("<b>" + patproc + "</b><br>" + "Arrive at " + procloca + " on <b>" + currentDate + "</b> at " + "<b>" + timeproc + "</b>");
+
+	var y = document.getElementById("medform");
+    var medtext2 = "...from your procedure date:";
+	var textform2 = "";
+    var medtext3 = "Take your last dose of ";
+	var j;
+	for (j = 0; j < y.length; j++) {
+    	if (y.elements[j].value == "No") {
+        textform2 = textform2;
+        }  else if (j==0) {
+       // Coumadin/ Warfarin
+       		dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc - ((5)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else if (j==1) {
+        //Eliquis/ Xarelto/ -xaban
+        	dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc - ((2)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else if (j==2) {
+        //Insulin- Long Acting
+        	dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc - ((0)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + "Take a half dose of your " + y.elements[j].value + " the day before surgery on " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else if (j==3) {
+        //Insulin- Short Acting
+        	dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc - ((0)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else if (j==4) {
+        //Metformin
+        	dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc + ((3)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + "DO NOT take your next dose of " + y.elements[j].value + " until " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else if (j==5) {
+        //Sulfonylureas
+        	dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc - ((1)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else if (j==6) {
+        //ED Meds
+        	dateproc = new Date( document.getElementById("procdate").value);
+        	dateproc = dateproc.getTime();
+            dateproc = dateproc - ((2)*1000*60*60*24);
+            dateproc = new Date(dateproc);
+			let day = dateproc.getDate();
+			let month = dateproc.getMonth() + 1;
+			let year = dateproc.getFullYear();
+			let currentDate = `${month}/${day}/${year}`;
+        	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
+            dateproc = new Date( document.getElementById("procdate").value);
+        } else {
+textform2 = textform2 + y.elements[j].value;
+		}
+    }
+document.getElementById("medrec").innerHTML = "<br>" + textform2 + medtext2 + "<b>" + currentDate + "</b>";
+}
+
+function printDiv(divName) {
+	var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+         document.body.innerHTML = printContents;
+         window.print();
+         document.body.innerHTML = originalContents;
+}
+
+
+</script>
+<hr>
+<p style="text-align: center;"><a href="LLCLTC.html"><img src="LTC_logo.jpg" alt="LTC LLC" width="30" height="40"></a>
+<a href="surgery_doc.html"><img src="CVS_sign.jpg" alt="ETCVS" width="40" height="40"></a></p>
+
+</body>
+</html>
