@@ -1,83 +1,307 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYHA Classification - HeartForms</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .page-header {
+            padding: 0 0 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px 8px 0 0;
+        }
+         .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .header-content h1 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin: 0;
+            font-size: 1.75rem;
+        }
+        .header-content p {
+            margin: 0;
+            color: #6c757d;
+        }
+        .header-icon {
+            height: 2.5rem; 
+            width: 2.5rem;
+            fill: #007bff;
+        }
+        .page-nav {
+            margin-top: 1.5rem;
+        }
+        .page-nav a {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .page-nav a.home-link {
+            font-weight: bold;
+        }
 
-<html>
+        .info-section, .classification-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .info-grid label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .info-grid input[type="text"], .info-grid input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; 
+        }
+        
+        .symptoms-note {
+            text-align: center;
+            padding: 0.75rem;
+            background-color: #e9f7fd;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
 
-<head><title>
-
-Heart Forms- NYHA HF Scale
-
-</title></head>
-
+        .class-option {
+            margin-bottom: 1.5rem;
+        }
+        .class-option:last-child {
+            margin-bottom: 0;
+        }
+        .class-option label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+        .class-option input[type="radio"] {
+            margin-top: 5px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .class-title {
+            font-weight: bold;
+            display: block;
+            font-size: 1.1rem;
+            color: #0056b3;
+        }
+        .class-description {
+            display: block;
+            color: #495057;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px #999;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #0069d9;
+        }
+        .btn:active {
+            background-color: #0062cc;
+            box-shadow: 0 2px #666;
+            transform: translateY(2px);
+        }
+        .page-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+        }
+    </style>
+</head>
 <body>
 
-<h1><p style="text-align: center">NYHA Classification for Heart Failure</p></h1><hr>
+    <div class="container">
+        <header class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1>HeartForms</h1>
+                    <p>NYHA Classification for Heart Failure</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav class="page-nav">
+                <a href="#" class="home-link">HeartForms Home</a> /
+                <a href="#">Blank Heart Surgery Form</a> /
+                <a href="#">Heart Cath Form</a> /
+                <a href="#">KCCQ-12</a> /
+                <a href="#">NYHA Classification</a> /
+                <a href="#">Review of Systems</a>
+            </nav>
+        </header>
 
-<hr>
-<a href="index.html">
-                HeartForms Home</a>     /
-<a href="Surgery Fill out Form.html">
-                Blank Heart Surgery Form</a>     /
-<a href="Heart_Cath_form.html">
-                Heart Cath Form</a>     /
-<a href="KCCQ12.html">
-                KCCQ-12</a>     /
-<a href="NYHA_HF_Scale.html">
-                NYHA Classification for Heart Failure</a>     /
-<a href="ROS_doc.html">
-                Review of Systems</a>
+        <form id="nyha-form">
+            <div class="info-section">
+                <div class="info-grid">
+                    <div>
+                        <label for="last-name">Last Name:</label>
+                        <input type="text" id="last-name" name="last-name">
+                    </div>
+                    <div>
+                        <label for="first-name">First Name:</label>
+                        <input type="text" id="first-name" name="first-name">
+                    </div>
+                     <div class="info-grid" style="grid-column: 1 / -1;">
+                         <label for="completion-date">Date completing Form:</label>
+                         <input type="date" id="completion-date" name="completion-date">
+                    </div>
+                </div>
+            </div>
 
-<hr>
-<form id="NHYScale_form" action="">
+            <div class="symptoms-note">
+                <strong>Symptoms to consider:</strong> Fatigue, Palpitations, Chest Pain, Dyspnea, Syncope
+            </div>
 
-<p>
+            <div class="classification-section">
+                <div class="class-option">
+                    <label>
+                        <input type="radio" name="nyha_class" value="1">
+                        <div>
+                            <span class="class-title">NYHA Class I</span>
+                            <span class="class-description">No Symptoms with normal physical activity. Normal functional status.</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="class-option">
+                    <label>
+                        <input type="radio" name="nyha_class" value="2">
+                        <div>
+                            <span class="class-title">NYHA Class II</span>
+                            <span class="class-description">Mild Symptoms with normal physical activity. Comfortable at rest. Slight limitation of functional status.</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="class-option">
+                    <label>
+                        <input type="radio" name="nyha_class" value="3">
+                         <div>
+                            <span class="class-title">NYHA Class III</span>
+                            <span class="class-description">Moderate symptoms with less than normal physical activity. Comfortable only at rest. Marked limitation of functional status.</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="class-option">
+                     <label>
+                        <input type="radio" name="nyha_class" value="4">
+                        <div>
+                            <span class="class-title">NYHA Class IV</span>
+                            <span class="class-description">Severe Symptoms with features of heart failure with minimal physical activity and even at rest. Severe limitation of functional status.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <button type="button" class="btn" onclick="printReport()" style="background-color: #17a2b8;">Print Report</button>
+            <button type="reset" class="btn" style="background-color: #6c757d;">Reset Form</button>
 
-Last Name:<input type="text" size="20">
+        </form>
+        
+        <footer class="page-footer">
+             <p>&copy; 2025 HeartForms</p>
+        </footer>
+    </div>
 
-First Name:<input type-"text" size="12"><br>
+    <script>
+        function printReport() {
+            // Gather Patient Info
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const completionDate = document.getElementById('completion-date').value;
+            const selectedClassEl = document.querySelector('input[name="nyha_class"]:checked');
+            
+            if (!selectedClassEl) {
+                alert("Please select an NYHA Class before printing.");
+                return;
+            }
 
-Date completing Form: <input type="date">
+            const selectedClassTitle = selectedClassEl.parentElement.querySelector('.class-title').innerText;
+            const selectedClassDescription = selectedClassEl.parentElement.querySelector('.class-description').innerText;
 
-<h3><p style="text-align: center">Symptoms= Fatigue, Palpitations, Chest Pain, Dyspnea, Syncope<br></p></h3>
+            // Build the HTML for the new print window
+            let printHTML = `
+                <html>
+                <head>
+                    <title>NYHA Classification Report</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; font-size: 12pt; margin: 25px; }
+                        h1 { font-size: 16pt; text-align: center; margin-bottom: 20px; }
+                        .info-section, .result-section { margin-bottom: 20px; }
+                        .info-section p { margin: 4px 0; }
+                        .result-section { border: 2px solid #000; padding: 15px; text-align: center; }
+                        .result-title { font-size: 14pt; font-weight: bold; }
+                        .result-description { font-style: italic; margin-top: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>NYHA Classification Report</h1>
+                    <div class="info-section">
+                        <p><strong>Patient Name:</strong> ${lastName}, ${firstName || 'N/A'}</p>
+                        <p><strong>Date of Completion:</strong> ${completionDate || 'N/A'}</p>
+                    </div>
+                    <div class="result-section">
+                        <p class="result-title">${selectedClassTitle}</p>
+                        <p class="result-description">${selectedClassDescription}</p>
+                    </div>
+                </body>
+                </html>`;
 
-
-
-
-
-<table content="width=device-width, initial-scale=1"; border= "1px solid black;">
-
-<tr><td>NYHA Class 1: </td>
-
-                <td>
-
-                <input type="radio" id="NYHAScale" name="NYHAScale" value="1"> No Symptoms with normal physical activity. Normal functional status.</td>
-
-
-
-<tr><td>NYHA Class 2: </td>
-
-                <td><input type="radio" id="NYHAScale" name="NYHAScale" value="2">Mild Symptoms with normal physical activity. Comfortable at rest. Slight limitation of functional status.</td></tr>
-
-
-
-<tr><td>NYHA Class 3: </td>
-
-                <td><input type="radio" id="NYHAScale" name="NYHAScale" value="3">Moderate symptoms with less than normal physical activity. Comfortable only at rest. Marked limitation of functional status.</td></tr>
-
-
-
-<tr><td>NYHA Class 4: </td>
-
-                <td><input type="radio" id="NYHAScale" name="NYHAScale" value="4">Severe Symptoms with features of heart failure with minimal physical activity and even at rest. Severe limitation of functional status.</td></tr>
-
-    </table><br>
-
-    <input type="reset">
-
-    <button onclick="window.print()">Print this page</button>
-<hr>
-<p style="text-align: center;"><a href="LLCLTC.html"><img src="LTC_logo.jpg" alt="LTC LLC" width="30" height="40"></a>
-<a href="Surgery_doc.html"><img src="CVS_sign.jpg" alt="ETCVS" width="40" height="40"></a></p>
+            // Open a new window and print the generated HTML
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printHTML);
+            printWindow.document.close();
+            setTimeout(() => { // Timeout to allow content to render
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+    </script>
 
 </body>
-
 </html>
