@@ -1,220 +1,536 @@
 <!DOCTYPE html>
-<html>
-<head><title>
-Kansas City Cardiomyopathy Questionnaire (KCCQ-12)
-</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KCCQ-12 Scoring Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        .page-header {
+            padding: 0 0 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px 8px 0 0;
+        }
+         .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .header-content h1 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin: 0;
+            font-size: 1.75rem;
+        }
+        .header-content p {
+            margin: 0;
+            color: #6c757d;
+        }
+        .header-icon {
+            height: 2.5rem; 
+            width: 2.5rem;
+            fill: #007bff;
+        }
+        .page-nav {
+            margin-top: 1.5rem;
+        }
+        .page-nav a {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .page-nav a.home-link {
+            font-weight: bold;
+        }
 
+        .patient-info, .question-group {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+        .info-grid label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .info-grid input[type="text"], .info-grid input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Important for padding and width */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .intervention-group {
+            grid-column: 1 / -1; /* Span across both columns */
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+         .intervention-group p {
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px #999;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #0069d9;
+        }
+        .btn:active {
+            background-color: #0062cc;
+            box-shadow: 0 2px #666;
+            transform: translateY(2px);
+        }
+        #results {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #e9f7fd;
+            border: 1px solid #bce8f1;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+        #results h2 {
+            margin-top: 0;
+            color: #0c5460;
+        }
+        /* Highlight styles */
+        .highlight-field {
+            border-color: #007bff !important;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        .highlight-group {
+             border-color: #007bff;
+             background-color: #e9f7fd;
+        }
+    </style>
+</head>
 <body>
-<h1>HeartForms</h1>
-<hr>
-<a href="index.html">
-                HeartForms Home</a>     /
-<a href="Surgery Fill out Form.html">
-                Blank Heart Surgery Form</a>     /
-<a href="Heart_Cath_form.html">
-                Heart Cath Form</a>     /
-<a href="KCCQ12.html">
-                KCCQ-12</a>     /
-<a href="NYHA_HF_Scale.html">
-                NYHA Classification for Heart Failure</a>     /
-<a href="ROS_doc.html">
-                Review of Systems</a>
 
-<hr>
+    <div class="container">
+        <header class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1>HeartForms</h1>
+                    <p>Kansas City Cardiomyopathy Questionnaire (KCCQ-12)</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav class="page-nav">
+                <a href="#" class="home-link">HeartForms Home</a> /
+                <a href="#">Blank Heart Surgery Form</a> /
+                <a href="#">Heart Cath Form</a> /
+                <a href="#">KCCQ-12</a> /
+                <a href="#">NYHA Classification</a> /
+                <a href="#">Review of Systems</a>
+            </nav>
+        </header>
 
-<div id='printable_div_id'>
-<h1>Kansas City Cardiomyopathy Questionnaire (KCCQ-12)</h1>
-<table content="width=device-width, initial-scale=1"; border= "1px solid black;"><tbody>
-<tr><td colspan="2">Name:<input type="text"></td>
-	<td colspan="2">Date of Birth:<input type="date"></td>
+        <form id="kccq-form">
+            <!-- Patient Info Section -->
+            <div class="patient-info">
+                 <div class="info-grid">
+                    <div>
+                        <label for="patient-name">Name:</label>
+                        <input type="text" id="patient-name" name="patient-name">
+                    </div>
+                     <div>
+                        <label for="patient-dob">Date of Birth:</label>
+                        <input type="date" id="patient-dob" name="patient-dob">
+                    </div>
+                     <div>
+                        <label for="completion-date">Date Completing Form:</label>
+                        <input type="date" id="completion-date" name="completion-date">
+                    </div>
+                    <div class="intervention-group">
+                        <p>Status:</p>
+                        <label><input type="radio" name="intervention" value="pre"> Pre-intervention</label>
+                        <label><input type="radio" name="intervention" value="post"> Post-intervention</label>
+                    </div>
+                </div>
+            </div>
 
-    <td colspan="2">Pre Interventions<input type="radio" name="intervention" id="intervention"></td>
-    <td colspan="2">Post Interventions<input type="radio" name="intervention" id="intervention"></td>.
-</tr>
+            <!-- Physical Limitation -->
+            <div class="question-group">
+                <p class="question-text">1a. How much are you limited by heart failure (shortness of breath or fatigue) in Showering/Bathing?</p>
+                <div class="answers">
+                    <label><input type="radio" name="pl1" value="1"> Extremely Limited</label>
+                    <label><input type="radio" name="pl1" value="2"> Quite a bit Limited</label>
+                    <label><input type="radio" name="pl1" value="3"> Moderately Limited</label>
+                    <label><input type="radio" name="pl1" value="4"> Slightly Limited</label>
+                    <label><input type="radio" name="pl1" value="5"> Not at all Limited</label>
+                </div>
+            </div>
 
-<tr>
-<td colspan="2">Date Completing Form:<input type="date"></td>
-<td colspan="6">The following questions refer to your <b>Heart Failure</b> and how it may affect your life. Please read and complete the following questions. There are no right or wrong anwsers. Please mark the answer that best applies to you.</td></tr>
+            <div class="question-group">
+                <p class="question-text">1b. ...in Walking 1 block on level ground?</p>
+                <div class="answers">
+                    <label><input type="radio" name="pl2" value="1"> Extremely Limited</label>
+                    <label><input type="radio" name="pl2" value="2"> Quite a bit Limited</label>
+                    <label><input type="radio" name="pl2" value="3"> Moderately Limited</label>
+                    <label><input type="radio" name="pl2" value="4"> Slightly Limited</label>
+                    <label><input type="radio" name="pl2" value="5"> Not at all Limited</label>
+                </div>
+            </div>
 
-<tr>
-	<td colspan="8"><b>Heart Failure</b> affects different people in different ways. Smome feel shortness of breath while others feel fatigue. Please indicate how much you are limited by <b>heart failure</b> (shortness of breath or fatigue) in your ability to do the follwong activities over the last two weeks.</td></tr>
+            <div class="question-group">
+                <p class="question-text">1c. ...in Hurrying or Jogging (as if to catch a bus)?</p>
+                <div class="answers">
+                    <label><input type="radio" name="pl3" value="1"> Extremely Limited</label>
+                    <label><input type="radio" name="pl3" value="2"> Quite a bit Limited</label>
+                    <label><input type="radio" name="pl3" value="3"> Moderately Limited</label>
+                    <label><input type="radio" name="pl3" value="4"> Slightly Limited</label>
+                    <label><input type="radio" name="pl3" value="5"> Not at all Limited</label>
+                </div>
+            </div>
+            
+            <!-- Symptom Frequency -->
+             <div class="question-group">
+                <p class="question-text">2. Over the past 2 weeks, how many times did you have swelling in your feet, ankles, or legs when you woke up?</p>
+                <div class="answers">
+                    <label><input type="radio" name="sf1" value="1"> Every Morning</label>
+                    <label><input type="radio" name="sf1" value="2"> 3+ times a week</label>
+                    <label><input type="radio" name="sf1" value="3"> 1-2 times a week</label>
+                    <label><input type="radio" name="sf1" value="4"> Less than once a week</label>
+                    <label><input type="radio" name="sf1" value="5"> Never</label>
+                </div>
+            </div>
 
-<tr><td>1a. </td>
-	<td colspan="7"><b>Activity-</b>Showering/ Bathing</td></tr>
-        <tr><td></td>
-	<td><b>Extremely</b> Limited<br><input type="radio" value="1" name="Bathing" id="Bathing"></td>
-    <td><b>Quite a bit</b> Limited<br><input type="radio" value="2" name="Bathing" id="Bathing"></td>
-    <td><b>Moderatley</b> Limitied<input type="radio" value="3" name="Bathing" id="Bathing"></td>
-    <td><b>Slightly</b> Limited<br><input type="radio" value="4" name="Bathing" id="Bathing"></td>
-    <td><b>Not at all</b> Limited<br><input type="radio" value="5" name="Bathing" id="Bathing"></td>
-    <td colspan="2">Limited for other reasons or did not do the activity<br><input type="radio" value="6" name="Bathing" id="Bathing"></td>
-    </tr>
-<tr><td>1b. </td>
-	<td colspan="7"><b>Activity-</b>Walking 1 block on level ground</td></tr>
-    <tr><td></td>
-    <td><b>Extremely</b> Limited<br><input type="radio" value="1" name="Walking" id="Walking"></td>
-    <td><b>Quite a bit</b> Limited<br><input type="radio" value="2" name="Walking" id="Walking"></td>
-    <td><b>Moderatley</b> Limitied<br><input type="radio" value="3" name="Walking" id="Walking"></td>
-    <td><b>Slightly</b> Limited<br><input type="radio" value="4" name="Walking" id="Walking"></td>
-    <td><b>Not at all</b> Limited<br><input type="radio" value="5" name="Walking" id="Walking"></td>
-    <td colspan="2">Limited for other reasons or did not do the activity<br><input type="radio" value="6" name="Walking" id="Walking"></td>
-    </tr>
+             <div class="question-group">
+                <p class="question-text">3. Over the past 2 weeks, how often has fatigue limited your ability to do what you wanted?</p>
+                <div class="answers">
+                    <label><input type="radio" name="sf2" value="1"> All of the time</label>
+                    <label><input type="radio" name="sf2" value="2"> Several times per day</label>
+                    <label><input type="radio" name="sf2" value="3"> At least once per day</label>
+                    <label><input type="radio" name="sf2" value="4"> 3+ times per week</label>
+                    <label><input type="radio" name="sf2" value="5"> 1-2 times per week</label>
+                    <label><input type="radio" name="sf2" value="6"> Less than once a week</label>
+                    <label><input type="radio" name="sf2" value="7"> Never</label>
+                </div>
+            </div>
 
-<tr><td>1c. </td>
-	<td colspan="7"><b>Activity-</b>Hurrying or Jogging (as if trying to catch a bus)</td></tr>
-    <tr><td></td>
-    <td><b>Extremely</b> Limited<br><input type="radio" value="1" name="Hurrying" id="Hurrying"></td>
-    <td><b>Quite a bit</b> Limited<br><input type="radio" value="2" name="Hurrying" id="Hurrying"></td>
-    <td><b>Moderatley</b> Limitied<br><input type="radio" value="3" name="Hurrying" id="Hurrying"></td>
-    <td><b>Slightly</b> Limited<br><input type="radio" value="4" name="Hurrying" id="Hurrying"></td>
-    <td><b>Not at all</b> Limited<br><input type="radio" value="5" name="Hurrying" id="Hurrying"></td>
-    <td colspan="2">Limited for other reasons or did not do the activity<br><input type="radio" value="6" name="Hurrying" id="Hurrying"></td>
-    </tr>
+            <div class="question-group">
+                <p class="question-text">4. Over the past 2 weeks, how often has shortness of breath limited your ability to do what you wanted?</p>
+                 <div class="answers">
+                    <label><input type="radio" name="sf3" value="1"> All of the time</label>
+                    <label><input type="radio" name="sf3" value="2"> Several times per day</label>
+                    <label><input type="radio" name="sf3" value="3"> At least once per day</label>
+                    <label><input type="radio" name="sf3" value="4"> 3+ times per week</label>
+                    <label><input type="radio" name="sf3" value="5"> 1-2 times per week</label>
+                    <label><input type="radio" name="sf3" value="6"> Less than once a week</label>
+                    <label><input type="radio" name="sf3" value="7"> Never</label>
+                </div>
+            </div>
 
-    <tr><td>2. </td>
-	<td colspan="7">Over the <u>past 2 weeks</u>, how many times did you have <b>swelling</b> in your feet, ankles, or legs when you woke up in the morning?</td></tr>
-    <tr><td></td>
-    <td>Every Morning<br><input type="radio" value="1" name="Swelling" id="Swelling"></td>
-    <td colspan="2">3 or more times per week but not everyday<br><input type="radio" value="2" name="Swelling" id="Swelling"></td>
-    <td>1-2 Times per week<br><input type="radio" value="3" name="Swelling" id="Swelling"></td>
-    <td>Less than once a week<br><input type="radio" value="4" name="Swelling" id="Swelling"></td>
-    <td colspan="2">Never over the past 2 weeks<br><input type="radio" value="5" name="Swelling" id="Swelling"></td>
-    </tr>
+            <div class="question-group">
+                <p class="question-text">5. Over the past 2 weeks, how often have you been forced to sleep sitting up or with at least 3 pillows due to shortness of breath?</p>
+                <div class="answers">
+                    <label><input type="radio" name="sf4" value="1"> Every Night</label>
+                    <label><input type="radio" name="sf4" value="2"> 3+ times per week</label>
+                    <label><input type="radio" name="sf4" value="3"> 1-2 times per week</label>
+                    <label><input type="radio" name="sf4" value="4"> Less than once a week</label>
+                    <label><input type="radio" name="sf4" value="5"> Never</label>
+                </div>
+            </div>
 
-<tr><td>3. </td>
-	<td colspan="7">Over the <u>past 2 weeks</u>, on average, how many times has <b>fatigue</b> limited your ability to do what you wanted? </td></tr>
-    <tr><td></td>
-    <td>All the time<br><input type="radio" value="1" name="Fatigue" id="Fatigue"></td>
-    <td>Several times per day<br><input type="radio" value="2" name="Fatigue" id="Fatigue"></td>
-    <td>At least once per day<br><input type="radio" value="3" name="Fatigue" id="Fatigue"></td>
-    <td>3 or more times per week but not every day<br><input type="radio" value="4" name="Fatigue" id="Fatigue"></td>
-    <td>1-2 times per week<br><input type="radio" value="5" name="Fatigue" id="Fatigue"></td>
-    <td>Less than once a week<br><input type="radio" value="6" name="Fatigue" id="Fatigue"></td>
-    <td>Never once over the last 2 weeks<br><input type="radio" value="7" name="Fatigue" id="Fatigue"></td>
-    </tr>
+            <!-- Quality of Life -->
+            <div class="question-group">
+                <p class="question-text">6. Over the past 2 weeks, how much has heart failure limited your enjoyment of life?</p>
+                <div class="answers">
+                    <label><input type="radio" name="qol1" value="1"> Extremely limited</label>
+                    <label><input type="radio" name="qol1" value="2"> Limited quite a bit</label>
+                    <label><input type="radio" name="qol1" value="3"> Moderately limited</label>
+                    <label><input type="radio" name="qol1" value="4"> Slightly limited</label>
+                    <label><input type="radio" name="qol1" value="5"> Not limited at all</label>
+                </div>
+            </div>
 
-<tr><td>4. </td>
-	<td colspan="7">Over the <u>past 2 weeks</u>, on average, how many times has <b>shortness of breath</b> limited your ability to do what you wanted? </td></tr>
-    <tr><td></td>
-    <td>All of the time<br><input type="radio" value="1" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    <td>Several times per day<br><input type="radio" value="2" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    <td>At least once a day<br><input type="radio" value="3" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    <td>3 or more times per week but not every day<br><input type="radio" value="4" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    <td>1-2 times per week<br><input type="radio" value="5" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    <td>Less than once a week?<br><input type="radio" value="6" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    <td>Never over the past 2 weeks<br><input type="radio" value="7" name="Shortness_of_breath" id="Shortness_of_breath"></td>
-    </tr>
+            <div class="question-group">
+                <p class="question-text">7. If you had to spend the rest of your life with your heart failure the way it is right now, how would you feel?</p>
+                <div class="answers">
+                    <label><input type="radio" name="qol2" value="1"> Not at all satisfied</label>
+                    <label><input type="radio" name="qol2" value="2"> Mostly dissatisfied</label>
+                    <label><input type="radio" name="qol2" value="3"> Somewhat satisfied</label>
+                    <label><input type="radio" name="qol2" value="4"> Mostly satisfied</label>
+                    <label><input type="radio" name="qol2" value="5"> Completely satisfied</label>
+                </div>
+            </div>
 
-<tr><td>5. </td>
-	<td colspan="7">Over the <u>past 2 weeks</u>, on average, how many times have you been forced to sleep sitting up in a chair or with at least 3 pillows to prop you up because of <b>shortness of breath</b>?</td></tr>
-    <tr><td></td>
-    <td>Every Night<br><input type="radio" value="1" name="Sit_up_sleep" id="Sit_up_sleep"></td>
-    <td>3 or more times per week, but not ever day<input type="radio" value="2" name="Sit_up_sleep" id="Sit_up_sleep"></td>
-    <td>1-2 times per week<input type="radio" value="3" name="Sit_up_sleep" id="Sit_up_sleep"></td>
-    <td>Less than once a week<input type="radio" value="4" name="Sit_up_sleep" id="Sit_up_sleep"></td>
-    <td>Never over the past two weeks<br><input type="radio" value="5" name="Sit_up_sleep" id="Sit_up_sleep"></td>
-    </tr>
+            <!-- Social Limitation -->
+            <div class="question-group">
+                <p class="question-text">8a. Over the past 2 weeks, how much has your heart failure limited your participation in Hobbies/recreational activities?</p>
+                <div class="answers">
+                    <label><input type="radio" name="sl1" value="1"> Severely limited</label>
+                    <label><input type="radio" name="sl1" value="2"> Limited quite a bit</label>
+                    <label><input type="radio" name="sl1" value="3"> Moderately limited</label>
+                    <label><input type="radio" name="sl1" value="4"> Slightly limited</label>
+                    <label><input type="radio" name="sl1" value="5"> Did not limit at all</label>
+                </div>
+            </div>
+            
+            <div class="question-group">
+                <p class="question-text">8b. ...in Working or doing household chores?</p>
+                <div class="answers">
+                    <label><input type="radio" name="sl2" value="1"> Severely limited</label>
+                    <label><input type="radio" name="sl2" value="2"> Limited quite a bit</label>
+                    <label><input type="radio" name="sl2" value="3"> Moderately limited</label>
+                    <label><input type="radio" name="sl2" value="4"> Slightly limited</label>
+                    <label><input type="radio" name="sl2" value="5"> Did not limit at all</label>
+                </div>
+            </div>
 
-<tr><td>6. </td>
-	<td colspan="7">Over the <u>past 2 weeks</u>, how much has <b>heart failure</b> limited your enjoyment of life?</td></tr>
-    <tr><td></td>
-    <td>It has <b>extremely</b> limited my enjoyment of life<br><input type="radio" value="1" name="Enjoyment" id="Enjoyment"></td>
-    <td>It has limited my enjoyment of life <b>quite a bit</b><br><input type="radio" value="2" name="Enjoyment" id="Enjoyment"></td>
-    <td>It has <b>moderately</b> limited my enjoyment of life<br><input type="radio" value="3" name="Enjoyment" id="Enjoyment"></td>
-    <td>It has <b>slightly</b> limited my enjoyment of life<br><input type="radio" value="4" name="Enjoyment" id="Enjoyment"></td>
-    <td>It has <b>not limited</b> my enjoyment of life at all<br><input type="radio" value="5" name="Enjoyment" id="Enjoyment"></td>
-    </tr>
+            <div class="question-group">
+                <p class="question-text">8c. ...in Visiting family or friends out of your home?</p>
+                <div class="answers">
+                    <label><input type="radio" name="sl3" value="1"> Severely limited</label>
+                    <label><input type="radio" name="sl3" value="2"> Limited quite a bit</label>
+                    <label><input type="radio" name="sl3" value="3"> Moderately limited</label>
+                    <label><input type="radio" name="sl3" value="4"> Slightly limited</label>
+                    <label><input type="radio" name="sl3" value="5"> Did not limit at all</label>
+                </div>
+            </div>
 
-<tr><td>7. </td>
-	<td colspan="7">If you had to spend the rest of your life with your heart failure the way it is <u>right now</u>, how would you feel about this?</td></tr>
-    <tr><td></td>
-    <td>Not at all satisfied<br><input type="radio" value="1" name="Enjoyment" id="Enjoyment"></td>
-    <td>Mostly Dissatisfied<br><input type="radio" value="2" name="Enjoyment" id="Enjoyment"></td>
-    <td>Somewhat Dissatisfied<br><input type="radio" value="3" name="Enjoyment" id="Enjoyment"></td>
-    <td>Mostly Satisfied<br><input type="radio" value="4" name="Enjoyment" id="Enjoyment"></td>
-    <td>Completely satisfied<br><input type="radio" value="5" name="Enjoyment" id="Enjoyment"></td>
-    </tr>
+            <button type="button" class="btn" onclick="calculateScore()">Calculate Score</button>
+            <button type="button" class="btn" onclick="printReport()" style="background-color: #17a2b8;">Print Report</button>
+            <button type="reset" class="btn" style="background-color: #6c757d;">Reset</button>
 
-<tr><td>8. </td>
-	<td colspan="7">How much does your <b>heart failure</b> affect your lifestyle? Please indicate how your <b>heart failure</b> may have limited your participation in the following activities <u>over the past 2 weeks</u></td></tr>
-<tr><td>8a. </td>
-<td colspan="7"><b>Activity-</b> with hobbies or recreational activities </td></tr>
-<tr><td></td>
- 	<td><b>Severely</b> Limited<br><input type="radio" value="1" name="Lifestyle_a" id="Lifestyle_a"></td>
-<td>Limited <b>quite a bit</b><br><input type="radio" value="2" name="Lifestyle_a" id="Lifestyle_a"></td>
-<td><b>Moderately</b> limited<br><input type="radio" value="3" name="Lifestyle_a" id="Lifestyle_a"></td>
- <td><b>Slightly</b> limited<br><input type="radio" value="4" name="Lifestyle_a" id="Lifestyle_a"></td>
- <td><b>Did not</b> limit at all<br><input type="radio" value="5" name="Lifestyle_a" id="Lifestyle_a"></td>
-<td colspan="2">Does not apply or did not do for other reasons<br><input type="radio" value="6" name="Lifestyle_a" id="Lifestyle_a"></td>
-    </tr>
+        </form>
 
-<tr><td>8b. </td>
-<td colspan="7"><b>Activity-</b> working or doing household chores</td></tr>
-<tr><td></td>
- 	<td><b>Severely</b> Limited<br><input type="radio" value="1" name="Lifestyle_b" id="Lifestyle_b"></td>
-<td>Limited <b>quite a bit</b><br><input type="radio" value="2" name="Lifestyle_b" id="Lifestyle_b"></td>
-<td><b>Moderately</b> limited<br><input type="radio" value="3" name="Lifestyle_b" id="Lifestyle_b"></td>
- <td><b>Slightly</b> limited<br><input type="radio" value="4" name="Lifestyle_b" id="Lifestyle_b"></td>
- <td><b>Did not</b> limit at all<br><input type="radio" value="5" name="Lifestyle_b" id="Lifestyle_b"></td>
-<td>Does not apply or did not do for other reasons<br><input type="radio" value="6" name="Lifestyle_b" id="Lifestyle_b"></td>
-    </tr>
+        <div id="results">
+            <h2>Scoring Results</h2>
+            <p id="pl-score"></p>
+            <p id="sf-score"></p>
+            <p id="qol-score"></p>
+            <p id="sl-score"></p>
+            <hr>
+            <p id="summary-score" style="font-weight: bold; font-size: 1.2rem;"></p>
+        </div>
 
-<tr><td>8c. </td>
-<td colspan="7"><b>Activity-</b> visiting family or friends out of your home</td></tr>
-<tr><td></td>
- 	<td><b>Severely</b> Limited<br><input type="radio" value="1" name="Lifestyle_c" id="Lifestyle_c"></td>
-<td>Limited <b>quite a bit</b><br><input type="radio" value="2" name="Lifestyle_c" id="Lifestyle_c"></td>
-<td><b>Moderately</b> limited<br><input type="radio" value="3" name="Lifestyle_c" id="Lifestyle_c"></td>
- <td><b>Slightly</b> limited<br><input type="radio" value="4" name="Lifestyle_c" id="Lifestyle_c"></td>
- <td><b>Did not</b> limit at all<br><input type="radio" value="5" name="Lifestyle_c" id="Lifestyle_c"></td>
-<td>Does not apply or did not do for other reasons<br><input type="radio" value="6" name="Lifestyle_c" id="Lifestyle_c"></td>
-    </tr>
+    </div>
 
-</tbody></table>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Highlight required fields on load ---
+            const infoContainer = document.querySelector('.patient-info');
+            
+            // Highlight text and date fields
+            const fieldsToHighlight = infoContainer.querySelectorAll(
+                'input[type="text"], input[type="date"]'
+            );
+            fieldsToHighlight.forEach(field => {
+                field.classList.add('highlight-field');
+                field.addEventListener('focus', () => {
+                    field.classList.remove('highlight-field');
+                }, { once: true });
+            });
 
+            // Highlight the radio button group
+            const interventionGroup = infoContainer.querySelector('.intervention-group');
+            interventionGroup.parentElement.classList.add('highlight-group');
+            interventionGroup.addEventListener('click', () => {
+                interventionGroup.parentElement.classList.remove('highlight-group');
+            }, { once: true });
+        });
 
-</div>
-<button onClick="printdiv('printable_div_id'); calculate();">Print</button>
-<script>
-function calculate() {
-var Bathing_score = document.getElementById("Bathing").value;
+        function getSelectedValue(name) {
+            const radios = document.getElementsByName(name);
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    return parseInt(radios[i].value);
+                }
+            }
+            return null; // Return null if no answer is selected
+        }
 
-var Walking_score = document.getElementById("Walking").value;
+        function calculateScore() {
+            // Mapping tables from raw score to 0-100 scale
+            const map5 = { 1: 0, 2: 25, 3: 50, 4: 75, 5: 100 };
+            const map7 = { 1: 0, 2: 16.66, 3: 33.33, 4: 50, 5: 66.66, 6: 83.33, 7: 100 };
 
-var Hurrying_score = document.getElementById("Hurrying").value;
+            // Get values from form
+            const pl1 = getSelectedValue('pl1');
+            const pl2 = getSelectedValue('pl2');
+            const pl3 = getSelectedValue('pl3');
+            
+            const sf1 = getSelectedValue('sf1');
+            const sf2 = getSelectedValue('sf2');
+            const sf3 = getSelectedValue('sf3');
+            const sf4 = getSelectedValue('sf4');
 
-var Swelling_score = document.getElementById("Swelling").value;
+            const qol1 = getSelectedValue('qol1');
+            const qol2 = getSelectedValue('qol2');
 
-var Fatigue_score = document.getElementById("Fatigue").value;
+            const sl1 = getSelectedValue('sl1');
+            const sl2 = getSelectedValue('sl2');
+            const sl3 = getSelectedValue('sl3');
 
-var Shortness_of_breath_score = document.getElementById("Shortness_of_breath").value;
+            // Check for missing answers
+            const allScores = [pl1, pl2, pl3, sf1, sf2, sf3, sf4, qol1, qol2, sl1, sl2, sl3];
+            if (allScores.includes(null)) {
+                alert("Please answer all questions before calculating the score.");
+                return false; // Indicate failure
+            }
 
-var Sit_up_sleep_score = document.getElementById("Sit_up_sleep").value;
+            // Calculate Domain Scores
+            const plScore = (map5[pl1] + map5[pl2] + map5[pl3]) / 3;
+            const sfScore = (map5[sf1] + map7[sf2] + map7[sf3] + map5[sf4]) / 4;
+            const qolScore = (map5[qol1] + map5[qol2]) / 2;
+            const slScore = (map5[sl1] + map5[sl2] + map5[sl3]) / 3;
+            
+            // Calculate Overall Summary Score
+            const summaryScore = (plScore + sfScore + qolScore + slScore) / 4;
 
-var Enjoyment_score = document.getElementById("Enjoyment").value;
+            // Display results
+            document.getElementById('pl-score').innerText = `Physical Limitation Score: ${plScore.toFixed(2)}`;
+            document.getElementById('sf-score').innerText = `Symptom Frequency Score: ${sfScore.toFixed(2)}`;
+            document.getElementById('qol-score').innerText = `Quality of Life Score: ${qolScore.toFixed(2)}`;
+            document.getElementById('sl-score').innerText = `Social Limitation Score: ${slScore.toFixed(2)}`;
+            document.getElementById('summary-score').innerText = `Overall Summary Score: ${summaryScore.toFixed(2)}`;
 
-var Lifestyle_a_score = document.getElementById("Lifestyle_a").value;
-var Lifestyle_b_score = document.getElementById("Lifestyle_b").value;
-var Lifestyle_c_score = document.getElementById("Lifestyle_c").value;
+            document.getElementById('results').style.display = 'block';
+            return true; // Indicate success
+        }
+        
+        function printReport() {
+            // First, run the calculation. If it fails (e.g., questions unanswered), stop.
+            if (calculateScore() === false) {
+                return; 
+            }
 
-}
+            // Gather Patient Info
+            const patientName = document.getElementById('patient-name').value;
+            const patientDob = document.getElementById('patient-dob').value;
+            const completionDate = document.getElementById('completion-date').value;
+            const interventionEl = document.querySelector('input[name="intervention"]:checked');
+            const interventionStatus = interventionEl ? interventionEl.parentElement.textContent.trim() : 'N/A';
 
-function printdiv(elem) {
-  var header_str = '<html><head><title>' + document.title  + '</title></head><body>';
-  var footer_str = '</body></html>';
-  var new_str = document.getElementById(elem).innerHTML;
-  var old_str = document.body.innerHTML;
-  document.body.innerHTML = header_str + new_str + footer_str;
-  window.print();
-  document.body.innerHTML = old_str;
-  return false;
-}
+            // Build the HTML for the new print window
+            let printHTML = `
+                <html>
+                <head>
+                    <title>KCCQ-12 Report</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; font-size: 10pt; margin: 20px; }
+                        h1 { font-size: 14pt; text-align: center; margin-bottom: 15px; }
+                        h2 { font-size: 12pt; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-top: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+                        td { padding: 4px; vertical-align: top; }
+                        .info-table td:first-child { font-weight: bold; width: 150px; }
+                        .results-table { font-size: 11pt; }
+                        .qa-table .question { font-weight: bold; width: 65%; }
+                        .qa-table .answer { width: 35%; }
+                    </style>
+                </head>
+                <body>
+                    <h1>KCCQ-12 Report</h1>
+                    <h2>Patient Information</h2>
+                    <table class="info-table">
+                        <tr><td>Patient Name:</td><td>${patientName || 'N/A'}</td></tr>
+                        <tr><td>Date of Birth:</td><td>${patientDob || 'N/A'}</td></tr>
+                        <tr><td>Date of Completion:</td><td>${completionDate || 'N/A'}</td></tr>
+                        <tr><td>Status:</td><td>${interventionStatus}</td></tr>
+                    </table>
+                    
+                    <h2>Scoring Summary</h2>
+                    <table class="results-table">
+                        <tr><td>${document.getElementById('pl-score').innerText}</td></tr>
+                        <tr><td>${document.getElementById('sf-score').innerText}</td></tr>
+                        <tr><td>${document.getElementById('qol-score').innerText}</td></tr>
+                        <tr><td>${document.getElementById('sl-score').innerText}</td></tr>
+                        <tr><td><strong>${document.getElementById('summary-score').innerText}</strong></td></tr>
+                    </table>
 
+                    <h2>Patient Responses</h2>
+                    <table class="qa-table">`;
 
-</script>
-<hr>
-<p style="text-align: center;"><a href="LLCLTC.html"><img src="LTC_logo.jpg" alt="LTC LLC" width="30" height="40"></a>
-<a href="Surgery_doc.html"><img src="CVS_sign.jpg" alt="ETCVS" width="40" height="40"></a></p>
+            // Gather Questions and Selected Answers
+            const questionGroups = document.querySelectorAll('.question-group');
+            questionGroups.forEach(group => {
+                const questionText = group.querySelector('.question-text').innerText;
+                const selectedRadio = group.querySelector('input[type="radio"]:checked');
+                
+                if (selectedRadio) {
+                    const answerText = selectedRadio.parentElement.textContent.trim();
+                    printHTML += `
+                        <tr>
+                            <td class="question">${questionText}</td>
+                            <td class="answer">${answerText}</td>
+                        </tr>`;
+                }
+            });
+
+            printHTML += `</table></body></html>`;
+
+            // Open a new window and print the generated HTML
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printHTML);
+            printWindow.document.close();
+            setTimeout(() => { // Timeout to allow content to render
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+
+        // Hide results when form is reset
+        document.getElementById('kccq-form').addEventListener('reset', function() {
+            document.getElementById('results').style.display = 'none';
+        });
+
+    </script>
 
 </body>
-<html>
+</html>
