@@ -1,66 +1,153 @@
 <!DOCTYPE html>
-
-<html>
-<head><title>
-Heart Forms Home
-</title></head>
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartForms - Home</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .page-header {
+            padding: 0 0 2rem 0;
+            margin-bottom: 2rem;
+        }
+         .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .header-content h1 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin: 0;
+            font-size: 1.75rem;
+        }
+        .header-content p {
+            margin: 0;
+            color: #6c757d;
+        }
+        .header-icon {
+            height: 2.5rem; 
+            width: 2.5rem;
+            fill: #007bff;
+        }
+        .page-nav {
+            margin-top: 1.5rem;
+        }
+        .page-nav a {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .page-nav a.home-link {
+            font-weight: bold;
+        }
+        .content-card {
+            padding: 1.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+        .content-card h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            color: #0056b3;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-card p, .content-card blockquote {
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+        .content-card blockquote {
+            border-left: 4px solid #e9ecef;
+            padding-left: 1rem;
+            margin-left: 0;
+        }
+        /* Style for hanging indent on references */
+        .content-card blockquote p {
+            padding-left: 30px;
+            text-indent: -30px;
+        }
+        .page-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+        }
+    </style>
+</head>
 <body>
-<h1>HeartForms Home</h1>
-<hr>
-<a href="index.html">
-                HeartForms Home</a>     /
-<a href="Surgery Fill out Form.html">
-                Blank Heart Surgery Form</a>     /
-<a href="Heart_Cath_form.html">
-                Heart Cath Form</a>     /
-<a href="KCCQ12.html">
-                KCCQ-12</a>     /
-<a href="NYHA_HF_Scale.html">
-                NYHA Classification for Heart Failure</a>     /
-<a href="ROS_doc.html">
-                Review of Systems</a>
 
-<hr>
-<table content="width=device-width, initial-scale=1"; border= "0px solid black;">
+    <div class="container">
+        <header class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1>HeartForms</h1>
+                    <p>A Collection of Cardiology Tools & Forms</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav class="page-nav">
+                <a href="#" class="home-link">HeartForms Home</a> /
+                <a href="#">Blank Heart Surgery Form</a> /
+                <a href="#">Heart Cath Form</a> /
+                <a href="#">KCCQ-12</a> /
+                <a href="#">NYHA Classification</a> /
+                <a href="#">Review of Systems</a>
+            </nav>
+        </header>
 
-<tr><td>
-<p id="disclaimer"><b>Note:</b> None of these forms are meant to diagnose, treat, and or help prevent any disease. These are merely tools for the use of providing the ability to fill out forms online and print and/ or submit electronically to whomever. We do not utilize cookies to save any data, nor do we submit any data on any persons behalf. We hope these tools can expedite care and allow for smoother transition of information from patient to provider.</p>
-<br><b>Anticoagulation References:</b>
+        <main>
+            <div class="content-card">
+                <h2>Disclaimer</h2>
+                <p><b>Note:</b> None of these forms are meant to diagnose, treat, and or help prevent any disease. These are merely tools for the use of providing the ability to fill out forms online and print and/ or submit electronically to whomever. We do not utilize cookies to save any data, nor do we submit any data on any persons behalf. We hope these tools can expedite care and allow for smoother transition of information from patient to provider.</p>
+            </div>
 
-                <p style="padding-left: 30px ;text-indent: -20px;">Moster, M., Bollinger, D. Perioperative Guidleines on Antiplatelet and Anticoagulant Agents: 2022 Update. Curr Anesthesiol Rep 12, 286-296 (2022).
+            <div class="content-card">
+                <h2>References</h2>
+                
+                <h3>Anticoagulation References:</h3>
+                <blockquote>
+                    <p>Moster, M., Bollinger, D. Perioperative Guidleines on Antiplatelet and Anticoagulant Agents: 2022 Update. Curr Anesthesiol Rep 12, 286-296 (2022).</p>
+                    <p>Polania Gutierrez JJ, Rocuts KR. Perioperative Anticoagulation Management [Updated 2022 Jan 26] In. StatPearls [internet] Treasure Island (FL): StatPearls Publishing, 2022 Jan.</p>
+                </blockquote>
 
-</p>
+                <h3>KCCQ-12:</h3>
+                <blockquote>
+                    <p>Spertus, John A, and Phlip G Jones. “Development and Validation of a Short Version of the Kansas City ...” Development and Validation of a Short Version of the Kansas City Cardiomyopathy Questionnaire, AHA Journals, 25 Aug. 2015, www.ahajournals.org/doi/abs/10.1161/circoutcomes.115.001958.</p>
+                </blockquote>
 
-                <p style="padding-left: 30px ;text-indent: -20px;">Polania Gutierrez JJ, Rocuts KR. Perioperative Anticoagulation Management [Updated 2022 Jan 26] In. StatPearls [internet] Treasure Island (FL): StatPearls Publishing, 2022 Jan.</p>
-
-
-<b>KCCQ-12</b>
-    <p style="padding-left: 30px; text-indent:-20px;">
-    Spertus, John A, and Phlip G Jones. “Development and Validation of a Short Version of the Kansas City ...” Development and Validation of a Short Version of the Kansas City Cardiomyopathy Questionnaire, AHA Journals, 25 Aug. 2015, www.ahajournals.org/doi/abs/10.1161/circoutcomes.115.001958.
-</p>
-
-    <b>NYHA Reference:</b>
-
-    <p style="padding-left: 30px; text-indent:-20px;"> Copyright 2022, StatPearls Publishing LLC.
-
-    NYHA Classification- Heart Filure. Contributed by the New York Health Association (NYHA)
-
-    <br>From: Secondary Pulmonary Hypertension<br>
-
-    http://creativecommons.org/licenses/by/4.0/<br>
-
-    </p>
-
-    </td>
-
-</tr></table>
-<hr>
-<p style="text-align: center;"><a href="LLCLTC.html"><img src="LTC_logo.jpg" alt="LTC LLC" width="30" height="40"></a>
-<a href="Surgery_doc.html"><img src="CVS_sign.jpg" alt="ETCVS" width="40" height="40"></a></p>
-
-
+                <h3>NYHA Reference:</h3>
+                 <blockquote>
+                    <p>Copyright 2022, StatPearls Publishing LLC. NYHA Classification- Heart Filure. Contributed by the New York Health Association (NYHA). From: Secondary Pulmonary Hypertension. http://creativecommons.org/licenses/by/4.0/</p>
+                </blockquote>
+            </div>
+        </main>
+        
+        <footer class="page-footer">
+             <p>&copy; 2025 HeartForms</p>
+        </footer>
+    </div>
 
 </body>
-
 </html>
