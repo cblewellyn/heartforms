@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right & Left Heart Cath Calculator - HeartForms</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .page-header {
+            margin-bottom: 2rem;
+        }
+         .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .header-content h1 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin: 0;
+            font-size: 1.75rem;
+        }
+        .header-content p {
+            margin: 0;
+            color: #6c757d;
+        }
+        .header-icon {
+            height: 2.5rem; 
+            width: 2.5rem;
+            fill: #007bff;
+        }
+        .page-nav {
+            margin-top: 1.5rem;
+        }
+        .page-nav a {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .page-nav a.home-link {
+            font-weight: bold;
+        }
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            padding: 1.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+        .card h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            color: #0056b3;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .output-section {
+            background-color: #e9f7fd;
+        }
+         .output-section .output-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #bce8f1;
+            font-size: 0.9rem;
+        }
+         .output-section .output-item:last-child {
+            border-bottom: none;
+        }
+        .output-label {
+            font-weight: bold;
+        }
+        .output-value {
+            font-family: monospace, monospace;
+            font-size: 1rem;
+            color: #0c5460;
+        }
+        .output-value .unit {
+            font-size: 0.8rem;
+            color: #17a2b8;
+        }
+        .missing-value {
+            font-size: 0.8rem !important;
+            color: #6c757d !important;
+            font-style: italic;
+        }
+        .final-score {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #6c757d;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Tooltip Styles */
+        .tooltip-container {
+            position: relative;
+            cursor: help;
+            display: inline-block;
+        }
+        .tooltip-container .tooltip-text {
+            visibility: hidden;
+            width: max-content;
+            max-width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-weight: normal;
+            white-space: pre-line;
+            line-height: 1.4;
+        }
+        .tooltip-container .tooltip-text b {
+            font-weight: bold;
+            color: #87ceeb; /* Sky blue for emphasis */
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .disclaimer-card {
+             background-color: #f8f9fa;
+        }
+        .disclaimer-card ul {
+            padding-left: 20px;
+            font-size: 0.8rem;
+        }
+        .disclaimer-card li {
+            margin-bottom: 0.5rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1>HeartForms</h1>
+                    <p>Right & Left Heart Cath Calculator</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav class="page-nav">
+                <a href="#" class="home-link">HeartForms Home</a> /
+                <a href="#">Blank Heart Surgery Form</a> /
+                <a href="#">Heart Cath Form</a> /
+                <a href="#">KCCQ-12</a> /
+                <a href="#">NYHA Classification</a> /
+                <a href="#">Review of Systems</a> /
+                <a href="#">Catheterization Calculations</a>
+            </nav>
+        </header>
+
+        <form id="calculator-form">
+            <div class="main-layout">
+                <!-- Left Column: Inputs -->
+                <div class="input-column">
+                    <div class="card">
+                        <h2>Patient Metrics</h2>
+                        <div class="input-grid">
+                            <div class="input-group"><div class="tooltip-container"><label for="height_input">Height (cm)</label><span class="tooltip-text">Patient's height in centimeters.</span></div><input id="height_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="weight_input">Weight (kg)</label><span class="tooltip-text">Patient's weight in kilograms.</span></div><input id="weight_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="age_input">Age (years)</label><span class="tooltip-text">Patient's age in years. Determines which VO₂ formula to use.</span></div><input id="age_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="hr_input">Heart Rate</label><span class="tooltip-text">Patient's heart rate in beats per minute.
+<b>Normal Range:</b> 60 - 100 bpm</span></div><input id="hr_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="hgb_input">Hemoglobin</label><span class="tooltip-text">Hemoglobin level in g/dL.
+<b>Normal Range (Male):</b> 13.5 - 17.5 g/dL
+<b>Normal Range (Female):</b> 12.0 - 15.5 g/dL</span></div><input id="hgb_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pulse_ox_input">Pulse Ox Sat (%) or Aortic Oxy. Sat (%)</label><span class="tooltip-text">Peripheral capillary or aortic oxygen saturation.
+<b>Normal Range:</b> 95 - 100%</span></div><input id="pulse_ox_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="td_co_input">Thermodilution CO (L/min)</label><span class="tooltip-text">Cardiac Output measured directly by the thermodilution method.</span></div><input id="td_co_input" type="number" oninput="calculateAll()"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2>Venous Oxygen Saturations (%)</h2>
+                        <div class="input-grid">
+                            <div class="input-group"><div class="tooltip-container"><label for="svc_sat_input">SVC</label><span class="tooltip-text">Superior Vena Cava oxygen saturation.
+<b>Normal Range:</b> ~70%</span></div><input id="svc_sat_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="ivc_sat_input">IVC</label><span class="tooltip-text">Inferior Vena Cava oxygen saturation.
+<b>Normal Range:</b> ~75%</span></div><input id="ivc_sat_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="ra_sat_input">RA</label><span class="tooltip-text">Right Atrium oxygen saturation.</span></div><input id="ra_sat_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="rv_sat_input">RV</label><span class="tooltip-text">Right Ventricle oxygen saturation.</span></div><input id="rv_sat_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pa_sat_input">PA</label><span class="tooltip-text">Pulmonary Artery oxygen saturation (mixed venous).
+<b>Normal Range:</b> 60 - 80%</span></div><input id="pa_sat_input" type="number" oninput="calculateAll()"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Pressure Values (mmHg)</h2>
+                        <div class="input-grid">
+                            <div class="input-group"><div class="tooltip-container"><label for="ra_a_input">RA (a)</label><span class="tooltip-text">Right Atrium 'a' wave pressure.
+<b>Normal Range:</b> 2 - 7 mmHg</span></div><input id="ra_a_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="ra_v_input">RA (v)</label><span class="tooltip-text">Right Atrium 'v' wave pressure.
+<b>Normal Range:</b> 2 - 8 mmHg</span></div><input id="ra_v_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="ra_m_input">RA (m)</label><span class="tooltip-text">Right Atrium mean pressure.
+<b>Normal Range:</b> 0 - 8 mmHg</span></div><input id="ra_m_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="rv_s_input">RV (s)</label><span class="tooltip-text">Right Ventricle systolic pressure.
+<b>Normal Range:</b> 15 - 30 mmHg</span></div><input id="rv_s_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="rv_ed_input">RV (ed)</label><span class="tooltip-text">Right Ventricle end-diastolic pressure.
+<b>Normal Range:</b> 0 - 8 mmHg</span></div><input id="rv_ed_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pa_s_input">PA (s)</label><span class="tooltip-text">Pulmonary Artery systolic pressure.
+<b>Normal Range:</b> 15 - 30 mmHg</span></div><input id="pa_s_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pa_d_input">PA (d)</label><span class="tooltip-text">Pulmonary Artery diastolic pressure.
+<b>Normal Range:</b> 8 - 15 mmHg</span></div><input id="pa_d_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pcwp_a_input">PCWP (a)</label><span class="tooltip-text">Pulmonary Capillary Wedge 'a' wave pressure.
+<b>Normal Range:</b> 3 - 15 mmHg</span></div><input id="pcwp_a_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pcwp_v_input">PCWP (v)</label><span class="tooltip-text">Pulmonary Capillary Wedge 'v' wave pressure.
+<b>Normal Range:</b> 3 - 12 mmHg</span></div><input id="pcwp_v_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="pcwp_m_input">PCWP (m)</label><span class="tooltip-text">Pulmonary Capillary Wedge mean pressure.
+<b>Normal Range:</b> 2 - 12 mmHg</span></div><input id="pcwp_m_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="lv_s_input">LV (s)</label><span class="tooltip-text">Left Ventricle systolic pressure.
+<b>Normal Range:</b> 90 - 140 mmHg</span></div><input id="lv_s_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="lv_ed_input">LV (ed)</label><span class="tooltip-text">Left Ventricle end-diastolic pressure.
+<b>Normal Range:</b> 5 - 12 mmHg</span></div><input id="lv_ed_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="ao_s_input">Aortic (s)</label><span class="tooltip-text">Aortic systolic pressure.
+<b>Normal Range:</b> 90 - 140 mmHg</span></div><input id="ao_s_input" type="number" oninput="calculateAll()"></div>
+                            <div class="input-group"><div class="tooltip-container"><label for="ao_d_input">Aortic (d)</label><span class="tooltip-text">Aortic diastolic pressure.
+<b>Normal Range:</b> 60 - 90 mmHg</span></div><input id="ao_d_input" type="number" oninput="calculateAll()"></div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="clearForm()" class="btn">Reset</button>
+                </div>
+
+                <!-- Right Column: Outputs -->
+                <div class="output-column">
+                    <div class="card output-section">
+                        <h2>Results</h2>
+                        <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">BMI:</span><span class="tooltip-text"><b>Body Mass Index</b>
+A measure of body fat based on height and weight.
+<b>Normal Range:</b> 18.5 - 24.9 kg/m²
+<b>Equation:</b> Weight(kg) / [Height(m)]²</span></div>
+                            <span id="bmi_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item">
+                             <div class="tooltip-container"><span class="output-label">BSA:</span><span class="tooltip-text"><b>Body Surface Area (Mosteller)</b>
+The total surface area of the human body, used to normalize measurements.
+<b>Normal Range:</b> 1.6 - 1.9 m² (highly variable)
+<b>Equation:</b> sqrt([Height(cm) * Weight(kg)] / 3600)</span></div>
+                            <span id="bsa_output" class="output-value"></span>
+                        </div>
+                         <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">VO₂ (assumed):</span><span class="tooltip-text"><b>Assumed Oxygen Consumption</b>
+The volume of oxygen consumed by the body, estimated from BSA.
+<b>Equation (Age < 70):</b> 125 * BSA
+<b>Equation (Age ≥ 70):</b> 110 * BSA</span></div>
+                            <span id="vo2_output" class="output-value"></span>
+                        </div>
+                         <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">Fick CO:</span><span class="tooltip-text"><b>Cardiac Output (Fick)</b>
+Blood flow calculated by the Fick principle.
+<b>Normal Range:</b> 4.0 - 8.0 L/min
+<b>Equation:</b> VO₂(mL/min) / [Hgb * 1.34 * (Art Sat% - PA Sat%) * 10]</span></div>
+                            <span id="fick_co_output" class="output-value"></span>
+                        </div>
+                         <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">Fick CI:</span><span class="tooltip-text"><b>Cardiac Index (Fick)</b>
+Fick cardiac output normalized for body surface area.
+<b>Normal Range:</b> 2.5 - 4.0 L/min/m²
+<b>Equation:</b> Fick CO / BSA</span></div>
+                            <span id="fick_ci_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item">
+                           <div class="tooltip-container"><span class="output-label">Stroke Volume:</span><span class="tooltip-text"><b>Stroke Volume (from Fick CO)</b>
+The volume of blood pumped from the left ventricle per beat.
+<b>Normal Range:</b> 60 - 100 mL/beat
+<b>Equation:</b> (Fick CO * 1000) / Heart Rate</span></div>
+                           <span id="sv_output" class="output-value"></span>
+                        </div>
+                        <hr style="border-color: #bce8f1; margin: 0.5rem 0;">
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">SVC O₂ Sat:</span><span class="tooltip-text">Oxygen saturation in the Superior Vena Cava.</span></div><span id="svc_sat_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">IVC O₂ Sat:</span><span class="tooltip-text">Oxygen saturation in the Inferior Vena Cava.</span></div><span id="ivc_sat_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">RA Pressure (a/v/m):</span><span class="tooltip-text">Right Atrial pressure waves and mean.
+<b>Normal Mean:</b> 0-8 mmHg</span></div><span id="ra_p_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">RA O₂ Sat:</span><span class="tooltip-text">Oxygen saturation in the Right Atrium.</span></div><span id="ra_sat_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">RV Pressure (s/ed):</span><span class="tooltip-text">Right Ventricular systolic and end-diastolic pressures.
+<b>Normal Range:</b> 15-30 / 0-8 mmHg</span></div><span id="rv_p_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">RV O₂ Sat:</span><span class="tooltip-text">Oxygen saturation in the Right Ventricle.</span></div><span id="rv_sat_output" class="output-value"></span></div>
+                        <div class="output-item">
+                             <div class="tooltip-container"><span class="output-label">PA Pressure (s/d/m):</span><span class="tooltip-text"><b>Pulmonary Artery Pressure</b>
+The blood pressure within the pulmonary artery.
+<b>Normal Range:</b> 15-30 / 8-15 mmHg (Mean: 9-18 mmHg)
+<b>Mean Equation:</b> (1/3 * PA Sys) + (2/3 * PA Dia)</span></div>
+                            <span id="pa_p_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">PA O₂ Sat:</span><span class="tooltip-text">Pulmonary Artery (mixed venous) oxygen saturation.</span></div><span id="pa_sat_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">PCWP (a/v/m):</span><span class="tooltip-text">Pulmonary Capillary Wedge Pressure waves and mean.
+<b>Normal Mean:</b> 2-12 mmHg</span></div><span id="pcwp_p_output" class="output-value"></span></div>
+                        <div class="output-item"><div class="tooltip-container"><span class="output-label">LV Pressure (s/ed):</span><span class="tooltip-text">Left Ventricular systolic and end-diastolic pressures.
+<b>Normal Range:</b> 90-140 / 5-12 mmHg</span></div><span id="lv_p_output" class="output-value"></span></div>
+                        <div class="output-item">
+                             <div class="tooltip-container"><span class="output-label">Aortic Pressure (s/d/m):</span><span class="tooltip-text"><b>Aortic Pressure</b>
+The blood pressure within the aorta.
+<b>Normal Range:</b> 90-140 / 60-90 mmHg (Mean: 70-105 mmHg)
+<b>Mean (MAP) Equation:</b> (1/3 * Aortic Sys) + (2/3 * Aortic Dia)</span></div>
+                            <span id="ao_p_output" class="output-value"></span>
+                        </div>
+                        <hr>
+                        <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">PVR (Wood units):</span><span class="tooltip-text"><b>Pulmonary Vascular Resistance</b>
+The resistance the pulmonary circulation offers to blood flow.
+<b>Normal Range:</b> < 3.0 Wood Units
+<b>Equation:</b> (PA Mean - PCWP Mean) / Fick CO</span></div>
+                            <span id="pvr_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item">
+                           <div class="tooltip-container"><span class="output-label">DPG (PADP - PCWP):</span><span class="tooltip-text"><b>Diastolic Pressure Gradient</b>
+A DPG > 7 mmHg suggests pre-capillary PH.
+<b>Normal Range:</b> < 7 mmHg
+<b>Equation:</b> PA Diastolic - PCWP Mean</span></div>
+                           <span id="dpg_output" class="output-value"></span>
+                        </div>
+                        <hr>
+                        <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">Thermo CO:</span><span class="tooltip-text"><b>Cardiac Output (Thermodilution)</b>
+Cardiac output measured by the thermodilution method. Value is user-entered.
+<b>Normal Range:</b> 4.0 - 8.0 L/min</span></div>
+                            <span id="thermo_co_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">Thermo CI:</span><span class="tooltip-text"><b>Cardiac Index (Thermodilution)</b>
+Thermodilution cardiac output normalized for body surface area.
+<b>Normal Range:</b> 2.5 - 4.0 L/min/m²
+<b>Equation:</b> Thermo CO / BSA</span></div>
+                            <span id="thermo_ci_output" class="output-value"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <div class="card disclaimer-card">
+            <h2>Disclaimer & Sources</h2>
+            <p>The normal ranges provided in this calculator are for general educational purposes only and are based on typical values for adults at rest. These values can vary based on the individual, clinical context, and measurement technique. Always consult official clinical guidelines and institutional protocols for diagnostic and therapeutic decision-making.</p>
+            <h3>Sources for Normal Values:</h3>
+            <ul>
+                <li>Merck Manual Professional Edition - Normal Pressures in the Heart and Great Vessels</li>
+                <li>UCSF Health - Swan-Ganz (Right Heart) Catheterization</li>
+                <li>StatPearls [NCBI] - Physiology, Cardiac Index</li>
+                <li>Cleveland Clinic - Cardiac Output</li>
+                <li>Medscape - Pulmonary Vascular Resistance (PVR) Calculator</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function getMissingMessage(missing) {
+            if (missing.length === 0) return '';
+            return `<span class="missing-value">Needs: ${missing.join(', ')}</span>`;
+        }
+        
+        function calculateAll() {
+            // --- Collect all inputs ---
+            const inputs = {
+                height: parseFloat(document.getElementById("height_input").value) || 0,
+                weight: parseFloat(document.getElementById("weight_input").value) || 0,
+                age: parseFloat(document.getElementById("age_input").value) || 0,
+                hr: parseFloat(document.getElementById("hr_input").value) || 0,
+                hgb: parseFloat(document.getElementById("hgb_input").value) || 0,
+                pulse_ox: parseFloat(document.getElementById("pulse_ox_input").value) || 0,
+                svc_sat: parseFloat(document.getElementById("svc_sat_input").value) || 0,
+                ivc_sat: parseFloat(document.getElementById("ivc_sat_input").value) || 0,
+                ra_sat: parseFloat(document.getElementById("ra_sat_input").value) || 0,
+                rv_sat: parseFloat(document.getElementById("rv_sat_input").value) || 0,
+                pa_sat: parseFloat(document.getElementById("pa_sat_input").value) || 0,
+                ra_a: parseFloat(document.getElementById("ra_a_input").value) || 0,
+                ra_v: parseFloat(document.getElementById("ra_v_input").value) || 0,
+                ra_m: parseFloat(document.getElementById("ra_m_input").value) || 0,
+                rv_s: parseFloat(document.getElementById("rv_s_input").value) || 0,
+                rv_ed: parseFloat(document.getElementById("rv_ed_input").value) || 0,
+                pa_s: parseFloat(document.getElementById("pa_s_input").value) || 0,
+                pa_d: parseFloat(document.getElementById("pa_d_input").value) || 0,
+                pcwp_a: parseFloat(document.getElementById("pcwp_a_input").value) || 0,
+                pcwp_v: parseFloat(document.getElementById("pcwp_v_input").value) || 0,
+                pcwp_m: parseFloat(document.getElementById("pcwp_m_input").value) || 0,
+                lv_s: parseFloat(document.getElementById("lv_s_input").value) || 0,
+                lv_ed: parseFloat(document.getElementById("lv_ed_input").value) || 0,
+                ao_s: parseFloat(document.getElementById("ao_s_input").value) || 0,
+                ao_d: parseFloat(document.getElementById("ao_d_input").value) || 0,
+                td_co: parseFloat(document.getElementById("td_co_input").value) || 0,
+            };
+
+            const arterial_sat = inputs.pulse_ox;
+
+            // --- Update basic displays ---
+            document.getElementById('svc_sat_output').innerText = `${inputs.svc_sat.toFixed(1)} %`;
+            document.getElementById('ivc_sat_output').innerText = `${inputs.ivc_sat.toFixed(1)} %`;
+            document.getElementById('ra_sat_output').innerText = `${inputs.ra_sat.toFixed(1)} %`;
+            document.getElementById('rv_sat_output').innerText = `${inputs.rv_sat.toFixed(1)} %`;
+            document.getElementById('pa_sat_output').innerText = `${inputs.pa_sat.toFixed(1)} %`;
+            document.getElementById('ra_p_output').innerText = `${inputs.ra_a}/${inputs.ra_v}/${inputs.ra_m} mmHg`;
+            document.getElementById('rv_p_output').innerText = `${inputs.rv_s}/${inputs.rv_ed} mmHg`;
+            document.getElementById('pcwp_p_output').innerText = `${inputs.pcwp_a}/${inputs.pcwp_v}/${inputs.pcwp_m} mmHg`;
+            document.getElementById('lv_p_output').innerText = `${inputs.lv_s}/${inputs.lv_ed} mmHg`;
+            
+            // --- Perform and Display Calculations with Dependency Checks ---
+            
+            let missing = [];
+            
+            // BMI
+            missing = [];
+            if (inputs.height <= 0) missing.push('Height');
+            if (inputs.weight <= 0) missing.push('Weight');
+            if (missing.length === 0) {
+                const height_m = inputs.height / 100;
+                const bmi = inputs.weight / (height_m * height_m);
+                document.getElementById('bmi_output').innerHTML = `${bmi.toFixed(1)} <span class="unit">kg/m²</span>`;
+            } else {
+                document.getElementById('bmi_output').innerHTML = getMissingMessage(missing);
+            }
+
+            // BSA & Assumed VO2
+            let bsa = 0, vo2 = 0;
+            missing = [];
+            if (inputs.height <= 0) missing.push('Height');
+            if (inputs.weight <= 0) missing.push('Weight');
+            if (missing.length === 0) {
+                bsa = Math.sqrt((inputs.height * inputs.weight) / 3600);
+                document.getElementById('bsa_output').innerHTML = `${bsa.toFixed(2)} <span class="unit">m²</span>`;
+                
+                missing = [];
+                if (inputs.age <= 0) missing.push('Age');
+                if (missing.length === 0) {
+                    const vo2_factor = inputs.age >= 70 ? 110 : 125;
+                    vo2 = vo2_factor * bsa;
+                    document.getElementById('vo2_output').innerHTML = `${vo2.toFixed(0)} <span class="unit">mL/min</span>`;
+                } else {
+                     document.getElementById('vo2_output').innerHTML = getMissingMessage(missing);
+                }
+
+            } else {
+                document.getElementById('bsa_output').innerHTML = getMissingMessage(missing);
+                document.getElementById('vo2_output').innerHTML = getMissingMessage(missing);
+            }
+
+            // PA and Aortic MAPs
+            const pa_map = (inputs.pa_s > 0 && inputs.pa_d > 0) ? (1/3 * inputs.pa_s) + (2/3 * inputs.pa_d) : 0;
+            document.getElementById('pa_p_output').innerText = `${inputs.pa_s}/${inputs.pa_d}/${pa_map.toFixed(0)} mmHg`;
+            const ao_map = (inputs.ao_s > 0 && inputs.ao_d > 0) ? (1/3 * inputs.ao_s) + (2/3 * inputs.ao_d) : 0;
+            document.getElementById('ao_p_output').innerText = `${inputs.ao_s}/${inputs.ao_d}/${ao_map.toFixed(0)} mmHg`;
+
+            // Fick Calculations
+            let fick_co = 0;
+            missing = [];
+            if (vo2 <= 0) missing.push('VO₂');
+            if (inputs.hgb <= 0) missing.push('Hgb');
+            if (arterial_sat <= 0) missing.push('Art Sat');
+            if (inputs.pa_sat <= 0) missing.push('PA Sat');
+            
+            if (missing.length === 0) {
+                const oxygenDifference = arterial_sat - inputs.pa_sat;
+                if (oxygenDifference > 0) {
+                    fick_co = ((vo2 / (inputs.hgb * 1.34 * oxygenDifference * 10))*100);
+                }
+                document.getElementById('fick_co_output').innerHTML = `${fick_co.toFixed(2)} <span class="unit">L/min</span>`;
+
+                missing = [];
+                if (bsa <= 0) missing.push('BSA');
+                if (missing.length === 0) {
+                    const fick_ci = fick_co / bsa;
+                    document.getElementById('fick_ci_output').innerHTML = `${fick_ci.toFixed(2)} <span class="unit">L/min/m²</span>`;
+                } else {
+                    document.getElementById('fick_ci_output').innerHTML = getMissingMessage(missing);
+                }
+            } else {
+                document.getElementById('fick_co_output').innerHTML = getMissingMessage(missing);
+                document.getElementById('fick_ci_output').innerHTML = `<span class="missing-value">Needs Fick CO</span>`;
+            }
+            
+            // Stroke Volume
+            missing = [];
+            if (fick_co <= 0) missing.push('Fick CO');
+            if (inputs.hr <= 0) missing.push('HR');
+            if (missing.length === 0) {
+                const sv = (fick_co * 1000) / inputs.hr;
+                document.getElementById('sv_output').innerHTML = `${sv.toFixed(0)} <span class="unit">mL/beat</span>`;
+            } else {
+                 document.getElementById('sv_output').innerHTML = getMissingMessage(missing);
+            }
+
+            // PVR
+            missing = [];
+            if (fick_co <= 0) missing.push('Fick CO');
+            if (pa_map <= 0) missing.push('PA Mean');
+            if (inputs.pcwp_m <= 0) missing.push('PCWP Mean');
+            if (missing.length === 0) {
+                const pvr = (pa_map - inputs.pcwp_m) / fick_co;
+                document.getElementById('pvr_output').innerText = pvr.toFixed(2);
+            } else {
+                document.getElementById('pvr_output').innerHTML = getMissingMessage(missing);
+            }
+
+            // DPG
+            missing = [];
+            if (inputs.pa_d <= 0) missing.push('PA Diastolic');
+            if (inputs.pcwp_m <= 0) missing.push('PCWP Mean');
+            if (missing.length === 0){
+                 const dpg = inputs.pa_d - inputs.pcwp_m;
+                 document.getElementById('dpg_output').innerText = dpg.toFixed(0);
+            } else {
+                 document.getElementById('dpg_output').innerHTML = getMissingMessage(missing);
+            }
+            
+            // Thermo CI
+            missing = [];
+            if(inputs.td_co > 0){
+                document.getElementById('thermo_co_output').innerHTML = `${inputs.td_co.toFixed(1)} <span class="unit">L/min</span>`;
+                if (bsa > 0) {
+                    const thermo_ci = inputs.td_co / bsa;
+                    document.getElementById('thermo_ci_output').innerHTML = `${thermo_ci.toFixed(1)} <span class="unit">L/min/m²</span>`;
+                } else {
+                    document.getElementById('thermo_ci_output').innerHTML = `<span class="missing-value">Needs BSA</span>`;
+                }
+            } else {
+                document.getElementById('thermo_co_output').innerHTML = `<span class="missing-value">Needs Thermo CO</span>`;
+                document.getElementById('thermo_ci_output').innerHTML = `<span class="missing-value">Needs Thermo CO, BSA</span>`;
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('calculator-form').reset();
+            calculateAll();
+        }
+
+        // Run once on load to set initial "Needs..." messages
+        document.addEventListener('DOMContentLoaded', calculateAll);
+    </script>
+</body>
+</html>
