@@ -1,432 +1,422 @@
 <!DOCTYPE html>
-<html>
-<head<title>
-Heart Surgery Form
-</title></head>
-<h1>HeartForms- Heart Surgery</h1>
-<hr>
-<a href="index.html">
-                HeartForms Home</a>     /
-<a href="Surgery Fill out Form.html">
-                Blank Heart Surgery Form</a>     /
-<a href="Heart_Cath_form.html">
-                Heart Cath Form</a>     /
-<a href="KCCQ12.html">
-                KCCQ-12</a>     /
-<a href="NYHA_HF_Scale.html">
-                NYHA Classification for Heart Failure</a>     /
-<a href="ROS_doc.html">
-                Review of Systems</a>
-
-<hr>
-
-<table content="width=device-width, initial-scale=1"; border= "1px solid black;">
-
-<form id="frm1" action="">
-<tr>
-  <td>Name of Practice: <input type="text" id="PracticeName" name="PracticeName" value="" size ="46"><br></td></tr>
-<td>First name: <input type="text" name="fname" value="" size="52"><br></td>
-
-<tr><td>Last name: <input type="text" name="lname" value="" size= "52"><br></td></tr>
-
-<tr><td><label for="surgery">The surgery is: </label>
-                <input type="text" id="surgery" name="surgery" rows="1" size="49"></input>
-                <br></td></tr>
-
-<tr><td><label for="surgerydate">Surgery Date: </label>
-                <input type="date" id="surgerydate" name="surgerydate">
-                <br></td></tr>
-
-<tr><td><label for="appt">Arrive at hospital at:</label>
-                <input type="time" id="appt" name="appt">
-                <br></td></tr>
-
-  <!-- Surgeons -->
-                <tr><td><label for="docs">Your Surgeon will be:</label><input type="text" name="SurgeonName" value="" size="43"><br></td>
-    <tr><td>The hospital/ clinic surgery to be performed at: <input type="text" id="surg_location" name = "surg_location" value=""></td></tr>
-    <tr><td>Hospital/ Clinic Surgery Site Phone number: <input type="text" id="surg_phone" name="surg_phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" size="22">
-                </td></tr>
-   <tr><td>Your office/ clinic phone number:<input type="text" id="Officephone" name="Officephone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" size="32">
-    </td></tr>
-    </table>
-  <input type="reset">
-</form>
-
-<!-- Meds -->
-
-<hr><form id="medform">
-<p id="meds">
-Do you take any of the following:<br>
-    <label for="meds0">Aspirin</label>
-    <select id="meds0" name= "meds0" size="1">
-                                                <option>No</option>
-                                                <option value="Aspirin">Yes</option>
-            </select><br>
-
-    <label for="meds1">ACE/ '-pril's:</label>
-    <select id="meds1" name="meds1" size="1">
-                <option>No</option>
-                <option value="Benazepril">Benazepril</option>
-                <option value="Captopril">Captopril</option>
-                <option value="Enalapril">Enalapril</option>
-                <option value="Fosinopril">Fosinopril</option>
-                <option value="Lisinopril">Lisinopril</option>
-                <option value="Ramipril">Ramipril</option>
-        </select><br>
-
-<label for="meds2">ARB/ '-sartans':</label>
-    <select id="meds2" name="meds2" size="1">
-                <option>No</option>
-                <option value="Azilsartan">Azilsartan/ Edarbi</option>
-                <option value="Candsartan">Candesartan/ Atacand</option>
-                <option value="Irbesartan">Irbesartan/ Avapro</option>
-                <option value="Losartan">Losartan/ Cozaar</option>
-                <option value="Olmesartan">Olmesartan/ Benicar</option>
-                <option value="Telmisartan">Telmisartan/ Micardis</option>
-                <option value="Valsartan">Valsartan/ Diovan</option>
-        </select><br>
-
-    <label for="meds3">Brilinta/ Ticagrelor:</label>
-    <select id="meds3" name="meds3" size="1">
-                <option>No</option>
-                <option value="Brilinta/ Ticagrelor">Yes</option>
-        </select><br>
-
-    <label for="meds4">Clopidogrel/ Plavix:</label>
-    <select id="meds4" name="meds4" size="1">
-                <option>No</option>
-                 <option value="Clopidogrel/ Plavix">Yes</option>
-     </select><br>
-
-    <label for="meds5">Coumadin/ Warfarin:</label>
-    <select id="meds5" name="meds5" size="1">
-                <option>No</option>
-                 <option value="Coumadin/ Warfarin">Yes</option>
-     </select><br>
-
-     <label for="meds6">Effient/ Prasugrel:</label>
-    <select id="meds6" name="meds6" size="1">
-                <option>No</option>
-        <option value="Effient/ Prasugrel">Yes</option>
-        </select><br>
-
-                <label for="meds7">Eliquis/ Xarelto/ '-xaban':</label>
-    <select id="meds7" name="meds7" size="1">
-            <option>No</option>
-            <option value="Apixaban">Apixaban</option>
-            <option value="Betrixaban">Betrixaban</option>
-            <option value="Edoxaban">Edoxaban</option>
-                <option value="Eliquis">Eliquis</option>
-            <option value="Xarelto">Xarelto</option>
-        </select><br>
-
-    <label for="meds8">Metformin:</label>
-    <select id="meds8" name="meds8" size="1">
-            <option>No</option>
-                <option value="Metformin">Yes</option>
-        </select><br>
-
-                <label for "meds9">Phenprocoumin:</label>
-    <select id= "meds9" name="meds9" size= "1">
-                <option>No</option>
-        <option value= "Phenprocoumon">Yes</option>
-     </select><br>
-
-    <label for="meds10">Pradaxa/ Dabigatran:</label>
-    <select id="meds10" name="meds10" size="1">
-                <option>No</option>
-                <option value=" Pradaxa/ Dabigatran" >Yes</option>
-        </select><br>
-
-    <label for="meds11">ED Medications:</label>
-    <select id="meds11" name="meds11" size="1">
-                <option>No</option>
-                <option value="Avanafil/ Stendra">Avanafil/ Stendra</option>
-                <option value="Cialis">Cialis</option>
-                <option value="Sildenafil">Sildenafil</option>
-                <option value="Tadalafil">Tadalafil</option>
-                <option value="Vardenafil">Vardenafil</option>
-                <option value="Viagra">Viagra</option>
-        </select><br>
-
-
-<input type="reset">
-</p>
-</form>
-
-<p>Click "Try it" to display the value of each element in the form.</p>
-
-<button onclick="myFunction(); myFunction2()">Try it</button>
-<button onClick="printdiv('printable_div_id');">Print</button>
-
-<div id='printable_div_id'></src></h1>
-<p id="demo"></p>
-
-<!-- MEDED -->
-<b>Medications:</b> Some of your medications will need to be stopped prior to surgery, including blood thinners, certain blood pressure medicines, and certain diabetic medications. Prior to surgery:
-<p id="medrec">
-</p>
-<p id="day_of_surgery"><hr><h2>Day of Surgery</h2>
-<br>- Do NOT eat or drink anything after midnight before surgery
-<br>- Do NOT take any of your regular medications the morning of surgery unless instructed to do so by anesthesia at your pre-admission appointment.
-<br>- Your family will be shown to the surgery waiting room and will receive periodic updates.
-<br>- The surgeon will talk with you or your family after surgery.
-<br>- If you have questions regarding visitation during hospitalization please call:
-<h3><p id="hospital_info"></p></h3>
-
-<!--
-You can do a placeholder
-<input type="tel" id="phone" name="phone" placeholder="1234567890" pattern="[0-9]{3}[0-9]{3}[0-9]{4}">.
--->
-
-<br></p>
-<p id="addition_questions"><hr>
-<table style= "width:100%">
-                <tr><th colspan="2"><h2>Call the office at <div id="officenumber"></div></h2>
-                                </th></tr>
-                <tr>
-                                <td>-any questions regarding surgery</td>
-                <td>-you develop an infection that requires antibiotics of any kind</td></tr>
-                <tr>
-                <td>-there is any change in your condition</td>
-                                <td>-you develop a fever, cold, or flu symptoms</td>
-        </tr>
-    <tr>
-                <td>-are prescribed new medications</td>
-        <td></td>
-        </tr>
-                </table>
-</div>
-
-<script>
-function myFunction() {
-                var phonenumber;
-    var surgery_location;
-    var surgery_phone;
-  var x = document.getElementById("frm1");
-  var titletext;
-  var text = "";
-  var i;
-  for (i = 0; i < x.length ;i++) {
-                if (i == 0) {
-                titletext = x.elements[0].value;
-        } else if (i == 1) {
-                text = "The patient " + text + "<b>" + x.elements[i].value + "</b>";
-                                } else if (i == 2) {
-                                text = text + " " + "<b>" + x.elements[i].value + "</b>" + " is scheduled for the surgery:" + "<br>";
-                                } else if (i == 3) {
-                text = text + "<b>" + x.elements[i].value + "</b>" + "<br>" +  "Arrive at the surgery center on: ";
-        } else if (i == 4) {
-                var surday = new Date(x.elements[4].value);
-                                                var surday = surday.getTime();
-                                                surday = surday + (1*1000*60*60*24);
-                                                surday = new Date(surday);
-                                                let day = surday.getDate();
-                                                let month = surday.getMonth() + 1;
-                                                let year = surday.getFullYear();
-                                                let currentDate = `${month}/${day}/${year}`;
-                text =  text + "<b>" + currentDate + "</b>" + " at: ";
-        } else if (i == 5) {
-                text = text + "<b>" + x.elements[i].value + "</b>" + "<br>";
-        } else if (i == 6) {
-            text = text + "<b>" + x.elements[i].value + "</b>" + " will be conducting your surgery" + "<br>";
-        } else if (i == 7) {
-                var surgery_location = document.getElementById("surg_location").value;
-        } else if (i == 8) {
-                var surgery_phone= document.getElementById("surg_phone").value;
-                                                                document.getElementById("hospital_info").innerHTML = surgery_location + " at " + surgery_phone;
-        } else if (i == 9) {
-                var phonenumber = document.getElementById("Officephone").value;
-                                                                document.getElementById("officenumber").innerHTML = phonenumber;
-        } else {
-                                text = text + x.elements[i].value + "<br>";
-                                }
-  }
-  document.getElementById("demo").innerHTML = "<h1>" + titletext + "</h1>" + "<hr>" + text;
-
-var surday = new Date(x.elements[4].value);
-var surday = surday.getTime();
-surday = surday + (1*1000*60*60*24);
-surday = new Date(surday);
-let day = surday.getDate();
-let month = surday.getMonth() + 1;
-let year = surday.getFullYear();
-let currentDate = `${month}/${day}/${year}`;
-
-                var y = document.getElementById("medform");
-    var medtext2 = "...from your surgery date:";
-                var textform2 = "";
-    var medtext3 = "Take your last dose of ";
-                var j;
-                for (j = 0; j < y.length; j++) {
-                if (y.elements[j].value == "No") {
-        textform2 = textform2;
-        }  else if (j==0) {
-//Aspirin
-            surday = surday.getTime();
-			surday = surday - ((1)*1000*60*60*24);
-			surday = new Date(surday);
-			let day = surday.getDate();
-			let month = surday.getMonth() + 1;
-			let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-            	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            var surday = new Date(x.elements[4].value);
-        } else if (j==1) {
-//Ace -prils
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((2)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            var surday = new Date(x.elements[4].value);
-        } else if (j==2) {
-//arb -sartans
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((2)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==3) {
-//brilinta
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((5)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==4) {
-//clopidogrel
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((5)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==5) {
-   //Coumadin/ Warfarin
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((5)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==6) {
-       //Effient/ Prasugrel
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((7)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==7) {
-     //Eliquis/ Xarelto/ -xaban
-	         	surday = new Date(x.elements[4].value);
-	         	surday = surday.getTime();
-	             surday = surday - ((2)*1000*60*60*24);
-	             surday = new Date(surday);
-	 			let day = surday.getDate();
-	 			let month = surday.getMonth() + 1;
-	 			let year = surday.getFullYear();
-	 			let currentDate = `${month}/${day}/${year}`;
-	         	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-	         	surday = new Date(x.elements[4].value);
-	         } else if (j==8) {
-	         //Metformin
-	         	surday = new Date(x.elements[4].value);
-	         	surday = surday.getTime();
-	             surday = surday - ((2)*1000*60*60*24);
-	             surday = new Date(surday);
-	 			let day = surday.getDate();
-	 			let month = surday.getMonth() + 1;
-	 			let year = surday.getFullYear();
-	 			let currentDate = `${month}/${day}/${year}`;
-	         	textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-        	surday = new Date(x.elements[4].value);
-        } else if (j==9) {
-   //Phenprocoumon
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((5)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==10) {
-        //Pradaxa/ Dabigatran
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((5)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
-        } else if (j==11) {
-   //ED Meds
-            var surday = new Date(x.elements[4].value);
-            surday = surday.getTime();
-            surday = surday - ((2)*1000*60*60*24);
-            surday = new Date(surday);
-            let day = surday.getDate();
-            let month = surday.getMonth() + 1;
-            let year = surday.getFullYear();
-            let currentDate = `${month}/${day}/${year}`;
-                textform2 = textform2 + medtext3 + y.elements[j].value + " on " + currentDate + "<br>";
-            surday = new Date(x.elements[4].value);
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blank Surgery Form - HeartForms</title>
+    <style>
+        :root {
+            --blue-600: #2563EB;
+            --blue-700: #1D4ED8;
+            --blue-50: #EFF6FF;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #FFFFFF;
         }
-        else {
-                                textform2 = textform2 + y.elements[j].value;
-                } }
-document.getElementById("medrec").innerHTML = "<br>" + textform2 + medtext2 + "<b>" + currentDate + "</b>";
-}
 
-function printdiv(elem) {
-  var header_str = '<html><head><title>' + document.title  + '</title></head><body>';
-  var footer_str = '</body></html>';
-  var new_str = document.getElementById(elem).innerHTML;
-  var old_str = document.body.innerHTML;
-  document.body.innerHTML = header_str + new_str + footer_str;
-  window.print();
-  document.body.innerHTML = old_str;
-  return false;
-}
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            margin: 0;
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+        }
 
+        @media print {
+            body * { visibility: hidden; }
+            #printableArea, #printableArea * { visibility: visible; }
+            #printableArea { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                padding: 1rem;
+                box-sizing: border-box;
+            }
+            .no-print { display: none !important; }
+        }
 
-</script>
-<hr>
-<p style="text-align: center;"><a href="LLCLTC.html"><img src="LTC_logo.jpg" alt="LTC LLC" width="30" height="40"></a>
-<a href="Surgery_doc.html"><img src="CVS_sign.jpg" alt="ETCVS" width="40" height="40"></a></p>
+        #app {
+            max-width: 80rem;
+            margin: auto;
+            padding: 1rem;
+        }
 
+        .page-header {
+            background-color: var(--white);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-content h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-content p {
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+        
+        .header-icon {
+             height: 2.5rem; 
+             width: 2.5rem;
+             color: var(--blue-600);
+             fill: currentColor;
+        }
+
+        .page-nav {
+            margin-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .page-nav a {
+            color: var(--gray-600);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+        .page-nav a.home-link {
+            color: var(--blue-600);
+            font-weight: 500;
+            margin-left: 0;
+        }
+        .page-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background-color: var(--white);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-grid label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-input {
+            margin-top: 0.25rem;
+            display: block;
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 1px solid var(--gray-300);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        .form-input:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: var(--blue-600);
+            box-shadow: 0 0 0 2px var(--white), 0 0 0 4px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: background-color 200ms;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: var(--blue-600);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background-color: var(--blue-700);
+        }
+        .btn-secondary {
+            background-color: var(--gray-200);
+            color: var(--gray-700);
+        }
+        .btn-secondary:hover {
+            background-color: var(--gray-300);
+        }
+        
+        .action-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .page-footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+        
+        #printableArea {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 2px dashed var(--blue-600);
+            border-radius: 0.5rem;
+            background-color: var(--blue-50);
+        }
+
+        @media (min-width: 640px) {
+            .form-grid { grid-template-columns: repeat(2, 1fr); }
+            .sm-col-span-2 { grid-column: span 2 / span 2; }
+        }
+         @media (min-width: 1024px) {
+            .meds-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="page-header no-print">
+            <div class="header-content">
+                <div>
+                    <h1>HeartForms</h1>
+                    <p>Blank Heart Surgery Form</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav class="page-nav">
+                <a href="#" class="home-link">HeartForms Home</a> /
+                <a href="#">Blank Heart Surgery Form</a> /
+                <a href="#">Heart Cath Form</a> /
+                <a href="#">KCCQ-12</a> /
+                <a href="#">NYHA Classification</a> /
+                <a href="#">Review of Systems</a>
+            </nav>
+        </header>
+
+        <main>
+            <form id="surgery-form">
+                <div class="card no-print">
+                    <h2 class="card-title">Patient & Surgery Details</h2>
+                    <div class="form-grid">
+                        <div><label for="fname">First Name:</label><input type="text" id="fname" class="form-input"></div>
+                        <div><label for="lname">Last Name:</label><input type="text" id="lname" class="form-input"></div>
+                        <div class="sm-col-span-2"><label for="PracticeName">Name of Practice:</label><input type="text" id="PracticeName" class="form-input"></div>
+                        <div class="sm-col-span-2"><label for="surgery">The Surgery is:</label><input type="text" id="surgery" class="form-input"></div>
+                        <div><label for="surgerydate">Surgery Date:</label><input type="date" id="surgerydate" class="form-input"></div>
+                        <div><label for="appt">Arrive at hospital at:</label><input type="time" id="appt" class="form-input"></div>
+                        <div class="sm-col-span-2"><label for="SurgeonName">Your Surgeon will be:</label><input type="text" id="SurgeonName" class="form-input"></div>
+                        <div class="sm-col-span-2"><label for="surg_location">Hospital/Clinic for Surgery:</label><input type="text" id="surg_location" class="form-input"></div>
+                        <div><label for="surg_phone">Surgery Site Phone:</label><input type="tel" id="surg_phone" class="form-input"></div>
+                        <div><label for="Officephone">Your Office/Clinic Phone:</label><input type="tel" id="Officephone" class="form-input"></div>
+                    </div>
+                </div>
+
+                <div class="card no-print">
+                    <h2 class="card-title">Medication Checklist</h2>
+                    <div id="medform" class="form-grid meds-grid">
+                        <div><label for="meds0">Aspirin</label><select id="meds0" class="form-input"><option>No</option><option value="Aspirin">Yes</option></select></div>
+                        <div><label for="meds1">ACE/ '-pril's:</label><select id="meds1" class="form-input"><option>No</option><option value="Benazepril">Benazepril</option><option value="Captopril">Captopril</option><option value="Enalapril">Enalapril</option><option value="Fosinopril">Fosinopril</option><option value="Lisinopril">Lisinopril</option><option value="Ramipril">Ramipril</option></select></div>
+                        <div><label for="meds2">ARB/ '-sartans':</label><select id="meds2" class="form-input"><option>No</option><option value="Azilsartan">Azilsartan/ Edarbi</option><option value="Candsartan">Candesartan/ Atacand</option><option value="Irbesartan">Irbesartan/ Avapro</option><option value="Losartan">Losartan/ Cozaar</option><option value="Olmesartan">Olmesartan/ Benicar</option><option value="Telmisartan">Telmisartan/ Micardis</option><option value="Valsartan">Valsartan/ Diovan</option></select></div>
+                        <div><label for="meds3">Brilinta/ Ticagrelor:</label><select id="meds3" class="form-input"><option>No</option><option value="Brilinta/ Ticagrelor">Yes</option></select></div>
+                        <div><label for="meds4">Clopidogrel/ Plavix:</label><select id="meds4" class="form-input"><option>No</option><option value="Clopidogrel/ Plavix">Yes</option></select></div>
+                        <div><label for="meds5">Coumadin/ Warfarin:</label><select id="meds5" class="form-input"><option>No</option><option value="Coumadin/ Warfarin">Yes</option></select></div>
+                        <div><label for="meds6">Effient/ Prasugrel:</label><select id="meds6" class="form-input"><option>No</option><option value="Effient/ Prasugrel">Yes</option></select></div>
+                        <div><label for="meds7">Eliquis/ Xarelto/ '-xaban':</label><select id="meds7" class="form-input"><option>No</option><option value="Apixaban">Apixaban</option><option value="Betrixaban">Betrixaban</option><option value="Edoxaban">Edoxaban</option><option value="Eliquis">Eliquis</option><option value="Xarelto">Xarelto</option></select></div>
+                        <div><label for="meds8">Metformin:</label><select id="meds8" class="form-input"><option>No</option><option value="Metformin">Yes</option></select></div>
+                        <div><label for="meds9">Phenprocoumon:</label><select id="meds9" class="form-input"><option>No</option><option value="Phenprocoumon">Yes</option></select></div>
+                        <div><label for="meds10">Pradaxa/ Dabigatran:</label><select id="meds10" class="form-input"><option>No</option><option value="Pradaxa/ Dabigatran">Yes</option></select></div>
+                        <div><label for="meds11">ED Medications:</label><select id="meds11" class="form-input"><option>No</option><option value="Avanafil/ Stendra">Avanafil/ Stendra</option><option value="Cialis">Cialis</option><option value="Sildenafil">Sildenafil</option><option value="Tadalafil">Tadalafil</option><option value="Vardenafil">Vardenafil</option><option value="Viagra">Viagra</option></select></div>
+                        <div><label for="meds12">Insulin-Long Acting</label><select id="meds12" class="form-input"><option>No</option><option value="Glargine">Inuslin Glargine</option><option value="Basaglar">Basaglar</option><option value="Lantus">Lantus</option><option value="Toujeo">Toujeo</option><option value="Determir">Insulin Detemir</option><option value="Levemir">Levemir</option><option value="Insulin Degludec">Insulin Degludec</option><option value="Tresiba">Tresiba</option></select></div>
+                        <div><label for="meds13">Insulin-Short Acting</label><select id="meds13" class="form-input"><option>No</option><option value="Regular">Regular(R)</option><option value="Novolin">Novolin</option><option value="Velosulin">Velosulin (For Insulin Pump)</option></select></div>
+                        <div><label for="meds14">Sulfonylureas:</label><select id="meds14" class="form-input"><option>No</option><option value="glimepiride (Amaryl)">glimepiride (Amaryl)</option><option value="glimepiride-pioglitazone (Duetact)">glimepiride-pioglitazone (Duetact)</option><option value="gliclazide">gliclazide</option><option value="glipizide">glipizide</option><option value="glipizide ER (Glipizide XL, Glucotrol XL)">glipizide ER (Glipizide XL, Glucotrol XL)</option><option value="glipizide-metformin">glipizide-metformin</option><option value="glyburide (Glynase)">glyburide (Glynase)</option><option value="glyburide-metformin">glyburide-metformin</option></select></div>
+                        <div><label for="meds15">GLP1 Agonist/-tide</label><select id="meds15" class="form-input"><option>No</option><option value="dulaglutide">dulaglutide (Trulicity)</option><option value="exenatide">exenatide (Byetta, Bydureon)</option><option value="liraglutide">liraglutide (Victoza, Saxenda, Xultophy)</option><option value="lixisenatide">lixisenatide (Adlyxine, Soliqua)</option><option value="semaglutide">semaglutide (Ozempic, Wegovy, Rybelsus)</option><option value="tirzepatide">tirzepatide (Mounjaro)</option></select></div>
+                        <div><label for="meds16">SGLT2 Inhibitors/-flozin</label><select id="meds16" class="form-input"><option>No</option><option value="canagliflozin">canagliflozin (Invokana)</option><option value="dapagliflozin">dapagliflozin (Farxiga)</option><option value="empagliflozin">empagliflozin (Jardiance)</option><option value="ertugliflozin">ertugliflozin (Steglatro)</option><option value="sotagliflozin">sotagliflozin (Inpefa)</option></select></div>
+                    </div>
+                </div>
+
+                <div class="action-buttons no-print">
+                    <button type="button" onclick="generateReport()" class="btn btn-primary">Generate Report</button>
+                    <button type="button" onclick="window.print()" class="btn btn-secondary">Print Report</button>
+                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                </div>
+            </form>
+        </main>
+        
+        <div id="printableArea">
+            <!-- Content will be generated here by JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        function generateReport() {
+            let practiceName = document.getElementById("PracticeName").value;
+            let firstName = document.getElementById("fname").value;
+            let lastName = document.getElementById("lname").value;
+            let surgery = document.getElementById("surgery").value;
+            let surgeryDateStr = document.getElementById("surgerydate").value;
+            let arrivalTime = document.getElementById("appt").value;
+            let surgeonName = document.getElementById("SurgeonName").value;
+            let surgeryLocation = document.getElementById("surg_location").value;
+            let surgeryPhone = document.getElementById("surg_phone").value;
+            let officePhone = document.getElementById("Officephone").value;
+            
+            if (!surgeryDateStr) {
+                alert("Please enter a surgery date.");
+                return;
+            }
+            
+            let surgeryDate = new Date(surgeryDateStr + 'T00:00:00');
+            let formattedSurgeryDate = surgeryDate.toLocaleDateString();
+
+            let patientInfoHTML = `
+                <h1>${practiceName}</h1>
+                <p><b>Patient:</b> ${firstName} ${lastName}</p>
+                <p><b>Is scheduled for the surgery:</b> ${surgery}</p>
+                <p><b>Arrive at ${surgeryLocation} on:</b> ${formattedSurgeryDate} at ${arrivalTime}</p>
+                <p><b>Your surgeon will be:</b> ${surgeonName}</p>
+            `;
+
+            let medInstructionsHTML = "<h2>Medication Instructions</h2><p>Some of your medications will need to be stopped prior to surgery. Prior to surgery:</p><ul>";
+            
+            const medContainer = document.getElementById("medform");
+            const medSelects = medContainer.querySelectorAll('select');
+            let instructionsArray = [];
+            
+            for (let i = 0; i < medSelects.length; i++) {
+                const medSelect = medSelects[i];
+                if (medSelect.value !== "No") {
+                    let stopDate = new Date(surgeryDate.getTime());
+                    let customInstruction = null;
+                    let stopDays = 0;
+                    let instructionString = '';
+
+                    // Map med IDs to stop days or custom logic
+                    switch(medSelect.id) {
+                        case 'meds0': stopDays = 1; break;  // Aspirin
+                        case 'meds1': stopDays = 3; break;  // ACE
+                        case 'meds2': stopDays = 3; break;  // ARB
+                        case 'meds3': stopDays = 6; break;  // Brilinta
+                        case 'meds4': stopDays = 6; break;  // Plavix
+                        case 'meds5': stopDays = 6; break;  // Coumadin
+                        case 'meds6': stopDays = 8; break;  // Effient
+                        case 'meds7': stopDays = 3; break;  // DOACs
+                        case 'meds8': // Metformin
+                            const restartDate = new Date(surgeryDate.getTime());
+                            restartDate.setDate(restartDate.getDate() + 4);
+                            customInstruction = `Do NOT take ${medSelect.value} on the day of your surgery. You may resume it on <b>${restartDate.toLocaleDateString()}</b>.`;
+                            break;
+                        case 'meds9': stopDays = 6; break;  // Phenprocoumon
+                        case 'meds10': stopDays = 6; break; // Pradaxa
+                        case 'meds11': stopDays = 3; break; // ED Meds
+                        case 'meds12': // Insulin-Long
+                            const longActingDate = new Date(surgeryDate.getTime());
+                            longActingDate.setDate(longActingDate.getDate() - 2);
+                            customInstruction = `Take a <b>half dose</b> of your ${medSelect.value} on the evening of <b>${longActingDate.toLocaleDateString()}</b>.`;
+                            break;
+                        case 'meds13': // Insulin-Short
+                            const shortActingDate = new Date(surgeryDate.getTime());
+                            shortActingDate.setDate(shortActingDate.getDate() - 1);
+                            customInstruction = `Do NOT take your morning dose of ${medSelect.value} on the day of your surgery, <b>${formattedSurgeryDate}</b>. Your last dose should be on <b>${shortActingDate.toLocaleDateString()}</b>.`;
+                            break;
+                        case 'meds14': stopDays = 2; break; // Sulfonylureas
+                        case 'meds15': stopDays = 7; break; // GLP1
+                        case 'meds16': stopDays = 3; break; // SGLT2
+                    }
+
+                    if (customInstruction) {
+                        instructionString = customInstruction;
+                    } else if (stopDays > 0) {
+                        stopDate.setDate(stopDate.getDate() - stopDays);
+                        instructionString = `Take your last dose of <b>${medSelect.value}</b> on <b>${stopDate.toLocaleDateString()}</b>.`;
+                    }
+                    
+                    if(instructionString) {
+                       instructionsArray.push({name: medSelect.value, instruction: instructionString});
+                    }
+                }
+            }
+            
+            if (instructionsArray.length > 0) {
+                instructionsArray.sort((a, b) => a.name.localeCompare(b.name));
+                instructionsArray.forEach(item => {
+                    medInstructionsHTML += `<li>${item.instruction}</li>`;
+                });
+            } else {
+                medInstructionsHTML += "<li>No specific medication holds identified. Please follow your surgeon's instructions.</li>";
+            }
+            medInstructionsHTML += "</ul>";
+
+            let finalInstructionsHTML = `
+                <h2>Day of Surgery</h2>
+                <ul>
+                    <li>Do NOT eat or drink anything after midnight before surgery.</li>
+                    <li>Do NOT take any of your regular medications the morning of surgery unless instructed to do so by anesthesia at your pre-admission appointment.</li>
+                    <li>Your family will be shown to the surgery waiting room and will receive periodic updates.</li>
+                    <li>The surgeon will talk with you or your family after surgery.</li>
+                    <li>If you have questions regarding visitation during hospitalization please call: <b>${surgeryPhone}</b></li>
+                </ul>
+                <h2>Call the office at ${officePhone} if...</h2>
+                <ul>
+                    <li>any questions regarding surgery</li>
+                    <li>you develop an infection that requires antibiotics of any kind</li>
+                    <li>there is any change in your condition</li>
+                    <li>you develop a fever, cold, or flu symptoms</li>
+                    <li>you are prescribed new medications</li>
+                </ul>
+            `;
+
+            const printableArea = document.getElementById('printableArea');
+            printableArea.innerHTML = `
+                <style>
+                    body { font-family: Arial, sans-serif; font-size: 10pt; line-height: 1.4; }
+                    h1 { font-size: 16pt; text-align: center; margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 1px solid #ccc; }
+                    h2 { font-size: 12pt; margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 3px; }
+                    p { margin: 5px 0; }
+                    ul { list-style-type: '— '; padding-left: 20px; margin-top: 5px; }
+                    li { margin-bottom: 4px; }
+                </style>
+                ${patientInfoHTML}
+                ${medInstructionsHTML}
+                ${finalInstructionsHTML}
+            `;
+            printableArea.style.display = 'block';
+        }
+
+        function generateAndPrint() {
+            generateReport();
+            setTimeout(() => window.print(), 100); // Timeout to ensure content is rendered
+        }
+    </script>
 </body>
 </html>
