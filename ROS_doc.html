@@ -1,821 +1,504 @@
 <!DOCTYPE html>
-<html>
-<head><title>
-Review of Systems
-</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review of Systems - HeartForms</title>
+    <style>
+        /* General Reset & Body */
+        :root {
+            --blue-600: #2563EB;
+            --blue-700: #1D4ED8;
+            --blue-50: #EFF6FF;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+        }
 
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            margin: 0;
+            background-color: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printableArea, #printableArea * { visibility: visible; }
+            #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+
+        /* Styles for the generated report */
+        #printableArea { font-family: 'Times New Roman', Times, serif; line-height: 1.5; }
+        #printableArea h1 { text-align: center; font-size: 1.5em; margin-bottom: 1.5em; }
+        #printableArea p { margin: 0 0 1em 0; }
+        #printableArea b { font-size: 1.1em; }
+
+        /* Layout & Components */
+        #app { max-width: 80rem; margin: 0 auto; padding: 1rem; }
+        .page-header { background-color: var(--white); box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; }
+        .header-content { display: flex; align-items: center; justify-content: space-between; }
+        .header-content h1 { font-size: 1.5rem; line-height: 2rem; font-weight: 700; color: var(--gray-900); }
+        .header-content p { margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; color: var(--gray-500); }
+        .header-icon { height: 2.5rem; width: 2.5rem; color: var(--blue-600); }
+        .page-nav { margin-top: 1rem; border-top: 1px solid var(--gray-200); padding-top: 1rem; font-size: 0.875rem; color: var(--gray-600); }
+        .page-nav a { color: var(--gray-600); text-decoration: none; margin: 0 0.75rem; }
+        .page-nav a.home-link { color: var(--blue-600); font-weight: 500; margin-left: 0; margin-right: 0.75rem; }
+        .page-nav a:hover { text-decoration: underline; }
+        .card { background-color: var(--white); box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border-radius: 0.5rem; padding: 1.5rem; border: 1px solid var(--gray-200); margin-bottom: 2rem; }
+        .card-title { font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; color: var(--gray-900); border-bottom: 1px solid var(--gray-200); margin: -1.5rem -1.5rem 1.5rem -1.5rem; padding: 1rem 1.5rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .form-grid label, .question-label { display: block; font-size: 0.875rem; font-weight: 500; color: var(--gray-700); margin-bottom: 0.25rem; }
+        .form-input { display: block; width: 100%; border-radius: 0.375rem; border: 1px solid var(--gray-300); box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+        .form-input:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: var(--blue-600); }
+        .btn { display: inline-block; padding: 0.6rem 1.2rem; font-size: 0.875rem; font-weight: 500; border-radius: 0.375rem; transition: background-color 200ms; border: 1px solid transparent; cursor: pointer; text-align: center; }
+        .btn:disabled { background-color: var(--gray-300); cursor: not-allowed; }
+        .btn-primary { background-color: var(--blue-600); color: var(--white); }
+        .btn-primary:hover:not(:disabled) { background-color: var(--blue-700); }
+        .btn-secondary { background-color: var(--gray-200); color: var(--gray-700); }
+        .btn-secondary:hover:not(:disabled) { background-color: var(--gray-300); }
+        .action-buttons { margin-top: 2rem; display: flex; justify-content: flex-end; gap: 0.75rem; }
+        .page-footer { text-align: center; margin-top: 3rem; color: var(--gray-500); font-size: 0.875rem; }
+        .ros-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 3fr; align-items: center; gap: 1rem; border-bottom: 1px solid var(--gray-200); padding: 0.75rem 0; }
+        .ros-grid:first-of-type { padding-top: 0; }
+        .ros-grid:last-of-type { border-bottom: none; padding-bottom: 0; }
+        .ros-header { font-weight: 600; color: var(--gray-600); }
+        .radio-group { display: flex; gap: 0.5rem; justify-content: center; }
+        .radio-group-left { display: flex; gap: 1rem; justify-content: flex-start; align-items: center; }
+        .radio-group-left label { font-weight: 400; }
+        .sub-section { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200); }
+        .sub-section-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--blue-700); }
+        .checkbox-group label { font-weight: 400; display: flex; align-items: center; gap: 0.5rem; }
+        .other-input { display: none; margin-top: 0.5rem; }
+        .family-member-header { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-bottom: 1rem; }
+        .family-member-header > strong { font-size: 1rem; }
+        .family-member-header .age-input { max-width: 120px; }
+        @media (min-width: 640px) { .form-grid { grid-template-columns: repeat(2, 1fr); } .sm-col-span-2 { grid-column: span 2 / span 2; } }
+    </style>
+</head>
 <body>
-<h1>HeartForms</h1>
-<hr>
-<a href="index.html">
-                HeartForms Home</a>     /
-<a href="Surgery Fill out Form.html">
-                Blank Heart Surgery Form</a>     /
-<a href="Heart_Cath_form.html">
-                Heart Cath Form</a>     /
-<a href="KCCQ12.html">
-                KCCQ-12</a>     /
-<a href="NYHA_HF_Scale.html">
-                NYHA Classification for Heart Failure</a>     /
-<a href="ROS_doc.html">
-                Review of Systems</a>
 
-<hr>
-
-<div id='printable_div_id'>
-<form id = "ros">
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr>
-    	<th colspan="2">Name:<input type="text"></th>
-        <th colspan="2">Date of Birth:<input type="date"></th>
-        </tr>
-  <tr>
-    <th>General</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-  </tr>
-  <tr>
-<!-- blank input choice
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td><br>
-    </tr>
--->
-  <td>Weight Change > 10 lbs</td>
-  <td><input type="radio" id="yes" name="Weight Change" value="yes"></td>
-  <td><input type="radio" id="no" name="Weight Change" value=""></td>
-  <td><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Fever</td>
-      <td><input type="radio" id="yes" name="Fever" value="yes"></td>
-  <td><input type="radio" id="no" name="Fever" value=""></td>
-  <td><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Fatigue</td>
-    <td><input type="radio" id="yes" name="Fatigue" value="yes"></td>
-  <td><input type="radio" id="no" name="Fatigue" value=""></td>
-  <td><input type="text"></td>
-  </tr>
-  <tr>
-    <td>Difficulty Sleeping</td>
-    <td><input type="radio" id="yes" name="Difficulty Sleeping" value="yes"></td>
-  <td><input type="radio" id="no" name="Difficulty Sleeping" value=""></td>
-  <td><input type="text"></td>
-  </tr>
-<!-- blank input choice
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td><br>
-    </tr>
--->
-  <tr><th>Head and Neck</th>
-  	<th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Visual Changes</td>
-    <td><input type="radio" id="yes" name="Visual Changes" value="yes"></td>
-  	<td><input type="radio" id="no" name="Visual Changes" value=""></td>
-  	<td><input type="text"></td>
-  </tr>
-  	<tr><td>Dizziness</td>
-  	<td><input type="radio" id="yes" name="Dizziness" value="yes"></td>
-  	<td><input type="radio" id="no" name="Dizziness" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Sinnus Problems</td>
-  	<td><input type="radio" id="yes" name="Sinus Problems" value="yes"></td>
-  	<td><input type="radio" id="no" name="Sinus Problems" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Nosebleed</td>
-  	<td><input type="radio" id="yes" name="Nosebleed" value="yes"></td>
-  	<td><input type="radio" id="no" name="Nosebleed" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Ear Pain</td>
-  	<td><input type="radio" id="yes" name="Ear Pain" value="yes"></td>
-  	<td><input type="radio" id="no" name="Ear Pain" value=""></td>
-    <td><input type="text"></td></tr>
-  <tr><td>Trouble Hearing</td>
-  	<td><input type="radio" id="yes" name="Trouble Hearing" value="yes"></td>
-  	<td><input type="radio" id="no" name="Trouble Hearing" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Ringing In Ears</td>
-  	<td><input type="radio" id="yes" name="Ringing in Ears" value="yes"></td>
-  	<td><input type="radio" id="no" name="Ringing in Ears" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Hoarseness</td>
-  	<td><input type="radio" id="yes" name="Hoarseness" value="yes"></td>
-  	<td><input type="radio" id="no" name="Hoarseness" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-   <tr><td>Mouth Sores</td>
-  	<td><input type="radio" id="yes" name="Mouth Sores" value="yes"></td>
-  	<td><input type="radio" id="no" name="Mouth Sores" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Swollen Glands</td>
-  	<td><input type="radio" id="yes" name="Swollen Glands" value="yes"></td>
-  	<td><input type="radio" id="no" name="Swollen Glands" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-    
-<!-- blank input choice
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-
--->
-    <tr><th>Respiratory</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Sleep Apnea</td>
-  	<td><input type="radio" id="yes" name="Sleep Apnea" value="yes"></td>
-  	<td><input type="radio" id="no" name="Sleep Apnea" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Shortness of Breath</td>
-  	<td><input type="radio" id="yes" name="Shortness of Breath" value="yes"></td>
-  	<td><input type="radio" id="no" name="Shortness of Breath" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Coughing up Blood</td>
-  	<td><input type="radio" id="yes" name="Coughing up Blood" value="yes"></td>
-  	<td><input type="radio" id="no" name="Coughing up Blood" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Wheezing</td>
-  	<td><input type="radio" id="yes" name="Wheezing" value="yes"></td>
-  	<td><input type="radio" id="no" name="Wheezing" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Cough</td>
-  	<td><input type="radio" id="yes" name="Cough" value="yes"></td>
-  	<td><input type="radio" id="no" name="Cough" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Sore Throat</td>
-  	<td><input type="radio" id="yes" name="Sore Throat" value="yes"></td>
-  	<td><input type="radio" id="no" name="Sore Throat" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Snoring</td>
-  	<td><input type="radio" id="yes" name="Snoring" value="yes"></td>
-  	<td><input type="radio" id="no" name="Snoring" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-<!-- blank input choice
-    <tr><th></th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-
--->
-    <tr><th>Heart/ Vascular</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Chest Pain/ Tightness</td>
-  	<td><input type="radio" id="yes" name="Chest Pain" value="yes"></td>
-  	<td><input type="radio" id="no" name="Chest Pain" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Smothering feeling at Night</td>
-  	<td><input type="radio" id="yes" name="Smothering" value="yes"></td>
-  	<td><input type="radio" id="no" name="Smothering" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Ankle Swelling</td>
-  	<td><input type="radio" id="yes" name="Ankle Swelling" value="yes"></td>
-  	<td><input type="radio" id="no" name="Ankle Swelling" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Palpitations</td>
-  	<td><input type="radio" id="yes" name="Palpitations" value="yes"></td>
-  	<td><input type="radio" id="no" name="Palpitations" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Passing Out</td>
-  	<td><input type="radio" id="yes" name="Passing Out" value="yes"></td>
-  	<td><input type="radio" id="no" name="Passing Out" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-    <tr><th>Stomach/ Bowel</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Black/ Bloody Stools</td>
-  	<td><input type="radio" id="yes" name="Bloody Stool" value="yes"></td>
-  	<td><input type="radio" id="no" name="Blood Stool" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Nausea or Vomiting</td>
-  	<td><input type="radio" id="yes" name="NV" value="yes"></td>
-  	<td><input type="radio" id="no" name="NV" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Frequent Heartburn or acid (GERD)</td>
-  	<td><input type="radio" id="yes" name="GERD" value="yes"></td>
-  	<td><input type="radio" id="no" name="GERD" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Abdominal Pain</td>
-  	<td><input type="radio" id="yes" name="abd pain" value="yes"></td>
-  	<td><input type="radio" id="no" name="abd pain" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Diarrhea</td>
-  	<td><input type="radio" id="yes" name="Diarrhea" value="yes"></td>
-  	<td><input type="radio" id="no" name="Diarrhea" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Constipation</td>
-  	<td><input type="radio" id="yes" name="Constipation" value="yes"></td>
-  	<td><input type="radio" id="no" name="Constipation" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Difficulty Swallowing</td>
-  	<td><input type="radio" id="yes" name="Difficulty Swallowing" value="yes"></td>
-  	<td><input type="radio" id="no" name="Difficulty Swallowing" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-    
-<!-- blank input choice
-    <tr><th></th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-
--->
-    <tr><th>Kidney/ Bladder</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>UTI</td>
-  	<td><input type="radio" id="yes" name="UTI" value="yes"></td>
-  	<td><input type="radio" id="no" name="UTI" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Urinary Incontinence</td>
-  	<td><input type="radio" id="yes" name="Urinary Incontinence" value="yes"></td>
-  	<td><input type="radio" id="no" name="Urinary Incontinence" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Urinary Hesitancy</td>
-  	<td><input type="radio" id="yes" name="Urinary Hesitancy" value="yes"></td>
-  	<td><input type="radio" id="no" name="Urinary Hesitancy" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Frequent Urination</td>
-  	<td><input type="radio" id="yes" name="Frequent Urination" value="yes"></td>
-  	<td><input type="radio" id="no" name="Frequent Urination" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Urinary Urgency</td>
-  	<td><input type="radio" id="yes" name="Urinary Urgency" value="yes"></td>
-  	<td><input type="radio" id="no" name="Urinary Urgency" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Urinating at Night</td>
-  	<td><input type="radio" id="yes" name="Urinating at Night" value="yes"></td>
-  	<td><input type="radio" id="no" name="Urinating at Night" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Pain with Urination</td>
-  	<td><input type="radio" id="yes" name="Pain with Urination" value="yes"></td>
-  	<td><input type="radio" id="no" name="Pain with Urination" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Blood in Urine</td>
-  	<td><input type="radio" id="yes" name="Blood in Urine" value="yes"></td>
-  	<td><input type="radio" id="no" name="Blood in Urine" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Urinary Retention</td>
-  	<td><input type="radio" id="yes" name="Urinary Retention" value="yes"></td>
-  	<td><input type="radio" id="no" name="Urinary Retention" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-<!-- blank input choice
-    <tr><th></th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-
--->
-<tr><th>Skeletal</th>
-	<th>Yes</th>
-    <th>No</th>
-    <th>Comments</th></tr>
-  <tr><td>Gout</td>
-  	<td><input type="radio" id="yes" name="Gout" value="yes"></td>
-  	<td><input type="radio" id="no" name="Gout" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Back Pain (Major)</td>
-  	<td><input type="radio" id="yes" name="Back Pain Major" value="yes"></td>
-  	<td><input type="radio" id="no" name="Back Pain Major" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Neck Pain (Major)</td>
-  	<td><input type="radio" id="yes" name="Neck Pain Major" value="yes"></td>
-  	<td><input type="radio" id="no" name="Neck Pain Major" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Weakness of Arm or Leg</td>
-  	<td><input type="radio" id="yes" name="Weakness of Arm or Leg" value="yes"></td>
-  	<td><input type="radio" id="no" name="Weakness of Arm or Leg" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Joint Swelling or Stiffnes</td>
-  	<td><input type="radio" id="yes" name="Joint Swelling or Stiffnes" value="yes"></td>
-  	<td><input type="radio" id="no" name="Joint Swelling or Stiffnes" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Deformities of Back or Extremeties</td>
-  	<td><input type="radio" id="yes" name="Deformities of Back or Extremeties" value="yes"></td>
-  	<td><input type="radio" id="no" name="Deformities of Back or Extremeties" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-<!-- blank input choice
-    <tr><th></th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td></td>
-  	<td><input type="radio" id="yes" name="" value="yes"></td>
-  	<td><input type="radio" id="no" name="" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-
--->
-    <tr><th>Neuro</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Numbness or Tingling</td>
-  	<td><input type="radio" id="yes" name="Numbness or Tingling" value="yes"></td>
-  	<td><input type="radio" id="no" name="Numbness or Tingling" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Severe frequent headaches</td>
-  	<td><input type="radio" id="yes" name="Severe frequent headaches" value="yes"></td>
-  	<td><input type="radio" id="no" name="Severe frequent headaches" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Abnormal Coordination</td>
-  	<td><input type="radio" id="yes" name="Abnormal Coordination" value="yes"></td>
-  	<td><input type="radio" id="no" name="Abnormal Coordination" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Trouble with Speech</td>
-  	<td><input type="radio" id="yes" name="Trouble with Speech" value="yes"></td>
-  	<td><input type="radio" id="no" name="Trouble with Speech" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Forgetfulness of Confusion</td>
-  	<td><input type="radio" id="yes" name="Forgetfulness of Confusion" value="yes"></td>
-  	<td><input type="radio" id="no" name="Forgetfulness of Confusion" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-    <tr><th>Skin and Hair Problems</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Changes in hair or hair loss</td>
-  	<td><input type="radio" id="yes" name="Changes in hair or hair loss" value="yes"></td>
-  	<td><input type="radio" id="no" name="Changes in hair or hair loss" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Major Skin Problems</td>
-  	<td><input type="radio" id="yes" name="Major Skin Problems" value="yes"></td>
-  	<td><input type="radio" id="no" name="Major Skin Problems" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Wounds that will not heal</td>
-  	<td><input type="radio" id="yes" name="Wounds that will not heal" value="yes"></td>
-  	<td><input type="radio" id="no" name="Wounds that will not heal" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Persistent Rash</td>
-  	<td><input type="radio" id="yes" name="Persistent Rash" value="yes"></td>
-  	<td><input type="radio" id="no" name="Persistent Rash" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Changes in Moles</td>
-  	<td><input type="radio" id="yes" name="Changes in Moles" value="yes"></td>
-  	<td><input type="radio" id="no" name="Changes in Moles" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-    <tr><th>Psych/ Social</th>
-    <th>Yes</th>
-    <th>No</th>
-    <th>Comments</th>
-    </tr>
-  <tr><td>Anxiety</td>
-  	<td><input type="radio" id="yes" name="Anxiety" value="yes"></td>
-  	<td><input type="radio" id="no" name="Anxiety" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Depression</td>
-  	<td><input type="radio" id="yes" name="Depression" value="yes"></td>
-  	<td><input type="radio" id="no" name="Depression" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-  <tr><td>Insomnia</td>
-  	<td><input type="radio" id="yes" name="Insomnia" value="yes"></td>
-  	<td><input type="radio" id="no" name="Insomnia" value=""></td>
-  	<td><input type="text"></td>
-    </tr>
-    <!-- blank input choice
-	<td colspan="2"><b>:</b>
-    		<br><input type="radio" id="Not_at_all" name="" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="" value="yes">Nearly Everyday</input>
-            </td>
--->
-	<tr><td colspan="2"><b>Feeling Down, Depresssed, Hopeless:</b>
-    		<br><input type="radio" id="Not_at_all" name="FDDH" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="FDDH" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="FDDH" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="FDDH" value="yes">Nearly Everyday</input>
-            </td>
-            <td colspan="2"><b>Little Interest In Activities:</b>
-    		<br><input type="radio" id="Not_at_all" name="LIIA" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="LIIA" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="LIIA" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="LIIA" value="yes">Nearly Everyday</input>
-            </td>
-            </tr>
-            <tr><td colspan="2"><b>Trouble Falling or Staying Asleep:</b>
-    		<br><input type="radio" id="Not_at_all" name="TFSA" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="TFSA" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="TFSA" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="TFSA" value="yes">Nearly Everyday</input>
-            </td>
-            <td colspan="2"><b>Feeling Tired or Little Energy:</b>
-    		<br><input type="radio" id="Not_at_all" name="FTLE" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="FTLE" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="FTLE" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="FTLE" value="yes">Nearly Everyday</input>
-            </td>
-            </tr>
-            <tr><td colspan="2"><b>Poor Appetite or Overating:</b>
-    		<br><input type="radio" id="Not_at_all" name="PAO" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="PAO" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="PAO" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="PAO" value="yes">Nearly Everyday</input>
-            </td>
-            <td colspan="2"><b>Feeling Bad About Yourself:</b>
-    		<br><input type="radio" id="Not_at_all" name="FBAY" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="FBAY" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="FBAY" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="FBAY" value="yes">Nearly Everyday</input>
-            </td>
-            </tr>
-            <tr><td colspan="2"><b>Trouble Concentrating:</b>
-    		<br><input type="radio" id="Not_at_all" name="TC" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="TC" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="TC" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="TC" value="yes">Nearly Everyday</input>
-            </td>
-            <td colspan="2"><b>Moving or Speaking Slowly:</b>
-    		<br><input type="radio" id="Not_at_all" name="MSS" value="yes">Not at all</input>
-            <br><input type="radio" id="More_than_half" name="MSS" value="yes">More than half the days</input>
-            <br><input type="radio" id="Several_days" name="MSS" value="yes">Several Days</input>
-            <br><input type="radio" id="Nearly_everyday" name="MSS" value="yes">Nearly Everyday</input>
-            </td>
-            </tr>
-</tbody>
-</table>
-
-
-<input type="reset"></input>
-</form>
-
-<form id="histories">
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr><th><h3>Social History</h3></th>
-    <tr><td><b>History Of Tobacco Use:</b> 
-    	<input type="radio" id="Smoke" name="Smoke" value="">No</input>
-    	<input type="radio" id="Smoke" name="Smoke" value="yes">Yes</input>
-        <br>If No, skip to next section. 
-        <br>Please answer the following If Yes:
-        <br>Packs per day:<input type"text"></input>
-        <br>Year starting smoking:<input type="number" min="1900" max="2100" step="1" value=""></input>
-        <br>Year Quit smoking:<input type="number" min="1900" max="2100" step="1" value=""></input>
-        </td></tr>
+    <div id="app">
         
-	<tr><td><b>Do you drink any beverages that contain the following:</b>
-    <br>Alcohol- No:<input type="radio" id="Alcohol" name="Alcohol" value="No"></input> Yes:
-    	<select id="Num_Alcohol">
-        	<option value=""></option>
-            <option value="1_2_times per year">1-2 Times per Year</option>
-            <option value="1_2 times per mont">1-2 Times per Month</option>
-            <option value="1_2 times per week">1-2 Times per Week</option>
-            <option value="3_5 time per week">3-5 Times per Week</option>
-            <option value="Daily">Daily</option>
-            <option value="Several Times per Day">Several Times per Day</option>
-            <option value="Binge">Binge</option>
-            <option value="Regular Use">Regular Use</option>
-        </select>
-        <br>Caffiene- No:<input type="radio" id="Caffiene" name="Caffiene" value="No"></input> Yes:
-    	<select id="Num_Caff">
-        	<option value=""></option>
-            <option value="Daily">Daily</option>
-            <option value="Several Times per Day">Several Times per Day</option>
-            <option value="Regular Use">Regular Use</option>
-            <option value="1_2 times per week">1-2 Times per Week</option>
-            <option value="3_5 time per week">3-5 Times per Week</option>
-            <option value="1_2 times per mont">1-2 Times per Month</option>
-            <option value="1_2_times per year">1-2 Times per Year</option>
-            </select>
-        </td></tr>
-        </tbody>
-        </table>
-        <input type="reset"></input>
-</form>
+        <header class="page-header no-print">
+            <div class="header-content">
+                <div><h1>HeartForms</h1><p>Review of Systems</p></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>
+            </div>
+            <nav class="page-nav">
+                <a href="#" class="home-link">HeartForms Home</a> / <a href="#">Blank Heart Surgery Form</a> / <a href="#">Heart Cath Form</a> / <a href="#">KCCQ-12</a> / <a href="#">NYHA Classification</a> / <a href="#">Review of Systems</a>
+            </nav>
+        </header>
+
+        <main>
+            <form id="ros-form">
+                <div class="card">
+                    <h2 class="card-title">Patient Information</h2>
+                    <div class="form-grid">
+                        <div><label for="patient-name">Name</label><input type="text" id="patient-name" class="form-input"></div>
+                        <div><label for="patient-dob">Date of Birth</label><input type="date" id="patient-dob" class="form-input"></div>
+                    </div>
+                </div>
+
+                <div class="card" id="surg-med-allergy-card">
+                    <h2 class="card-title">Surgeries, Medications & Allergies</h2>
+                    <div class="form-grid">
+                        <div class="sm-col-span-2"><label>Previous Surgeries and Dates</label><div id="surgery-list"></div><button type="button" onclick="addDynamicInput('surgery-list', 'Surgery', 'month')" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Add Surgery</button></div>
+                        <div class="sm-col-span-2"><label>Current Medications and Supplements</label><div id="medication-list"></div><button type="button" onclick="addDynamicInput('medication-list', 'Medication/Supplement', 'indication')" class="btn btn-secondary" style="margin-top: 0.5rem;">+ Add Medication</button></div>
+                        <div class="sm-col-span-2">
+                            <label>Allergies and Reactions</label>
+                            <div id="allergy-list"></div>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button type="button" id="add-allergy-btn" onclick="addDynamicInput('allergy-list', 'Allergy & Reaction')" class="btn btn-secondary">+ Add Allergy</button>
+                                <button type="button" id="no-allergies-btn" onclick="setNoAllergies()" class="btn btn-secondary">No Known Allergies</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="social-history-card">
+                    <h2 class="card-title">Social History</h2>
+                    <div class="form-grid">
+                        <div class="sm-col-span-2"><label>Sex assigned at birth</label><div class="radio-group-left"><label><input type="radio" name="sex-assigned" value="male" onchange="toggleMenstrualHistory(false)"> Male</label><label><input type="radio" name="sex-assigned" value="female" onchange="toggleMenstrualHistory(true)"> Female</label></div></div>
+                        <div class="sm-col-span-2"><hr style="border-color: var(--gray-200);"></div>
+                        <div class="sm-col-span-2"><label>History of Tobacco Use</label><div class="radio-group-left"><label><input type="radio" name="tobacco-use" value="no" onchange="toggleDetails('tobacco-details', false)" checked> No</label><label><input type="radio" name="tobacco-use" value="yes" onchange="toggleDetails('tobacco-details', true)"> Yes</label></div></div>
+                        <div id="tobacco-details" class="sm-col-span-2" style="display: none;"><div class="form-grid"><div><label for="tobacco-per-day">Packs per day</label><input type="text" id="tobacco-per-day" class="form-input"></div><div><label for="tobacco-year-start">Year Started</label><input type="number" id="tobacco-year-start" class="form-input" placeholder="e.g., 1995"></div></div></div>
+                        <div><label for="alcohol-use">Alcohol Use</label><select id="alcohol-use" class="form-input"><option value="">Select Frequency</option><option value="no">No</option><option value="1-2 Times per Year">1-2 Times per Year</option><option value="1-2 Times per Month">1-2 Times per Month</option><option value="1-2 Times per Week">1-2 Times per Week</option><option value="3-5 Times per Week">3-5 Times per Week</option><option value="Daily">Daily</option></select></div>
+                        <div><label for="caffeine-use">Caffeine Use</label><select id="caffeine-use" class="form-input"><option value="">Select Frequency</option><option value="no">No</option><option value="Daily">Daily</option><option value="Several Times per Day">Several Times per Day</option><option value="1-2 Times per Week">1-2 Times per Week</option><option value="3-5 Times per Week">3-5 Times per Week</option></select></div>
+                    </div>
+                </div>
+                
+                <div class="card" id="menstrual-history-card" style="display: none;">
+                    <h2 class="card-title">Menstrual & Obstetric History</h2>
+                    <div class="form-grid">
+                        <div><label for="menarche-age">Age of menarche</label><input type="number" id="menarche-age" class="form-input"></div>
+                        <div><label>Cycles</label><div class="radio-group-left"><label><input type="radio" name="cycle-regularity" value="regular"> Regular</label><label><input type="radio" name="cycle-regularity" value="irregular"> Irregular</label></div></div>
+                        <div><label for="cycle-days">Days of cycle</label><input type="text" id="cycle-days" class="form-input" placeholder="e.g., 28-30"></div>
+                        <div><label for="bleed-days">Typical days of bleeding</label><input type="number" id="bleed-days" class="form-input"></div>
+                        <div class="sm-col-span-2"><label>Bleeding amount</label><div class="radio-group-left"><label><input type="radio" name="bleed-amount" value="light"> Light</label><label><input type="radio" name="bleed-amount" value="moderate"> Moderate</label><label><input type="radio" name="bleed-amount" value="severe"> Severe</label></div></div>
+                        <div class="sm-col-span-2"><label>PMS Symptoms</label><div class="radio-group-left"><label><input type="radio" name="pms" value="no" onchange="toggleDetails('pms-details', false)" checked> No</label><label><input type="radio" name="pms" value="yes" onchange="toggleDetails('pms-details', true)"> Yes</label></div></div>
+                        <div id="pms-details" class="sm-col-span-2" style="display:none;"><label for="pms-symptoms">Please list PMS symptoms</label><textarea id="pms-symptoms" class="form-input" rows="2"></textarea></div>
+                    </div>
+                    <div class="sub-section">
+                        <div class="form-grid">
+                            <div><label for="pregnancies">How many pregnancies?</label><input type="number" id="pregnancies" class="form-input" oninput="toggleDetails('pregnancy-details', this.value > 0)"></div>
+                            <div id="pregnancy-details" class="sm-col-span-2" style="display:none;"><div class="form-grid" style="margin-top: 1rem; border-top: 1px solid var(--gray-200); padding-top: 1.5rem;"><div><label for="preg-full-term">Full term</label><input type="number" id="preg-full-term" class="form-input"></div><div><label for="preg-pre-term">Pre term</label><input type="number" id="preg-pre-term" class="form-input"></div><div><label for="preg-abortions">Abortions</label><input type="number" id="preg-abortions" class="form-input"></div><div><label for="preg-living">Living children</label><input type="number" id="preg-living" class="form-input"></div></div></div>
+                            <div class="sm-col-span-2"><label>Have you hit menopause?</label><div class="radio-group-left"><label><input type="radio" name="menopause" value="no" onchange="toggleDetails('menopause-age-div', false)" checked> No</label><label><input type="radio" name="menopause" value="yes" onchange="toggleDetails('menopause-age-div', true)"> Yes</label></div></div>
+                            <div id="menopause-age-div" style="display:none;"><label for="menopause-age">Age at menopause</label><input type="number" id="menopause-age" class="form-input"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="family-history-card">
+                    <h2 class="card-title">Family History</h2>
+                     <p class="sm-col-span-2" style="color: var(--gray-600); margin-top: -1rem; margin-bottom: 1rem;">Check all conditions that apply for each family member.</p>
+                     <div class="form-grid" id="family-history-grid"></div>
+                     <div id="siblings-container" style="margin-top: 1rem;"></div>
+                     <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button type="button" onclick="addSibling('Brother')" class="btn btn-secondary">+ Add Brother</button>
+                        <button type="button" onclick="addSibling('Sister')" class="btn btn-secondary">+ Add Sister</button>
+                     </div>
+                </div>
+
+                <div id="ros-section"></div>
+
+                <div class="action-buttons no-print">
+                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                    <button type="button" onclick="generateReport()" class="btn btn-primary">Generate Report</button>
+                    <button type="button" onclick="window.print()" id="printButton" class="btn btn-secondary" style="display: none;">Print</button>
+                </div>
+            </form>
+        </main>
         
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr><th><h3>Past Medical History</h3></th></tr>     
-	<tr><td><p id="surg">List all Previous Surgeries and approximate dates:<br></p>
-<button onclick="surg_create()">Add Surgery/ Procedure</button></td></tr>
-</tbody></table>
-<script>
-function surg_create() {
-  var x = document.createElement("INPUT");
-  x.setAttribute("type", "text");
-  document.getElementById("surg").appendChild(x);
-  var y = document.createElement("INPUT");
-  y.setAttribute("type", "date");
-  document.getElementById("surg").appendChild(y);
-  var breakline = document.createElement("BR");
-  document.getElementById("surg").appendChild(breakline);
-}
-</script>
+        <div id="printableArea" style="display: none;"></div>
 
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr><th colspan="2"><h3>Family History</h3></th></tr>
-    <tr><td colspan="2">Has any of the following family memeber had any of the follwoing:</td></tr>
-    <tr><td>
-    <label for="PratGrandpa">Praternal Grandfather:</label><br>
-    <input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td>
-     <td>
-    <label for="PratGrandma">Praternal Grandmother:</label><br>
-    	<input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td></tr>
-     
-     <tr><td>
-    <label for="MatGrandpa">Maternal Grandfather:</label><br>
-    <input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td>
-     <td>
-    <label for="MatGrandma">Maternal Grandmother:</label><br>
-    	<input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td></tr>
-          <tr><td>
-    <label for="Father">Father:</label><br>
-    <input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td>
-     <td>
-    <label for="Mother">Mother:</label><br>
-    	<input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td></tr>
-     
-               <tr><td>
-    <label for="Brother">Any Brothers:</label><br>
-    <input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer<input</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td>
-     <td>
-    <label for="Sister">Any Sisters:</label><br>
-    	<input type="checkbox" value="HTN">High Blood Pressure</input><br>
-        <input type="checkbox" value="HeartDisease">Heart Disease</input><br>
-        <input type="checkbox" value="Diabetes">Diabetes</input><br>
-        <input type="checkbox" value="stroke">Stroke</input><br>
-        <input type="checkbox" value="Cancer">Cancer</input><br>
-        <input type="checkbox" value="Breathing">Lung Problems</input><br>
-        <input type="checkbox" value="bleeding">Bleeding Problems</input><br>
-     </td></tr>
-</tbody></table>
+        <footer class="page-footer no-print">
+            <p>&copy; 2025 HeartForms. All Rights Reserved.</p>
+        </footer>
+    </div>
 
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr><th><h3>Medication List</h3></th></tr>     
-	<tr><td><p id="meds">List Medications and Supplements:<br></p>
-<button onclick="med_create()">Add Medicine/ Supplement</button></td></tr>
-</tbody></table>
-<script>
-function med_create() {
-  var medbox = document.createElement("INPUT");
-  medbox.setAttribute("type", "text");
-  document.getElementById("meds").appendChild(medbox);
-  
-  var breakline = document.createElement("BR");
-  document.getElementById("meds").appendChild(breakline);
-}
-</script>
+    <script>
+        const rosData = {
+            "General": ["Weight gain > 10 lbs", "Weight loss > 10 lbs", "Fever", "Fatigue", "Night sweats", "Chills", "Weakness"],
+            "Skin and Hair": ["Changes in hair or hair loss", "Major Skin Problems", "Wounds that will not heal", "Persistent Rash", "Changes in Moles"],
+            "Head and Neck": ["Visual Changes", "Loss of taste", "Dental problems", "Bleeding gums", "Dizziness", "Sinus Problems", "Nosebleed", "Ear Pain", "Trouble Hearing", "Ringing in Ears", "Hoarseness", "Mouth Sores", "Swollen Glands"],
+            "Respiratory": ["Sleep Apnea", "Shortness of Breath", "Coughing up Blood", "Wheezing", "Cough", "Sore Throat", "Snoring"],
+            "Cardiovascular": ["Do you experience chest pain", "Do you experience chest discomfort", "Do you feel your heart rate race or go fast", "Do you ever feel your heart skipping a beat or beats", "Do you ever feel your heart rate fluttering", "Do you have any shortness of breath with activity", "Do you have any shortness of breath at rest", "Do you need to sleep propped up (please put what you do to sleep propped up in comments)", "Do you wake up at any point while sleeping short of breath", "Do you have any leg swelling", "Do you have any ankle swelling", "Do you have any feet swelling", "Do you ever feel dizzy", "Do you ever feel lightheaded", "Have you ever fainted or passed out", "Do you ever get leg cramps while walking", "Are your hands or feet ever cold, pale, or bluish?"],
+            "Stomach / Bowel": ["Black / Bloody Stools", "Nausea or Vomiting", "Frequent Heartburn (GERD)", "Abdominal Pain", "Diarrhea", "Constipation", "Difficulty Swallowing", "History of Hemorrhoids"],
+            "Kidney / Bladder": ["UTI", "Urinary Incontinence", "Urinary Hesitancy", "Frequent Urination", "Urinary Urgency", "Urinating at Night", "Pain with Urination", "Blood in Urine", "Urinary Retention"],
+            "Skeletal": ["Gout", "Back Pain (Major)", "Neck Pain (Major)", "Weakness of Arm or Leg", "Joint Swelling or Stiffness"],
+            "Neuro": ["Numbness or Tingling", "Severe frequent headaches", "Abnormal Coordination", "Trouble with Speech", "Forgetfulness or Confusion"],
+            "Psych / Social": ["Anxiety", "Depression", "Insomnia", "High stress"],
+            "Endocrine": ["Fatigue (even after sleep)", "Unexplained weight gain or loss", "Change in appetite", "Heat intolerance", "Cold intolerance", "Flushing", "Excessive thirst", "Frequent urination", "Dry skin", "Excessive sweating", "Excessive hair growth or loss", "Muscle weakness or cramping"]
+        };
+        const rosOrder = ["General", "Skin and Hair", "Head and Neck", "Respiratory", "Cardiovascular", "Stomach / Bowel", "Kidney / Bladder", "Skeletal", "Neuro", "Psych / Social", "Endocrine"];
+        const conditions = ["High Blood Pressure", "Heart Disease", "Diabetes", "Stroke", "Cancer", "Lung Problems", "Bleeding Problems"];
+        const reportPhraseMap = {
+            "Do you feel your heart rate race or go fast": "heart rate racing or going fast",
+            "Do you ever feel your heart skipping a beat or beats": "heart skipping beats",
+            "Do you ever feel your heart rate fluttering": "heart rate fluttering",
+            "Do you need to sleep propped up (please put what you do to sleep propped up in comments)": "needing to sleep propped up",
+            "Do you wake up at any point while sleeping short of breath": "waking up short of breath",
+            "Do you ever feel dizzy": "dizziness",
+            "Do you ever feel lightheaded": "lightheadedness",
+            "Have you ever fainted or passed out": "fainting or passing out",
+            "Do you ever get leg cramps while walking": "leg cramps with walking",
+            "Are your hands or feet ever cold, pale, or bluish?": "hands or feet being cold, pale, or bluish"
+        };
 
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr><th><h3>Allergy List</h3></th></tr>     
-	<tr><td><p id="allergy">List allergy & your reaction:<br></p>
-<button onclick="allergy_create()">Add Allergy/ Reaction</button></td></tr>
-</tbody></table>
-<script>
-function allergy_create() {
-  var algbox = document.createElement("INPUT");
-  algbox.setAttribute("type", "text");
-  document.getElementById("allergy").appendChild(algbox);
-  
-  var breakline = document.createElement("BR");
-  document.getElementById("allergy").appendChild(breakline);
-}
-</script>
 
-<table style="width: 100%;" border="1">
-<tbody>
-	<tr><th colspan="2"><h3>Living Conditions:</h3></th></tr> 
-    <tr><td>Do you live with:</td>
-    <td>
-    	<select name="liveswith" id="liveswith">
-        	<option value=""></option>
-        	<option value="Alone_Independent">Alone but Independent</option>
-            <option value="Alone_Assistance">Alone but requires Assistance</option>
-            <option value="Caregivers">Caregivers</option>
-            <option value="Children">Child(ren)</option>
-            <option value="Parents">Either Parent</option>
-            <option value="Siblings">Siblings</option>
-            <option value="Significant_other">Significant Other/ Spouse</option>
-            <option value="Friend">Friend</option>
-            <option value="other">Other:</option>
-            </select>
-            <br>Comments:<input type="text"></input></td></tr>
-	<tr><td>Do you live in:</td>
-    <td><select name="livesin" id="livesin">
-    	<option value=""></option>
-        <option value="Apartment">Apartment</option>
-        <option value="Facility">Facility (please state where in Comments)</option>
-        <option value="Hotel_Motel">Hotel/ Motel</option>
-        <option value="Multilevel">Multilevel Home</option>
-        <option value="Split">Split Level Home</option>
-        <option value="Single">Single Level Home</option>
-        <option value="RV_Camper">RV/ Camper/ Motor Home</option>
-        <option value="Street">Street</option>
-        <option value="Tent">Tent</option>
-        <option value="Vehicle">Vehicle</option>
-        <option value="Shelter">Shelter (please state where in comments)</option>
-        <option value="livesinother">Other:</option>
-        </select>
-        <br>Comments:<input type="text"></input>
-        </td></tr>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rosSectionContainer = document.getElementById('ros-section');
+            rosOrder.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                const title = document.createElement('h2');
+                title.className = 'card-title';
+                title.textContent = category;
+                card.appendChild(title);
+                const header = document.createElement('div');
+                header.className = 'ros-grid';
+                header.innerHTML = `<div class="ros-header">Symptom</div><div class="ros-header" style="text-align: center;">Yes</div><div class="ros-header" style="text-align: center;">No</div><div class="ros-header">Comments</div>`;
+                card.appendChild(header);
+                rosData[category].forEach(symptom => {
+                    const symptomID = symptom.replace(/[^a-zA-Z0-9]/g, '');
+                    const row = document.createElement('div');
+                    row.className = 'ros-grid';
+                    row.innerHTML = `<div>${symptom}</div><div class="radio-group"><input type="radio" name="${symptomID}" value="yes"></div><div class="radio-group"><input type="radio" name="${symptomID}" value="no" checked></div><div><input type="text" class="form-input" placeholder="Comments..."></div>`;
+                    card.appendChild(row);
+                });
+                rosSectionContainer.appendChild(card);
+            });
+            const familyHistoryGrid = document.getElementById('family-history-grid');
+            const familyMembers = ["Paternal Grandfather", "Paternal Grandmother", "Maternal Grandfather", "Maternal Grandmother", "Father", "Mother"];
+            familyMembers.forEach(member => {
+                familyHistoryGrid.appendChild(createFamilyMemberDOM(member));
+            });
+            
+            document.getElementById('ros-form').addEventListener('reset', () => {
+                document.getElementById('add-allergy-btn').disabled = false;
+                document.getElementById('no-allergies-btn').disabled = false;
+                const allergyList = document.getElementById('allergy-list');
+                allergyList.innerHTML = '';
+                allergyList.removeAttribute('data-no-allergies');
+            });
+        });
         
-    <tr><td>What is your living Situation:</td>
-    <td><select name="situation" id="situation">
-    	<option value=""></option>
-        <option value="">At Home</option>
-        <option value="">Assisted Living</option>
-        <option value="">Extended Care Facility</option>
-        <option value="">Group Home</option>
-        <option value="">Homeless</option>
-        <option value="">Hospice</option>
-        <option value="">Nursing Home</option>
-        <option value="">Rehabilitation Unit</option>
-        <option value="">Skilled Nursing Facility</option>
-        <option value="">Other:</option>
-    </select>
-    <br>Comments:<input type="text"></input>
-        </td></tr>
+        // --- REPORT GENERATION FUNCTIONS ---
+        function generateReport() {
+            let reportHTML = "<h1>Review of Systems Report</h1>";
+            reportHTML += formatPatientInfo();
+            reportHTML += formatSurgeries();
+            reportHTML += formatMedications();
+            reportHTML += formatAllergies();
+            reportHTML += formatSocialHistory();
+            if (document.querySelector('input[name="sex-assigned"]:checked')?.value === 'female') {
+                reportHTML += formatMenstrualHistory();
+            }
+            reportHTML += formatFamilyHistory();
+            rosOrder.forEach(category => {
+                reportHTML += formatStandardRos(category, rosData[category]);
+            });
+            const printableArea = document.getElementById('printableArea');
+            printableArea.innerHTML = reportHTML;
+            printableArea.style.display = 'block';
+            document.getElementById('printButton').style.display = 'inline-block';
+        }
+
+        function formatPatientInfo() {
+            const name = document.getElementById('patient-name').value || 'Not provided';
+            const dob = document.getElementById('patient-dob').value || 'Not provided';
+            return `<p><b>Patient Information:</b> Name: ${name}, Date of Birth: ${dob}</p>`;
+        }
         
-    <tr><td>Are you facing any barriers or difficulties:</td>
-    <td><select name="barriers" id="barriers" multiple>
-    	<option value="">No Barriers</option>
-        <option value="">Absence of Family Member</option>
-        <option value="">Bug Infestation</option>
-        <option value="">Food Insecurity</option>
-        <option value="">Inadequate Drinking water Supply</option>
-        <option value="">Family Member Military Deployment</option>
-        <option value="">Lack of Insurance</option>
-        <option value="">Lack of Transportation</option>
-        <option value="">Narrow Doorways</option>
-        <option value="">No Air Conditioning</option>
-        <option value="">No Electricity</option>
-        <option value="">Upstairs Bedroom/ Bathroom</option>
-        <option value="">No Heat</option>
-        <option value="">No Provider</option>
-        <option value="">No Phone</option>
-        <option value="">No Running Water</option>
-        <option value="">No shower/ tub on first level</option>
-        <option value="">Stairs: External</option>
-        <option value="">Stairs: Internal</option>
-        <option value="">Unable to afford Medications</option>
-        <option value="">Unemployed</option>
-        <option value="">No Elevator</option>
-        <option value="">Other:</option>
-    </select>
-    <br>Comments:<input type="text"></input>
-        </td></tr>
-</tbody></table></div>
-<button onClick="printdiv('printable_div_id');">Print</button>
-<script>
-function printdiv(elem) {
-  var header_str = '<html><head><title>' + document.title  + '</title></head><body>';
-  var footer_str = '</body></html>';
-  var new_str = document.getElementById(elem).innerHTML;
-  var old_str = document.body.innerHTML;
-  document.body.innerHTML = header_str + new_str + footer_str;
-  window.print();
-  document.body.innerHTML = old_str;
-  return false;
-}
-</script>
+        function formatSurgeries() {
+            const surgeries = Array.from(document.querySelectorAll('#surgery-list .dynamic-input-wrapper')).map(wrap => {
+                const surgery = wrap.querySelector('input[placeholder="Surgery"]')?.value;
+                const date = wrap.querySelector('input[type="month"]')?.value;
+                return surgery ? `${surgery} (${date || 'date unspecified'})` : null;
+            }).filter(v => v);
+            return surgeries.length > 0 ? `<p><b>Previous Surgeries:</b> ${surgeries.join(', ')}.</p>` : "";
+        }
+        
+        function formatMedications() {
+            const medications = Array.from(document.querySelectorAll('#medication-list .dynamic-input-wrapper')).map(wrap => {
+                const med = wrap.querySelector('input[placeholder="Medication/Supplement"]')?.value;
+                const indication = wrap.querySelector('input[placeholder="Indication"]')?.value;
+                return med ? `${med}${indication ? ' (' + indication + ')' : ''}` : null;
+            }).filter(v => v);
+            return medications.length > 0 ? `<p><b>Current Medications:</b> ${medications.join(', ')}.</p>` : "";
+        }
 
-<hr>
-<p style="text-align: center;"><a href="LLCLTC.html"><img src="LTC_logo.jpg" alt="LTC LLC" width="30" height="40"></a>
-<a href="Surgery_form.html"><img src="CVS_sign.jpg" alt="ETCVS" width="40" height="40"></a></p>
+        function formatAllergies() {
+            if (document.getElementById('allergy-list').dataset.noAllergies === "true") {
+                return `<p><b>Allergies:</b> Patient reports no known allergies.</p>`;
+            }
+            const allergies = Array.from(document.querySelectorAll('#allergy-list .dynamic-input-wrapper')).map(i => i.querySelector('input[type="text"]').value).filter(v => v);
+            if (allergies.length > 0) {
+                return `<p><b>Allergies:</b> ${allergies.join(', ')}.</p>`;
+            }
+            return `<p><b>Allergies:</b> No allergies listed.</p>`;
+        }
 
+        function formatSocialHistory() {
+            let parts = [];
+            const sex = document.querySelector('input[name="sex-assigned"]:checked')?.value;
+            parts.push(`Patient assigned ${sex || 'unspecified'} at birth`);
+            const tobacco = document.querySelector('input[name="tobacco-use"]:checked').value;
+            if (tobacco === 'yes') {
+                const packs = document.getElementById('tobacco-per-day').value || 'amount unspecified';
+                const year = document.getElementById('tobacco-year-start').value;
+                parts.push(`reports a history of tobacco use (${packs} packs/day, started ${year || 'year unspecified'})`);
+            } else {
+                parts.push("denies a history of tobacco use");
+            }
+            const alcohol = document.getElementById('alcohol-use').value;
+            if (alcohol && alcohol !== 'no') parts.push(`reports alcohol use of ${alcohol.replace(/_/g, ' ')}`);
+            const caffeine = document.getElementById('caffeine-use').value;
+            if (caffeine && caffeine !== 'no') parts.push(`reports caffeine use of ${caffeine.replace(/_/g, ' ')}`);
+            return `<p><b>Social History:</b> ${parts.join('. ')}.</p>`;
+        }
+
+        function formatMenstrualHistory() {
+            let parts = [];
+            const menarcheAge = document.getElementById('menarche-age').value;
+            if(menarcheAge) parts.push(`menarche at age ${menarcheAge}`);
+            const cycleReg = document.querySelector('input[name="cycle-regularity"]:checked')?.value;
+            if(cycleReg) parts.push(`${cycleReg} cycles`);
+            const bleedAmount = document.querySelector('input[name="bleed-amount"]:checked')?.value;
+            if(bleedAmount) parts.push(`with ${bleedAmount} bleeding`);
+            const pms = document.querySelector('input[name="pms"]:checked')?.value;
+            if(pms === 'yes') {
+                const symptoms = document.getElementById('pms-symptoms').value;
+                parts.push(`reports PMS symptoms${symptoms ? ' (' + symptoms + ')' : ''}`);
+            }
+            const pregnancies = document.getElementById('pregnancies').value;
+            if(pregnancies > 0) {
+                const full = document.getElementById('preg-full-term').value || 0;
+                const pre = document.getElementById('preg-pre-term').value || 0;
+                const abort = document.getElementById('preg-abortions').value || 0;
+                const living = document.getElementById('preg-living').value || 0;
+                parts.push(`reports ${pregnancies} pregnancies (Full: ${full}, Pre-term: ${pre}, Abortions: ${abort}, Living: ${living})`);
+            }
+            const menopause = document.querySelector('input[name="menopause"]:checked')?.value;
+            if(menopause === 'yes') {
+                const menoAge = document.getElementById('menopause-age').value;
+                parts.push(`reports menopause status, achieved at age ${menoAge || 'unspecified'}`);
+            } else {
+                parts.push('denies menopause status');
+            }
+            return `<p><b>Menstrual & Obstetric History:</b> ${parts.join(', ')}.</p>`;
+        }
+        
+        function formatFamilyHistory() {
+            let parts = [];
+            document.querySelectorAll('.family-member-section').forEach(memberDiv => {
+                const title = memberDiv.querySelector('.family-member-title').textContent;
+                const status = memberDiv.querySelector('input[name^="status-"]:checked')?.value || 'status unknown';
+                if (status === 'Unknown') {
+                    parts.push(`${title} (Unknown).`);
+                    return; 
+                }
+                const age = memberDiv.querySelector('input[type="text"][id^="age-"]').value || 'age unknown';
+                let conditionsList = [];
+                memberDiv.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                    let conditionName = checkbox.dataset.conditionName;
+                    if (conditionName === 'Other') {
+                        const otherText = checkbox.closest('.checkbox-group').querySelector('.other-input').value;
+                        if(otherText) conditionsList.push(`Other (${otherText})`);
+                    } else { conditionsList.push(conditionName); }
+                });
+                let text = `${title} (${status}, ${age})`;
+                if (conditionsList.length > 0) {
+                    text += ` with a history of ${conditionsList.join(', ')}.`;
+                } else {
+                    text += ` with no significant history reported.`;
+                }
+                parts.push(text);
+            });
+            return parts.length > 0 ? `<p><b>Family History:</b> ${parts.join(' ')}</p>` : "";
+        }
+
+        function cleanSymptomText(symptom) {
+            if (reportPhraseMap[symptom]) {
+                return reportPhraseMap[symptom];
+            }
+            let cleaned = symptom.replace(/^(Do you experience|Do you have any)\s*/i, '');
+            cleaned = cleaned.replace(/\s*\(.*\)/, '');
+            cleaned = cleaned.replace(/\?$/, '');
+            return cleaned;
+        }
+
+        function formatStandardRos(category, symptoms) {
+            let yesSymptoms = [], noSymptoms = [];
+            symptoms.forEach(symptom => {
+                const symptomID = symptom.replace(/[^a-zA-Z0-9]/g, '');
+                const radio = document.querySelector(`input[name="${symptomID}"]:checked`);
+                const cleanedSymptom = cleanSymptomText(symptom);
+
+                if (radio?.value === 'yes') {
+                    const commentInput = radio.closest('.ros-grid').querySelector('input[type="text"]');
+                    let text = cleanedSymptom + (commentInput?.value.trim() ? ` (${commentInput.value.trim()})` : '');
+                    yesSymptoms.push(text);
+                } else { 
+                    noSymptoms.push(cleanedSymptom);
+                }
+            });
+            let reportText = "";
+            if (noSymptoms.length > 0) { reportText += `Patient denies ${noSymptoms.join(', ')}.`; }
+            if (yesSymptoms.length > 0) { reportText += ` Patient states they have ${yesSymptoms.join(', ')}.`; }
+            return reportText ? `<p><b>${category}:</b> ${reportText}</p>` : "";
+        }
+
+        // --- DYNAMIC FORM FUNCTIONS ---
+        function toggleDetails(elementId, show) {
+            const detailsDiv = document.getElementById(elementId);
+            if (detailsDiv) {
+                detailsDiv.style.display = show ? 'block' : 'none';
+                if (!show) {
+                    const inputs = detailsDiv.querySelectorAll('input, textarea');
+                    inputs.forEach(input => { if (input.type !== 'checkbox' && input.type !== 'radio') input.value = ''; });
+                }
+            }
+        }
+        function toggleMenstrualHistory(show) {
+            const card = document.getElementById('menstrual-history-card');
+            if(card) card.style.display = show ? 'block' : 'none';
+        }
+        function addDynamicInput(containerId, placeholder, type2) {
+            const container = document.getElementById(containerId);
+            const inputWrapper = document.createElement('div');
+            inputWrapper.className = 'dynamic-input-wrapper';
+            inputWrapper.style.cssText = 'display:flex; gap:0.5rem; margin-bottom:0.5rem;';
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            input1.className = 'form-input';
+            input1.placeholder = placeholder;
+            inputWrapper.appendChild(input1);
+            if (type2 === 'month') {
+                const input2 = document.createElement('input');
+                input2.type = 'month';
+                input2.className = 'form-input';
+                inputWrapper.appendChild(input2);
+            } else if (type2 === 'indication') {
+                const input2 = document.createElement('input');
+                input2.type = 'text';
+                input2.className = 'form-input';
+                input2.placeholder = 'Indication';
+                inputWrapper.appendChild(input2);
+            }
+            container.appendChild(inputWrapper);
+        }
+        function setNoAllergies() {
+            const container = document.getElementById('allergy-list');
+            container.innerHTML = '<p style="color: var(--gray-500); margin: 0.5rem 0;">No known allergies selected by user.</p>';
+            container.dataset.noAllergies = "true";
+            document.getElementById('add-allergy-btn').disabled = true;
+            document.getElementById('no-allergies-btn').disabled = true;
+        }
+        function createFamilyMemberDOM(memberType, index) {
+            const memberID = `${memberType.replace(/\s+/g, '')}${index || ''}`;
+            const title = index ? `${memberType} #${index}` : memberType;
+            const container = document.createElement('div');
+            container.className = "family-member-section sub-section";
+            let contentHTML = `
+                <div class="family-member-header">
+                    <strong class="family-member-title">${title}</strong>
+                    <div class="radio-group-left">
+                        <label><input type="radio" name="status-${memberID}" value="Alive" checked> Alive</label>
+                        <label><input type="radio" name="status-${memberID}" value="Deceased"> Deceased</label>
+                        <label><input type="radio" name="status-${memberID}" value="Unknown"> Unknown</label>
+                    </div>
+                    <div>
+                        <label for="age-${memberID}" style="display:inline-block; margin-right: 0.5rem;">Age / Approx. Age:</label>
+                        <input type="text" id="age-${memberID}" class="form-input age-input" style="display:inline-block; width:auto;">
+                    </div>
+                </div>
+                <div class="checkbox-group form-grid" style="gap: 0.5rem 1.5rem;">
+            `;
+            conditions.forEach(condition => {
+                contentHTML += `<label><input type="checkbox" name="${memberID}-${condition.replace(/\s+/g, '')}" data-condition-name="${condition}"> ${condition}</label>`;
+            });
+            const otherCheckboxID = `${memberID}-other-checkbox`;
+            const otherInputID = `${memberID}-other-input`;
+            contentHTML += `<label><input type="checkbox" id="${otherCheckboxID}" onchange="toggleDetails('${otherInputID}', this.checked)" data-condition-name="Other"> Other</label>
+                            <input type="text" id="${otherInputID}" class="form-input other-input" placeholder="Please specify...">`;
+            contentHTML += `</div>`;
+            container.innerHTML = contentHTML;
+            return container;
+        }
+        let siblingCounts = { Brother: 0, Sister: 0 };
+        function addSibling(type) {
+            siblingCounts[type]++;
+            const container = document.getElementById('siblings-container');
+            container.appendChild(createFamilyMemberDOM(type, siblingCounts[type]));
+        }
+    </script>
 </body>
-<html>
+</html>
