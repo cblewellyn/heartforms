@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiovascular Risk Calculators</title>
+    <style>
+        /* --- Base & Typography --- */
+        :root {
+            --primary-blue: #007bff;
+            --light-blue: #e7f3ff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #dee2e6;
+            --dark-gray: #495057;
+            --text-color: #212529;
+            --white: #ffffff;
+            --green: #28a745;
+            --yellow: #ffc107;
+            --orange: #fd7e14;
+            --red: #dc3545;
+            --border-radius: 0.5rem;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 760px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem 2rem;
+        }
+
+        /* --- New Page Header --- */
+        .page-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 1rem;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .header-content h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+        .header-content p {
+            font-size: 1rem;
+            color: #6c757d;
+            margin: 0;
+        }
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            color: var(--primary-blue);
+        }
+        .page-nav {
+            font-size: 0.85rem;
+            text-align: center;
+            word-spacing: 0.1rem;
+        }
+        .page-nav a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin: 0 0.25rem;
+        }
+        .page-nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* --- Calculator Header --- */
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .header-p {
+            font-size: 1rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        /* --- Tab Navigation --- */
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 1.5rem;
+        }
+        .tab-link {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .tab-link:hover {
+            color: var(--primary-blue);
+        }
+        .tab-link.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        /* --- Tab Content --- */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* --- Form Layout & Elements --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .form-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        
+        .label-with-tooltip {
+            cursor: help;
+            border-bottom: 1px dotted var(--dark-gray);
+        }
+
+        .score-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            background-color: var(--light-blue);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background-color: var(--white);
+        }
+        
+        input[type="number"] {
+            width: 70px;
+            text-align: center;
+        }
+        
+        /* --- Custom Slider Styles --- */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: var(--medium-gray);
+            border-radius: 5px;
+            outline: none;
+            transition: opacity .2s;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 20px; height: 20px;
+            background: var(--primary-blue); cursor: pointer;
+            border-radius: 50%; border: 2px solid var(--white);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px; height: 20px;
+            background: var(--primary-blue); cursor: pointer;
+            border-radius: 50%; border: 2px solid var(--white);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* --- Custom Radio/Checkbox Buttons --- */
+        .choice-group, .choice-group-vertical {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .choice-group { flex-wrap: wrap; }
+        .choice-group-vertical { flex-direction: column; }
+
+        .choice-label {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; border: 1px solid var(--medium-gray);
+            border-radius: 0.375rem; cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            width: 100%; box-sizing: border-box;
+        }
+        .choice-label input { display: none; }
+        .choice-label span { flex-grow: 1; }
+        .choice-label:has(input:checked) {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* --- Tooltip Styles --- */
+        .tooltip-container { position: relative; }
+        .tooltip-text {
+            visibility: hidden; width: max-content; max-width: 280px; background-color: #343a40;
+            color: #fff; text-align: left; border-radius: 6px;
+            padding: 10px; position: absolute; z-index: 10;
+            bottom: 125%; left: 50%;
+            transform: translateX(-50%);
+            opacity: 0; transition: opacity 0.3s;
+            font-size: 0.8rem; line-height: 1.5; pointer-events: none;
+        }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .tooltip-text b { color: var(--light-blue); }
+
+        /* --- Submit Button --- */
+        .submit-container { text-align: center; margin-top: 2.5rem; }
+        .submit-btn {
+            background-color: var(--primary-blue); color: var(--white);
+            font-size: 1.1rem; font-weight: 600; border: none;
+            padding: 0.8rem 2rem; border-radius: 0.375rem;
+            cursor: pointer; transition: background-color 0.2s;
+            width: 100%;
+        }
+        @media (min-width: 768px) { .submit-btn { width: auto; } }
+        .submit-btn:hover { background-color: #0069d9; }
+
+        /* --- Results Section --- */
+        .results-section {
+            display: none; margin-top: 2.5rem; padding-top: 1.5rem;
+            border-top: 1px solid var(--medium-gray); text-align: center;
+        }
+        .results-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .result-card {
+            padding: 1.5rem; border-radius: var(--border-radius);
+            max-width: 400px; margin: 0 auto; transition: background-color 0.3s;
+        }
+        .result-card p { margin: 0; }
+        .result-card .label { font-size: 1rem; color: var(--dark-gray); }
+        .result-card .score {
+            font-size: 3.5rem; font-weight: 700;
+            margin: 0.5rem 0; transition: color 0.3s;
+        }
+        .result-card .risk-level { font-size: 1.5rem; font-weight: 600; margin-top: 1rem; }
+        .result-card .risk-percentage { font-size: 1rem; color: #6c757d; }
+        
+        .risk-low { background-color: #eaf6ec; }
+        .risk-low .score { color: var(--green); }
+        
+        .risk-intermediate { background-color: #fff8e7; }
+        .risk-intermediate .score { color: var(--yellow); }
+
+        .risk-high { background-color: #fbebed; }
+        .risk-high .score { color: var(--red); }
+        
+        .risk-very-high { background-color: #f7e3e6; }
+        .risk-very-high .score { color: #a5182e; }
+
+        /* --- Footer Section --- */
+        .footer-section {
+            text-align: left; margin-top: 3rem; padding-top: 1.5rem;
+            border-top: 1px solid var(--medium-gray); font-size: 0.8rem;
+            color: #6c757d; line-height: 1.5;
+        }
+        .footer-section h3 { font-size: 1rem; color: var(--dark-gray); margin-top: 0; }
+        .footer-section ul { padding-left: 1.2rem; margin-top: 0.5rem;}
+        .footer-section li { margin-bottom: 0.5rem; }
+        .footer-section a { color: var(--primary-blue); text-decoration: none; }
+        .footer-section a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <header class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1>HeartForms</h1>
+                    <p>Cardiovascular Risk Calculators</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav class="page-nav">
+                <a href="https://cblewellyn.github.io/heartforms/" class="home-link">HeartForms Home</a> /
+                <a href="https://cblewellyn.github.io/heartforms/Surgery%20Fill%20out%20Form.html">Blank Heart Surgery Form</a> /
+                <a href="https://cblewellyn.github.io/heartforms/Heart_Cath_form.html">Heart Cath Form</a> /
+                <a href="https://cblewellyn.github.io/heartforms/KCCQ12.html">KCCQ-12</a> /
+                <a href="https://cblewellyn.github.io/heartforms/NYHA_HF_Scale.html">NYHA Classification</a> /
+                <a href="https://cblewellyn.github.io/heartforms/ROS_doc.html">Review of Systems</a> /
+		        <a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a>
+            </nav>
+        </header>
+
+        <nav class="tabs-nav">
+            <button class="tab-link active" data-tab="grace">GRACE 2.0</button>
+            <button class="tab-link" data-tab="heart">HEART Score</button>
+            <button class="tab-link" data-tab="timi">TIMI Score</button>
+            <button class="tab-link" data-tab="ascvd">ASCVD Risk</button>
+        </nav>
+
+        <main>
+            <!-- GRACE Score Tab -->
+            <div id="grace" class="tab-content active">
+                <form id="grace-form">
+                    <p class="header-p" style="text-align:center; margin-bottom: 1.5rem;">Estimates in-hospital mortality for patients with Acute Coronary Syndrome.</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="grace-dob-input">Date of Birth (calculates age)</label>
+                            <input type="date" id="grace-dob-input">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label for="grace-age-input" class="label-with-tooltip">Age (years)</label>
+                                <span class="tooltip-text"><b>Age Points:</b><br>30-39: +8<br>40-49: +25<br>50-59: +41<br>60-69: +58<br>70-79: +75<br>80-89: +91<br>&ge; 90: +100</span>
+                                <span class="score-badge">+<span id="grace-age-score">58</span> pts</span>
+                            </div>
+                            <div class="slider-group">
+                                <input type="range" id="grace-age-slider" min="18" max="100" value="65">
+                                <input type="number" id="grace-age-input" min="18" max="100" value="65">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label for="grace-hr-input" class="label-with-tooltip">Heart Rate (bpm)</label>
+                                <span class="tooltip-text"><b>HR Points (bpm):</b><br>50-69: +3<br>70-89: +9<br>90-109: +15<br>110-149: +24<br>150-199: +38<br>&ge; 200: +46</span>
+                                <span class="score-badge">+<span id="grace-hr-score">9</span> pts</span>
+                            </div>
+                            <div class="slider-group">
+                                <input type="range" id="grace-hr-slider" min="30" max="250" value="80">
+                                <input type="number" id="grace-hr-input" min="30" max="250" value="80">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label for="grace-sbp-input" class="label-with-tooltip">Systolic BP (mmHg)</label>
+                                <span class="tooltip-text"><b>SBP Points (mmHg):</b><br>&lt; 80: +58<br>80-99: +53<br>100-119: +43<br>120-139: +34<br>140-159: +24<br>160-199: +10</span>
+                                <span class="score-badge">+<span id="grace-sbp-score">34</span> pts</span>
+                            </div>
+                            <div class="slider-group">
+                                <input type="range" id="grace-sbp-slider" min="50" max="250" value="120">
+                                <input type="number" id="grace-sbp-input" min="50" max="250" value="120">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label for="grace-creatinine-input" class="label-with-tooltip">Creatinine (mg/dL)</label>
+                                <span class="tooltip-text"><b>Creatinine Points (mg/dL):</b><br>0.0-0.39: +1<br>0.4-0.79: +4<br>0.8-1.19: +7<br>1.2-1.59: +10<br>1.6-1.99: +13<br>2.0-3.99: +21<br>&ge; 4.0: +28</span>
+                                <span class="score-badge">+<span id="grace-creatinine-score">7</span> pts</span>
+                            </div>
+                            <div class="slider-group">
+                                <input type="range" id="grace-creatinine-slider" min="0.1" max="5.0" value="1.0" step="0.1">
+                                <input type="number" id="grace-creatinine-input" min="0.1" max="5.0" value="1.0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header">
+                                <label>Killip Class</label>
+                                <span class="score-badge">+<span id="grace-killip-score">0</span> pts</span>
+                            </div>
+                            <div class="choice-group">
+                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="1" checked><span>I</span><span class="tooltip-text">No clinical signs of heart failure.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="2"><span>II</span><span class="tooltip-text">Rales, S3, elevated JVP.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="3"><span>III</span><span class="tooltip-text">Frank pulmonary edema.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="4"><span>IV</span><span class="tooltip-text">Cardiogenic shock.</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Other Factors</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="checkbox" id="grace-cardiac-arrest"><span>Cardiac Arrest at Admission (+39)</span></label>
+                                <label class="choice-label"><input type="checkbox" id="grace-st-deviation"><span>ST Segment Deviation (+28)</span></label>
+                                <label class="choice-label"><input type="checkbox" id="grace-cardiac-enzymes"><span>Abnormal Cardiac Enzymes (+14)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-container">
+                        <button type="submit" class="submit-btn">Calculate GRACE Score</button>
+                    </div>
+                </form>
+                <div class="results-section" id="grace-results-section">
+                    <h2>Results</h2>
+                    <div class="result-card" id="grace-result-card">
+                        <p class="label">Total GRACE Score:</p>
+                        <p class="score" id="grace-score">0</p>
+                        <p class="risk-level" id="grace-risk-level">Low Risk</p>
+                        <p class="risk-percentage" id="grace-risk-percentage">(<1%)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HEART Score Tab -->
+            <div id="heart" class="tab-content">
+                <form id="heart-form">
+                    <p class="header-p" style="text-align:center; margin-bottom: 1.5rem;">For chest pain patients presenting to the Emergency Department.</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>History</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_history" value="0" checked><span>Slightly suspicious (+0)</span><span class="tooltip-text">Patient history is not suggestive of ACS.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_history" value="1"><span>Moderately suspicious (+1)</span><span class="tooltip-text">History has some elements suggesting ACS.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_history" value="2"><span>Highly suspicious (+2)</span><span class="tooltip-text">Classic history for ACS (e.g., substernal chest pressure radiating to arm).</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>ECG</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_ecg" value="0" checked><span>Normal (+0)</span><span class="tooltip-text">No significant abnormalities.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_ecg" value="1"><span>Non-specific changes (+1)</span><span class="tooltip-text">e.g., LBBB, LVH, repolarization changes not due to ischemia.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_ecg" value="2"><span>Significant ST deviation (+2)</span><span class="tooltip-text">ST depression or elevation suggestive of ischemia.</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="heart_age" value="0" checked><span>&lt; 45 years (+0)</span></label>
+                                <label class="choice-label"><input type="radio" name="heart_age" value="1"><span>45-64 years (+1)</span></label>
+                                <label class="choice-label"><input type="radio" name="heart_age" value="2"><span>&ge; 65 years (+2)</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header">
+                               <label>Risk Factors</label>
+                               <span class="score-badge">+<span id="heart-risk-score">0</span> pts</span>
+                            </div>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label tooltip-container"><input type="checkbox" id="heart_no_risk" checked><span>No Known Risk Factors</span><span class="tooltip-text">Select this if the patient has none of the risk factors below.</span></label>
+                                <hr style="border: none; border-top: 1px solid var(--medium-gray); margin: 0.5rem 0;">
+                                <label class="choice-label tooltip-container"><input type="checkbox" class="heart_risk_factor_item" value="htn"><span>Hypertension</span><span class="tooltip-text">History of high blood pressure.</span></label>
+                                <label class="choice-label tooltip-container"><input type="checkbox" class="heart_risk_factor_item" value="hld"><span>Hypercholesterolemia</span><span class="tooltip-text">History of high cholesterol.</span></label>
+                                <label class="choice-label tooltip-container"><input type="checkbox" class="heart_risk_factor_item" value="dm"><span>Diabetes Mellitus</span><span class="tooltip-text">History of diabetes.</span></label>
+                                <label class="choice-label tooltip-container"><input type="checkbox" class="heart_risk_factor_item" value="smoker"><span>Current Smoker</span><span class="tooltip-text">Or quit within last 3 months.</span></label>
+                                <label class="choice-label tooltip-container"><input type="checkbox" class="heart_risk_factor_item" value="family"><span>Family History of CAD</span><span class="tooltip-text">Parent or sibling with CVD before age 65.</span></label>
+                                <label class="choice-label tooltip-container"><input type="checkbox" class="heart_risk_factor_item" value="obesity"><span>Obesity (BMI > 30)</span><span class="tooltip-text">Body Mass Index greater than 30.</span></label>
+                                <label class="choice-label tooltip-container"><input type="checkbox" id="heart_athero" class="heart_risk_factor_item" value="athero"><span>Known Atherosclerotic Dz</span><span class="tooltip-text">Prior MI, PCI/CABG, CVA/TIA, or PAD. Automatically scores +2.</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Troponin</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_troponin" value="0" checked><span>Normal limit (+0)</span><span class="tooltip-text">Initial troponin is within the lab's normal range.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_troponin" value="1"><span>1-3x normal limit (+1)</span><span class="tooltip-text">Troponin is elevated but less than 3 times the upper limit of normal.</span></label>
+                                <label class="choice-label tooltip-container"><input type="radio" name="heart_troponin" value="2"><span>&gt; 3x normal limit (+2)</span><span class="tooltip-text">Troponin is significantly elevated.</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-container"><button type="submit" class="submit-btn">Calculate HEART Score</button></div>
+                </form>
+                <div class="results-section" id="heart-results-section">
+                    <h2>Results</h2>
+                    <div class="result-card" id="heart-result-card"><p class="label">HEART Score:</p><p class="score" id="heart-score">0</p><p class="risk-level" id="heart-risk-level">Low Risk</p><p class="risk-percentage" id="heart-risk-percentage">(1.7% MACE)</p></div>
+                </div>
+            </div>
+
+            <!-- TIMI Score Tab -->
+            <div id="timi" class="tab-content">
+                <form id="timi-form">
+                     <p class="header-p" style="text-align:center; margin-bottom: 1.5rem;">For patients with UA/NSTEMI to risk stratify for death and ischemic events.</p>
+                    <div class="form-grid">
+                        <div class="form-group choice-group-vertical" style="grid-column: 1 / -1;">
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_age"><span>Age &ge; 65 years (+1)</span><span class="tooltip-text">Patient is 65 years of age or older.</span></label>
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_risk_factors"><span>&ge; 3 CAD risk factors (+1)</span><span class="tooltip-text"><b>CAD Risk Factors:</b><br>- Family history of CAD<br>- Hypertension<br>- Hypercholesterolemia<br>- Diabetes<br>- Current smoker</span></label>
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_cad"><span>Known CAD (Stenosis &ge; 50%) (+1)</span><span class="tooltip-text">Prior coronary stenosis of 50% or more.</span></label>
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_aspirin"><span>Aspirin use in past 7 days (+1)</span><span class="tooltip-text">Patient has taken aspirin at any dose within the last week.</span></label>
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_angina"><span>Severe angina (&ge;2 episodes in 24h) (+1)</span><span class="tooltip-text">At least two episodes of resting angina in the last 24 hours.</span></label>
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_st"><span>ST deviation &ge; 0.5 mm (+1)</span><span class="tooltip-text">ST-segment deviation of at least 0.5mm on admission ECG.</span></label>
+                             <label class="choice-label tooltip-container"><input type="checkbox" id="timi_marker"><span>Elevated cardiac marker (+1)</span><span class="tooltip-text">Initial cardiac markers (e.g., Troponin, CK-MB) are elevated.</span></label>
+                        </div>
+                    </div>
+                    <div class="submit-container"><button type="submit" class="submit-btn">Calculate TIMI Score</button></div>
+                </form>
+                <div class="results-section" id="timi-results-section">
+                    <h2>Results</h2>
+                    <div class="result-card" id="timi-result-card"><p class="label">TIMI Score:</p><p class="score" id="timi-score">0</p><p class="risk-level" id="timi-risk-level">Low Risk</p><p class="risk-percentage" id="timi-risk-percentage">(4.7% risk at 14 days)</p></div>
+                </div>
+            </div>
+
+            <!-- ASCVD Risk Tab -->
+            <div id="ascvd" class="tab-content">
+                <form id="ascvd-form">
+                    <p class="header-p" style="text-align:center; margin-bottom: 1.5rem;">Estimates 10-year risk for a first Atherosclerotic Cardiovascular Disease event.</p>
+                    <div class="form-grid">
+                        <div class="form-group"><label for="ascvd-age-input">Age (40-79)</label><div class="slider-group"><input type="range" id="ascvd-age-slider" min="40" max="79" value="55"><input type="number" id="ascvd-age-input" min="40" max="79" value="55"></div></div>
+                        <div class="form-group"><label for="ascvd-sbp-input">Systolic BP (mmHg)</label><div class="slider-group"><input type="range" id="ascvd-sbp-slider" min="90" max="200" value="120"><input type="number" id="ascvd-sbp-input" min="90" max="200" value="120"></div></div>
+                        <div class="form-group"><label for="ascvd-total-chol-input">Total Cholesterol (mg/dL)</label><div class="slider-group"><input type="range" id="ascvd-total-chol-slider" min="130" max="320" value="200"><input type="number" id="ascvd-total-chol-input" min="130" max="320" value="200"></div></div>
+                        <div class="form-group"><label for="ascvd-hdl-chol-input">HDL Cholesterol (mg/dL)</label><div class="slider-group"><input type="range" id="ascvd-hdl-chol-slider" min="20" max="100" value="50"><input type="number" id="ascvd-hdl-chol-input" min="20" max="100" value="50"></div></div>
+                        <div class="form-group"><label>Sex</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_sex" value="female" checked><span>Female</span></label><label class="choice-label"><input type="radio" name="ascvd_sex" value="male"><span>Male</span></label></div></div>
+                        <div class="form-group"><label>Race</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_race" value="white" checked><span>White / Other</span></label><label class="choice-label"><input type="radio" name="ascvd_race" value="aa"><span>African American</span></label></div></div>
+                         <div class="form-group"><label>Has Diabetes?</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_diabetic" value="no" checked><span>No</span></label><label class="choice-label"><input type="radio" name="ascvd_diabetic" value="yes"><span>Yes</span></label></div></div>
+                         <div class="form-group"><label>Smoker?</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_smoker" value="no" checked><span>No</span></label><label class="choice-label"><input type="radio" name="ascvd_smoker" value="yes"><span>Yes</span></label></div></div>
+                         <div class="form-group" style="grid-column: 1 / -1;"><label>On HTN Treatment?</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_bp_treated" value="no" checked><span>No</span></label><label class="choice-label"><input type="radio" name="ascvd_bp_treated" value="yes"><span>Yes</span></label></div></div>
+                    </div>
+                    <div class="submit-container"><button type="submit" class="submit-btn">Calculate ASCVD Risk</button></div>
+                </form>
+                <div class="results-section" id="ascvd-results-section">
+                    <h2>Results</h2>
+                    <div class="result-card" id="ascvd-result-card"><p class="label">10-Year ASCVD Risk:</p><p class="score" id="ascvd-score">0.0%</p><p class="risk-level" id="ascvd-risk-level">Low Risk</p><p class="risk-percentage" id="ascvd-risk-percentage">(Lifestyle modification encouraged)</p></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer-section">
+            <h3>Disclaimer & Sources</h3>
+            <p>This tool is intended for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Clinical judgment should always be used when making treatment decisions.</p>
+            <ul>
+                <li><strong>GRACE 2.0:</strong> <a href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.112.094490" target="_blank" rel="noopener noreferrer">Elbez, Y., et al. (2017). Circulation.</a></li>
+                <li><strong>HEART & TIMI Score:</strong> <a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000001029" target="_blank" rel="noopener noreferrer">Gulati, M., et al. (2021). 2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain. Circulation.</a></li>
+                <li><strong>ASCVD Risk (PREVENT):</strong> <a href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.123.067626" target="_blank" rel="noopener noreferrer">Khan, S. S., et al. (2024). Predicting Risk of Cardiovascular Disease Events (PREVENT) Equations. Circulation.</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Tab Navigation ---
+        const tabs = document.querySelectorAll('.tab-link');
+        const contents = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // --- Generic Slider Sync Function ---
+        const syncSliderAndInput = (sliderId, inputId, callback) => {
+            const slider = document.getElementById(sliderId);
+            const input = document.getElementById(inputId);
+            if (!slider || !input) return;
+            
+            const update = () => {
+                if (callback) callback();
+            };
+
+            slider.addEventListener('input', () => { input.value = slider.value; update(); });
+            input.addEventListener('input', () => {
+                const val = parseFloat(input.value), min = parseFloat(slider.min), max = parseFloat(slider.max);
+                if (val > max) input.value = max; if (val < min) input.value = min;
+                slider.value = input.value; update();
+            });
+        };
+
+        // --- GRACE Calculator Logic ---
+        const graceForm = document.getElementById('grace-form');
+        const graceScoreSpans = {
+            age: document.getElementById('grace-age-score'), hr: document.getElementById('grace-hr-score'),
+            sbp: document.getElementById('grace-sbp-score'), creatinine: document.getElementById('grace-creatinine-score'),
+            killip: document.getElementById('grace-killip-score')
+        };
+        
+        syncSliderAndInput('grace-age-slider', 'grace-age-input', () => {
+            document.getElementById('grace-dob-input').value = '';
+            updateGraceScores();
+        });
+        syncSliderAndInput('grace-hr-slider', 'grace-hr-input', updateGraceScores);
+        syncSliderAndInput('grace-sbp-slider', 'grace-sbp-input', updateGraceScores);
+        syncSliderAndInput('grace-creatinine-slider', 'grace-creatinine-input', updateGraceScores);
+
+        document.getElementById('grace-dob-input').addEventListener('input', (e) => {
+            if (!e.target.value) return;
+            const birthDate = new Date(e.target.value), today = new Date();
+            if (birthDate > today) { e.target.value = ''; return; }
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+            document.getElementById('grace-age-input').value = age;
+            document.getElementById('grace-age-slider').value = age;
+            updateGraceScores();
+        });
+
+        graceForm.addEventListener('change', updateGraceScores);
+        graceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const totalScore = calculateGraceTotalScore();
+            updateGraceUI(totalScore);
+        });
+
+        function calculateGraceIndividualScores() {
+            const scores = {};
+            const age = parseInt(document.getElementById('grace-age-input').value);
+            if (age >= 90) scores.age = 100; else if (age >= 80) scores.age = 91; else if (age >= 70) scores.age = 75; else if (age >= 60) scores.age = 58; else if (age >= 50) scores.age = 41; else if (age >= 40) scores.age = 25; else if (age >= 30) scores.age = 8; else scores.age = 0;
+            const hr = parseInt(document.getElementById('grace-hr-input').value);
+            if (hr >= 200) scores.hr = 46; else if (hr >= 150) scores.hr = 38; else if (hr >= 110) scores.hr = 24; else if (hr >= 90) scores.hr = 15; else if (hr >= 70) scores.hr = 9; else if (hr >= 50) scores.hr = 3; else scores.hr = 0;
+            const sbp = parseInt(document.getElementById('grace-sbp-input').value);
+            if (sbp < 80) scores.sbp = 58; else if (sbp < 100) scores.sbp = 53; else if (sbp < 120) scores.sbp = 43; else if (sbp < 140) scores.sbp = 34; else if (sbp < 160) scores.sbp = 24; else if (sbp < 200) scores.sbp = 10; else scores.sbp = 0;
+            const creatinine = parseFloat(document.getElementById('grace-creatinine-input').value);
+            if (creatinine >= 4.0) scores.creatinine = 28; else if (creatinine >= 2.0) scores.creatinine = 21; else if (creatinine >= 1.6) scores.creatinine = 13; else if (creatinine >= 1.2) scores.creatinine = 10; else if (creatinine >= 0.8) scores.creatinine = 7; else if (creatinine >= 0.4) scores.creatinine = 4; else if (creatinine >= 0.0) scores.creatinine = 1; else scores.creatinine = 0;
+            const killip = graceForm.elements.killip.value;
+            if (killip === '2') scores.killip = 20; else if (killip === '3') scores.killip = 39; else if (killip === '4') scores.killip = 59; else scores.killip = 0;
+            scores.cardiacArrest = document.getElementById('grace-cardiac-arrest').checked ? 39 : 0;
+            scores.stDeviation = document.getElementById('grace-st-deviation').checked ? 28 : 0;
+            scores.cardiacEnzymes = document.getElementById('grace-cardiac-enzymes').checked ? 14 : 0;
+            return scores;
+        }
+        function calculateGraceTotalScore() { return Object.values(calculateGraceIndividualScores()).reduce((t, c) => t + c, 0); }
+        function updateGraceScores() {
+            const scores = calculateGraceIndividualScores();
+            for (const key in graceScoreSpans) { graceScoreSpans[key].textContent = scores[key]; }
+        }
+        function updateGraceUI(score) {
+            const resultsSection = document.getElementById('grace-results-section');
+            const scoreEl = document.getElementById('grace-score'), levelEl = document.getElementById('grace-risk-level'), percentEl = document.getElementById('grace-risk-percentage'), cardEl = document.getElementById('grace-result-card');
+            scoreEl.textContent = score;
+            let riskLevel, riskPercentage, riskClass;
+            if (score <= 108) { riskLevel = 'Low Risk (Score ≤ 108)'; riskPercentage = '(<1%)'; riskClass = 'risk-low'; }
+            else if (score <= 140) { riskLevel = 'Intermediate Risk (Score 109-140)'; riskPercentage = '(1% to 3%)'; riskClass = 'risk-intermediate'; }
+            else { riskLevel = 'High Risk (Score > 140)'; riskPercentage = '(>3%)'; riskClass = 'risk-high'; }
+            levelEl.textContent = riskLevel; percentEl.textContent = riskPercentage; cardEl.className = `result-card ${riskClass}`;
+            resultsSection.style.display = 'block';
+        }
+        updateGraceScores(); // Initial call
+
+        // --- HEART Score Logic ---
+        const heartForm = document.getElementById('heart-form');
+        const heartRiskScoreEl = document.getElementById('heart-risk-score');
+        const noRiskCheckbox = document.getElementById('heart_no_risk');
+        const riskFactorItems = document.querySelectorAll('.heart_risk_factor_item');
+
+        noRiskCheckbox.addEventListener('change', () => {
+            if (noRiskCheckbox.checked) {
+                riskFactorItems.forEach(item => { item.checked = false; });
+            }
+            updateHeartRiskScore();
+        });
+
+        riskFactorItems.forEach(item => {
+            item.addEventListener('change', () => {
+                if (item.checked) {
+                    noRiskCheckbox.checked = false;
+                }
+                updateHeartRiskScore();
+            });
+        });
+        
+        function updateHeartRiskScore() {
+            const checkedFactors = document.querySelectorAll('.heart_risk_factor_item:checked');
+            if (!noRiskCheckbox.checked && checkedFactors.length === 0) {
+                noRiskCheckbox.checked = true;
+            }
+
+            let count = 0;
+            let hasAthero = false;
+            checkedFactors.forEach(factor => {
+                if(factor.id === 'heart_athero') { hasAthero = true; } 
+                else { count++; }
+            });
+
+            let score = 0;
+            if (hasAthero || count >= 3) { score = 2; } 
+            else if (count >= 1) { score = 1; }
+            heartRiskScoreEl.textContent = score;
+        }
+
+        heartForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const history = parseInt(heartForm.elements.heart_history.value);
+            const ecg = parseInt(heartForm.elements.heart_ecg.value);
+            const age = parseInt(heartForm.elements.heart_age.value);
+            const risk = parseInt(heartRiskScoreEl.textContent);
+            const troponin = parseInt(heartForm.elements.heart_troponin.value);
+            updateHeartUI(history + ecg + age + risk + troponin);
+        });
+
+        function updateHeartUI(score) {
+            const resultsSection = document.getElementById('heart-results-section');
+            const scoreEl = document.getElementById('heart-score'), levelEl = document.getElementById('heart-risk-level'), percentEl = document.getElementById('heart-risk-percentage'), cardEl = document.getElementById('heart-result-card');
+            scoreEl.textContent = score;
+            let riskLevel, riskPercent, riskClass;
+            if (score <= 3) { riskLevel = 'Low Risk'; riskPercent = '(~1.7% MACE)'; riskClass = 'risk-low'; }
+            else if (score <= 6) { riskLevel = 'Moderate Risk'; riskPercent = '(~16.6% MACE)'; riskClass = 'risk-intermediate'; }
+            else { riskLevel = 'High Risk'; riskPercent = '(~50.1% MACE)'; riskClass = 'risk-high'; }
+            levelEl.textContent = riskLevel; percentEl.textContent = riskPercent; cardEl.className = `result-card ${riskClass}`;
+            resultsSection.style.display = 'block';
+        }
+        updateHeartRiskScore(); // Initial call
+
+        // --- TIMI Score Logic ---
+        const timiForm = document.getElementById('timi-form');
+        timiForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let score = 0;
+            if (document.getElementById('timi_age').checked) score++; if (document.getElementById('timi_risk_factors').checked) score++; if (document.getElementById('timi_cad').checked) score++; if (document.getElementById('timi_aspirin').checked) score++; if (document.getElementById('timi_angina').checked) score++; if (document.getElementById('timi_st').checked) score++; if (document.getElementById('timi_marker').checked) score++;
+            updateTimiUI(score);
+        });
+        function updateTimiUI(score) {
+            const resultsSection = document.getElementById('timi-results-section');
+            const scoreEl = document.getElementById('timi-score'), percentEl = document.getElementById('timi-risk-percentage'), cardEl = document.getElementById('timi-result-card');
+            const riskPercentages = [4.7, 8.3, 13.2, 19.9, 26.2, 40.9, 40.9];
+            scoreEl.textContent = score; percentEl.textContent = `(${riskPercentages[score]}% risk at 14 days)`;
+            let riskClass = 'risk-low'; if (score > 2) riskClass = 'risk-intermediate'; if (score > 4) riskClass = 'risk-high';
+            cardEl.className = `result-card ${riskClass}`; resultsSection.style.display = 'block';
+        }
+
+        // --- ASCVD Score Logic ---
+        const ascvdForm = document.getElementById('ascvd-form');
+        syncSliderAndInput('ascvd-age-slider', 'ascvd-age-input');
+        syncSliderAndInput('ascvd-sbp-slider', 'ascvd-sbp-input');
+        syncSliderAndInput('ascvd-total-chol-slider', 'ascvd-total-chol-input');
+        syncSliderAndInput('ascvd-hdl-chol-slider', 'ascvd-hdl-chol-input');
+        
+        ascvdForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const age = parseFloat(document.getElementById('ascvd-age-input').value), totalChol = parseFloat(document.getElementById('ascvd-total-chol-input').value), hdlChol = parseFloat(document.getElementById('ascvd-hdl-chol-input').value), sbp = parseFloat(document.getElementById('ascvd-sbp-input').value);
+            const bpTreated = ascvdForm.elements.ascvd_bp_treated.value === 'yes', diabetic = ascvdForm.elements.ascvd_diabetic.value === 'yes', smoker = ascvdForm.elements.ascvd_smoker.value === 'yes';
+            const sex = ascvdForm.elements.ascvd_sex.value, race = ascvdForm.elements.ascvd_race.value;
+            let sbpTreatedVal = bpTreated ? sbp : 1, sbpUntreatedVal = bpTreated ? 1 : sbp;
+            let sum = 0;
+            if (sex === 'female') {
+                if (race === 'white') { sum = -29.799 * Math.log(age) + 4.884 * Math.pow(Math.log(age), 2) + 13.540 * Math.log(totalChol) - 3.114 * Math.log(age) * Math.log(totalChol) - 13.578 * Math.log(hdlChol) + 3.149 * Math.log(age) * Math.log(hdlChol) + 2.019 * Math.log(sbpTreatedVal) + 1.957 * Math.log(sbpUntreatedVal) + 7.574 * (smoker ? 1 : 0) - 1.665 * Math.log(age) * (smoker ? 1 : 0) + 0.661 * (diabetic ? 1 : 0); }
+                else { sum = 17.114 * Math.log(age) + 0.963 * Math.log(totalChol) - 18.920 * Math.log(hdlChol) + 4.475 * Math.log(age) * Math.log(hdlChol) + 29.291 * Math.log(sbpTreatedVal) - 6.432 * Math.log(age) * Math.log(sbpTreatedVal) + 27.820 * Math.log(sbpUntreatedVal) - 6.087 * Math.log(age) * Math.log(sbpUntreatedVal) + 0.691 * (smoker ? 1 : 0) + 0.874 * (diabetic ? 1 : 0); }
+            } else {
+                if (race === 'white') { sum = 12.344 * Math.log(age) + 11.853 * Math.log(totalChol) - 2.664 * Math.log(age) * Math.log(totalChol) - 7.990 * Math.log(hdlChol) + 1.769 * Math.log(age) * Math.log(hdlChol) + 1.797 * Math.log(sbpTreatedVal) + 1.764 * Math.log(sbpUntreatedVal) + 7.837 * (smoker ? 1 : 0) - 1.795 * Math.log(age) * (smoker ? 1 : 0) + 0.658 * (diabetic ? 1 : 0); }
+                else { sum = 2.469 * Math.log(age) + 0.302 * Math.log(totalChol) - 0.307 * Math.log(hdlChol) + 1.916 * Math.log(sbpTreatedVal) + 1.809 * Math.log(sbpUntreatedVal) + 0.549 * (smoker ? 1 : 0) + 0.645 * (diabetic ? 1 : 0); }
+            }
+            let mean = 0;
+            if (sex === 'female') { if (race === 'white') { mean = -29.18; } else { mean = 86.61; } }
+            else { if (race === 'white') { mean = 61.18; } else { mean = 19.54; } }
+            const baselineSurvival = (sex === 'female') ? ((race === 'white') ? 0.9665 : 0.9533) : ((race === 'white') ? 0.9144 : 0.8954);
+            const risk = 1 - Math.pow(baselineSurvival, Math.exp(sum - mean));
+            updateAscvdUI(risk * 100);
+        });
+        function updateAscvdUI(risk) {
+            const resultsSection = document.getElementById('ascvd-results-section');
+            const scoreEl = document.getElementById('ascvd-score'), levelEl = document.getElementById('ascvd-risk-level'), percentEl = document.getElementById('ascvd-risk-percentage'), cardEl = document.getElementById('ascvd-result-card');
+            scoreEl.textContent = risk.toFixed(1) + '%';
+            let riskLevel, riskAdvice, riskClass;
+            if (risk < 5) { riskLevel = 'Low Risk'; riskAdvice = '(Emphasize lifestyle)'; riskClass = 'risk-low'; }
+            else if (risk < 7.5) { riskLevel = 'Borderline Risk'; riskAdvice = '(Consider statin)'; riskClass = 'risk-intermediate'; }
+            else if (risk < 20) { riskLevel = 'Intermediate Risk'; riskAdvice = '(Statin recommended)'; riskClass = 'risk-high'; }
+            else { riskLevel = 'High Risk'; riskAdvice = '(High-intensity statin)'; riskClass = 'risk-very-high'; }
+            levelEl.textContent = riskLevel; percentEl.textContent = riskAdvice; cardEl.className = `result-card ${riskClass}`;
+            resultsSection.style.display = 'block';
+        }
+    });
+    </script>
+</body>
+</html>
