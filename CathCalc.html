@@ -205,7 +205,6 @@
         .disclaimer-card li {
             margin-bottom: 0.5rem;
         }
-
     </style>
 </head>
 <body>
@@ -213,15 +212,13 @@
     <div class="container">
         <header class="page-header">
             <div class="header-content">
-		    <div>
+                <div>
                     <h1>HeartForms</h1>
                     <p>Right & Left Heart Cath Calculator</p>
-		    </div>
-                <a href="https://ccheartcathform.com/" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
-                    </svg>
-                </a>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
             </div>
             <nav class="page-nav">
                 <a href="https://cblewellyn.github.io/heartforms/" class="home-link">HeartForms Home</a> /
@@ -230,8 +227,7 @@
                 <a href="https://cblewellyn.github.io/heartforms/KCCQ12.html">KCCQ-12</a> /
                 <a href="https://cblewellyn.github.io/heartforms/NYHA_HF_Scale.html">NYHA Classification</a> /
                 <a href="https://cblewellyn.github.io/heartforms/ROS_doc.html">Review of Systems</a> /
-		<a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a> /
-		<a href="https://cblewellyn.github.io/heartforms/Cardiovascular_Risk_Scores.html">Cardiovascular Risk Scores</a>
+		        <a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a>
             </nav>
         </header>
 
@@ -389,6 +385,20 @@ The resistance the pulmonary circulation offers to blood flow.
                             <span id="pvr_output" class="output-value"></span>
                         </div>
                         <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">SVR (dynes·s/cm⁵):</span><span class="tooltip-text"><b>Systemic Vascular Resistance</b>
+The resistance the systemic circulation offers to blood flow (left ventricular afterload).
+<b>Normal Range:</b> 700 - 1600 dynes·s/cm⁵
+<b>Equation:</b> 80 * (Aortic Mean - RA Mean) / Fick CO</span></div>
+                            <span id="svr_dynes_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item">
+                            <div class="tooltip-container"><span class="output-label">SVR (Wood units):</span><span class="tooltip-text"><b>Systemic Vascular Resistance (Wood Units)</b>
+SVR expressed in mmHg·min/L (Wood units).
+<b>Normal Range:</b> 9.0 - 20.0 Wood Units
+<b>Equation:</b> (Aortic Mean - RA Mean) / Fick CO</span></div>
+                            <span id="svr_wood_output" class="output-value"></span>
+                        </div>
+                        <div class="output-item">
                            <div class="tooltip-container"><span class="output-label">DPG (PADP - PCWP):</span><span class="tooltip-text"><b>Diastolic Pressure Gradient</b>
 A DPG > 7 mmHg suggests pre-capillary PH.
 <b>Normal Range:</b> < 7 mmHg
@@ -424,6 +434,7 @@ Thermodilution cardiac output normalized for body surface area.
                 <li>StatPearls [NCBI] - Physiology, Cardiac Index</li>
                 <li>Cleveland Clinic - Cardiac Output</li>
                 <li>Medscape - Pulmonary Vascular Resistance (PVR) Calculator</li>
+                <li>MDApp - Systemic Vascular Resistance (SVR) Calculator</li>
             </ul>
         </div>
     </div>
@@ -435,34 +446,20 @@ Thermodilution cardiac output normalized for body surface area.
         }
         
         function calculateAll() {
+            // Helper to cleanly grab input values without repetitive parsing
+            const val = id => parseFloat(document.getElementById(id).value) || 0;
+            
             // --- Collect all inputs ---
             const inputs = {
-                height: parseFloat(document.getElementById("height_input").value) || 0,
-                weight: parseFloat(document.getElementById("weight_input").value) || 0,
-                age: parseFloat(document.getElementById("age_input").value) || 0,
-                hr: parseFloat(document.getElementById("hr_input").value) || 0,
-                hgb: parseFloat(document.getElementById("hgb_input").value) || 0,
-                pulse_ox: parseFloat(document.getElementById("pulse_ox_input").value) || 0,
-                svc_sat: parseFloat(document.getElementById("svc_sat_input").value) || 0,
-                ivc_sat: parseFloat(document.getElementById("ivc_sat_input").value) || 0,
-                ra_sat: parseFloat(document.getElementById("ra_sat_input").value) || 0,
-                rv_sat: parseFloat(document.getElementById("rv_sat_input").value) || 0,
-                pa_sat: parseFloat(document.getElementById("pa_sat_input").value) || 0,
-                ra_a: parseFloat(document.getElementById("ra_a_input").value) || 0,
-                ra_v: parseFloat(document.getElementById("ra_v_input").value) || 0,
-                ra_m: parseFloat(document.getElementById("ra_m_input").value) || 0,
-                rv_s: parseFloat(document.getElementById("rv_s_input").value) || 0,
-                rv_ed: parseFloat(document.getElementById("rv_ed_input").value) || 0,
-                pa_s: parseFloat(document.getElementById("pa_s_input").value) || 0,
-                pa_d: parseFloat(document.getElementById("pa_d_input").value) || 0,
-                pcwp_a: parseFloat(document.getElementById("pcwp_a_input").value) || 0,
-                pcwp_v: parseFloat(document.getElementById("pcwp_v_input").value) || 0,
-                pcwp_m: parseFloat(document.getElementById("pcwp_m_input").value) || 0,
-                lv_s: parseFloat(document.getElementById("lv_s_input").value) || 0,
-                lv_ed: parseFloat(document.getElementById("lv_ed_input").value) || 0,
-                ao_s: parseFloat(document.getElementById("ao_s_input").value) || 0,
-                ao_d: parseFloat(document.getElementById("ao_d_input").value) || 0,
-                td_co: parseFloat(document.getElementById("td_co_input").value) || 0,
+                height: val("height_input"), weight: val("weight_input"), age: val("age_input"),
+                hr: val("hr_input"), hgb: val("hgb_input"), pulse_ox: val("pulse_ox_input"),
+                svc_sat: val("svc_sat_input"), ivc_sat: val("ivc_sat_input"), ra_sat: val("ra_sat_input"),
+                rv_sat: val("rv_sat_input"), pa_sat: val("pa_sat_input"), ra_a: val("ra_a_input"),
+                ra_v: val("ra_v_input"), ra_m: val("ra_m_input"), rv_s: val("rv_s_input"),
+                rv_ed: val("rv_ed_input"), pa_s: val("pa_s_input"), pa_d: val("pa_d_input"),
+                pcwp_a: val("pcwp_a_input"), pcwp_v: val("pcwp_v_input"), pcwp_m: val("pcwp_m_input"),
+                lv_s: val("lv_s_input"), lv_ed: val("lv_ed_input"), ao_s: val("ao_s_input"),
+                ao_d: val("ao_d_input"), td_co: val("td_co_input")
             };
 
             const arterial_sat = inputs.pulse_ox;
@@ -573,6 +570,23 @@ Thermodilution cardiac output normalized for body surface area.
                 document.getElementById('pvr_output').innerText = pvr.toFixed(2);
             } else {
                 document.getElementById('pvr_output').innerHTML = getMissingMessage(missing);
+            }
+
+            // SVR (NEW)
+            missing = [];
+            if (fick_co <= 0) missing.push('Fick CO');
+            if (ao_map <= 0) missing.push('Aortic Mean');
+            // Checks if input box is empty rather than <= 0, allowing an RA Mean of 0 mmHg
+            if (document.getElementById("ra_m_input").value === "") missing.push('RA Mean');
+            if (missing.length === 0) {
+                const svr_wood = (ao_map - inputs.ra_m) / fick_co;
+                const svr_dynes = svr_wood * 80;
+                document.getElementById('svr_dynes_output').innerText = svr_dynes.toFixed(0);
+                document.getElementById('svr_wood_output').innerText = svr_wood.toFixed(2);
+            } else {
+                const msg = getMissingMessage(missing);
+                document.getElementById('svr_dynes_output').innerHTML = msg;
+                document.getElementById('svr_wood_output').innerHTML = msg;
             }
 
             // DPG
