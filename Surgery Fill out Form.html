@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blank Surgery Form - HeartForms</title>
+    <title>Surgery Medication Discontinuation Form - HeartForms</title>
     <style>
         :root {
             --blue-600: #2563EB;
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
             background-color: var(--gray-100);
             color: var(--gray-900);
@@ -36,14 +36,17 @@
                 width: 100%; 
                 padding: 1rem;
                 box-sizing: border-box;
+                margin-top: 0 !important;
+                border: none !important;
+                background-color: transparent !important;
             }
             .no-print { display: none !important; }
         }
 
         #app {
-            max-width: 80rem;
+            max-width: 85rem;
             margin: auto;
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
         .page-header {
@@ -63,10 +66,11 @@
         .header-content h1 {
             font-size: 1.5rem;
             font-weight: 700;
+            margin: 0;
         }
 
         .header-content p {
-            margin-top: 0.25rem;
+            margin: 0.25rem 0 0 0;
             font-size: 0.875rem;
             color: var(--gray-500);
         }
@@ -113,20 +117,22 @@
             font-weight: 600;
             border-bottom: 1px solid var(--gray-200);
             padding-bottom: 0.75rem;
+            margin-top: 0;
             margin-bottom: 1rem;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
 
         .form-grid label {
             display: block;
             font-size: 0.875rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--gray-700);
+            cursor: help;
         }
 
         .form-input {
@@ -135,9 +141,11 @@
             width: 100%;
             border-radius: 0.375rem;
             border: 1px solid var(--gray-300);
+            background-color: #fff;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             padding: 0.5rem 0.75rem;
             font-size: 0.875rem;
+            box-sizing: border-box;
         }
         .form-input:focus {
             outline: 2px solid transparent;
@@ -146,6 +154,54 @@
             box-shadow: 0 0 0 2px var(--white), 0 0 0 4px rgba(59, 130, 246, 0.4);
         }
         
+        .category-header {
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--blue-700);
+            border-bottom: 2px solid var(--blue-50);
+            padding-bottom: 0.35rem;
+            margin-top: 1.25rem;
+            margin-bottom: -0.25rem;
+        }
+
+        /* Hover to Discover Tooltip Styling */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip-container .tooltip-text {
+            visibility: hidden;
+            width: max-content;
+            max-width: 280px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            font-size: 0.78rem;
+            font-weight: normal;
+            line-height: 1.35;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            pointer-events: none;
+        }
+        .tooltip-container .tooltip-text b {
+            color: #38bdf8; /* Sky blue emphasis */
+            font-weight: 700;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
         .btn {
             display: inline-block;
             padding: 0.6rem 1.2rem;
@@ -177,14 +233,8 @@
             gap: 0.5rem;
         }
 
-        .page-footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: var(--gray-500);
-            font-size: 0.875rem;
-        }
-        
         #printableArea {
+            display: none;
             margin-top: 2rem;
             padding: 1.5rem;
             border: 2px dashed var(--blue-600);
@@ -192,11 +242,24 @@
             background-color: var(--blue-50);
         }
 
+        .disclaimer-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--blue-600);
+        }
+        .disclaimer-card ul {
+            padding-left: 20px;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+        }
+        .disclaimer-card li {
+            margin-bottom: 0.5rem;
+        }
+
         @media (min-width: 640px) {
             .form-grid { grid-template-columns: repeat(2, 1fr); }
             .sm-col-span-2 { grid-column: span 2 / span 2; }
         }
-         @media (min-width: 1024px) {
+        @media (min-width: 1024px) {
             .meds-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
@@ -222,8 +285,8 @@
                 <a href="https://cblewellyn.github.io/heartforms/KCCQ12.html">KCCQ-12</a> /
                 <a href="https://cblewellyn.github.io/heartforms/NYHA_HF_Scale.html">NYHA Classification</a> /
                 <a href="https://cblewellyn.github.io/heartforms/ROS_doc.html">Review of Systems</a> /
-		<a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a> /
-		<a href="https://cblewellyn.github.io/heartforms/Cardiovascular_Risk_Scores.html">Cardiovascular Risk Scores</a>
+		        <a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a> /
+		        <a href="https://cblewellyn.github.io/heartforms/Cardiovascular_Risk_Scores.html">Cardiovascular Risk Scores</a>
             </nav>
         </header>
 
@@ -246,34 +309,269 @@
                 </div>
 
                 <div class="card no-print">
-                    <h2 class="card-title">Medication Checklist</h2>
+                    <h2 class="card-title">Medication & Supplement Selection Form</h2>
+                    <p style="font-size: 0.875rem; color: var(--gray-600); margin-top: -0.5rem; margin-bottom: 1.5rem;">Select the specific medication the patient takes from the dropdown menus below. Hover over any medication family label to read a brief explanation of its clinical purpose.</p>
+                    
                     <div id="medform" class="form-grid meds-grid">
-                        <div><label for="meds0">Aspirin</label><select id="meds0" class="form-input"><option>No</option><option value="Aspirin">Yes</option></select></div>
-                        <div><label for="meds1">ACE/ '-pril's:</label><select id="meds1" class="form-input"><option>No</option><option value="Benazepril">Benazepril</option><option value="Captopril">Captopril</option><option value="Enalapril">Enalapril</option><option value="Fosinopril">Fosinopril</option><option value="Lisinopril">Lisinopril</option><option value="Ramipril">Ramipril</option></select></div>
-                        <div><label for="meds2">ARB/ '-sartans':</label><select id="meds2" class="form-input"><option>No</option><option value="Azilsartan">Azilsartan/ Edarbi</option><option value="Candsartan">Candesartan/ Atacand</option><option value="Irbesartan">Irbesartan/ Avapro</option><option value="Losartan">Losartan/ Cozaar</option><option value="Olmesartan">Olmesartan/ Benicar</option><option value="Telmisartan">Telmisartan/ Micardis</option><option value="Valsartan">Valsartan/ Diovan</option></select></div>
-                        <div><label for="meds3">Brilinta/ Ticagrelor:</label><select id="meds3" class="form-input"><option>No</option><option value="Brilinta/ Ticagrelor">Yes</option></select></div>
-                        <div><label for="meds4">Clopidogrel/ Plavix:</label><select id="meds4" class="form-input"><option>No</option><option value="Clopidogrel/ Plavix">Yes</option></select></div>
-                        <div><label for="meds5">Coumadin/ Warfarin:</label><select id="meds5" class="form-input"><option>No</option><option value="Coumadin/ Warfarin">Yes</option></select></div>
-                        <div><label for="meds6">Effient/ Prasugrel:</label><select id="meds6" class="form-input"><option>No</option><option value="Effient/ Prasugrel">Yes</option></select></div>
-                        <div><label for="meds7">Eliquis/ Xarelto/ '-xaban':</label><select id="meds7" class="form-input"><option>No</option><option value="Apixaban">Apixaban</option><option value="Betrixaban">Betrixaban</option><option value="Edoxaban">Edoxaban</option><option value="Eliquis">Eliquis</option><option value="Xarelto">Xarelto</option></select></div>
-                        <div><label for="meds8">Metformin:</label><select id="meds8" class="form-input"><option>No</option><option value="Metformin">Yes</option></select></div>
-                        <div><label for="meds9">Phenprocoumon:</label><select id="meds9" class="form-input"><option>No</option><option value="Phenprocoumon">Yes</option></select></div>
-                        <div><label for="meds10">Pradaxa/ Dabigatran:</label><select id="meds10" class="form-input"><option>No</option><option value="Pradaxa/ Dabigatran">Yes</option></select></div>
-                        <div><label for="meds11">ED Medications:</label><select id="meds11" class="form-input"><option>No</option><option value="Avanafil/ Stendra">Avanafil/ Stendra</option><option value="Cialis">Cialis</option><option value="Sildenafil">Sildenafil</option><option value="Tadalafil">Tadalafil</option><option value="Vardenafil">Vardenafil</option><option value="Viagra">Viagra</option></select></div>
-                        <div><label for="meds12">Insulin-Long Acting</label><select id="meds12" class="form-input"><option>No</option><option value="Glargine">Inuslin Glargine</option><option value="Basaglar">Basaglar</option><option value="Lantus">Lantus</option><option value="Toujeo">Toujeo</option><option value="Determir">Insulin Detemir</option><option value="Levemir">Levemir</option><option value="Insulin Degludec">Insulin Degludec</option><option value="Tresiba">Tresiba</option></select></div>
-                        <div><label for="meds13">Insulin-Short Acting</label><select id="meds13" class="form-input"><option>No</option><option value="Regular">Regular(R)</option><option value="Novolin">Novolin</option><option value="Velosulin">Velosulin (For Insulin Pump)</option></select></div>
-                        <div><label for="meds14">Sulfonylureas:</label><select id="meds14" class="form-input"><option>No</option><option value="glimepiride (Amaryl)">glimepiride (Amaryl)</option><option value="glimepiride-pioglitazone (Duetact)">glimepiride-pioglitazone (Duetact)</option><option value="gliclazide">gliclazide</option><option value="glipizide">glipizide</option><option value="glipizide ER (Glipizide XL, Glucotrol XL)">glipizide ER (Glipizide XL, Glucotrol XL)</option><option value="glipizide-metformin">glipizide-metformin</option><option value="glyburide (Glynase)">glyburide (Glynase)</option><option value="glyburide-metformin">glyburide-metformin</option></select></div>
-                        <div><label for="meds15">GLP1 Agonist/-tide</label><select id="meds15" class="form-input"><option>No</option><option value="dulaglutide">dulaglutide (Trulicity)</option><option value="exenatide">exenatide (Byetta, Bydureon)</option><option value="liraglutide">liraglutide (Victoza, Saxenda, Xultophy)</option><option value="lixisenatide">lixisenatide (Adlyxine, Soliqua)</option><option value="semaglutide">semaglutide (Ozempic, Wegovy, Rybelsus)</option><option value="tirzepatide">tirzepatide (Mounjaro)</option></select></div>
-                        <div><label for="meds16">SGLT2 Inhibitors/-flozin</label><select id="meds16" class="form-input"><option>No</option><option value="canagliflozin">canagliflozin (Invokana)</option><option value="dapagliflozin">dapagliflozin (Farxiga)</option><option value="empagliflozin">empagliflozin (Jardiance)</option><option value="ertugliflozin">ertugliflozin (Steglatro)</option><option value="sotagliflozin">sotagliflozin (Inpefa)</option></select></div>
+                        
+                        <!-- SECTION 1: PRESCRIBED MEDICATIONS (Alphabetical Order A-Z) -->
+                        <div class="category-header">1. Prescribed Medications (Alphabetical Order)</div>
+                        
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_ace">ACE Inhibitors ('-pril's):</label><span class="tooltip-text"><b>ACE Inhibitors</b>Used to lower blood pressure and treat heart failure by relaxing blood vessels.</span></div>
+                            <select id="med_ace" class="form-input med-select" data-days="1"><option value="No">No (None)</option><option value="Benazepril (Lotensin)">Benazepril (Lotensin)</option><option value="Captopril (Capoten)">Captopril (Capoten)</option><option value="Enalapril (Vasotec)">Enalapril (Vasotec)</option><option value="Fosinopril (Monopril)">Fosinopril (Monopril)</option><option value="Lisinopril (Zestril / Prinivil)">Lisinopril (Zestril / Prinivil)</option><option value="Ramipril (Altace)">Ramipril (Altace)</option><option value="Quinapril (Accupril)">Quinapril (Accupril)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_arb">ARBs ('-sartan's):</label><span class="tooltip-text"><b>Angiotensin Receptor Blockers (ARBs)</b>Used to treat high blood pressure and heart failure by blocking angiotensin II receptors.</span></div>
+                            <select id="med_arb" class="form-input med-select" data-days="1"><option value="No">No (None)</option><option value="Azilsartan (Edarbi)">Azilsartan (Edarbi)</option><option value="Candesartan (Atacand)">Candesartan (Atacand)</option><option value="Irbesartan (Avapro)">Irbesartan (Avapro)</option><option value="Losartan (Cozaar)">Losartan (Cozaar)</option><option value="Olmesartan (Benicar)">Olmesartan (Benicar)</option><option value="Telmisartan (Micardis)">Telmisartan (Micardis)</option><option value="Valsartan (Diovan)">Valsartan (Diovan)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_biologics">Biologics & TNF Blockers:</label><span class="tooltip-text"><b>Biologic Immune Suppressors</b>Used for rheumatoid arthritis, psoriasis, and IBD by suppressing inflammatory pathways.</span></div>
+                            <select id="med_biologics" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Adalimumab (Humira)">Adalimumab (Humira)</option><option value="Certolizumab (Cimzia)">Certolizumab (Cimzia)</option><option value="Etanercept (Enbrel)">Etanercept (Enbrel)</option><option value="Golimumab (Simponi)">Golimumab (Simponi)</option><option value="Infliximab (Remicade)">Infliximab (Remicade)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_brilinta">Brilinta (Ticagrelor):</label><span class="tooltip-text"><b>P2Y12 Antiplatelet</b>Prevents blood clots after coronary stent placement or heart attack by inhibiting platelets.</span></div>
+                            <select id="med_brilinta" class="form-input med-select" data-days="5"><option value="No">No (None)</option><option value="Ticagrelor (Brilinta)">Ticagrelor (Brilinta)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_plavix">Clopidogrel (Plavix):</label><span class="tooltip-text"><b>P2Y12 Antiplatelet</b>Widely prescribed blood thinner that prevents platelets from clumping together to form clots.</span></div>
+                            <select id="med_plavix" class="form-input med-select" data-days="5"><option value="No">No (None)</option><option value="Clopidogrel (Plavix)">Clopidogrel (Plavix)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_warfarin">Coumadin / Warfarin:</label><span class="tooltip-text"><b>Vitamin K Antagonist</b>Oral anticoagulant used to prevent blood clots in atrial fibrillation, mechanical heart valves, and DVT.</span></div>
+                            <select id="med_warfarin" class="form-input med-select" data-days="5"><option value="No">No (None)</option><option value="Warfarin (Coumadin / Jantoven)">Warfarin (Coumadin / Jantoven)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_doac">DOACs (Eliquis / Xarelto):</label><span class="tooltip-text"><b>Direct Oral Anticoagulants</b>Modern oral blood thinners used to prevent stroke in atrial fibrillation and treat blood clots.</span></div>
+                            <select id="med_doac" class="form-input med-select" data-days="3"><option value="No">No (None)</option><option value="Apixaban (Eliquis)">Apixaban (Eliquis)</option><option value="Edoxaban (Savaysa)">Edoxaban (Savaysa)</option><option value="Rivaroxaban (Xarelto)">Rivaroxaban (Xarelto)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_ed">ED Medications / PDE5 Inhibitors:</label><span class="tooltip-text"><b>PDE5 Vasodilators</b>Used for erectile dysfunction and pulmonary arterial hypertension by relaxing vascular smooth muscle.</span></div>
+                            <select id="med_ed" class="form-input med-select" data-days="3"><option value="No">No (None)</option><option value="Avanafil (Stendra)">Avanafil (Stendra)</option><option value="Sildenafil (Viagra / Revatio)">Sildenafil (Viagra / Revatio)</option><option value="Tadalafil (Cialis / Adcirca)">Tadalafil (Cialis / Adcirca)</option><option value="Vardenafil (Levitra)">Vardenafil (Levitra)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_effient">Effient (Prasugrel):</label><span class="tooltip-text"><b>Potent P2Y12 Antiplatelet</b>Strong platelet inhibitor used primarily after cardiac catheterization and coronary artery stenting.</span></div>
+                            <select id="med_effient" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Prasugrel (Effient)">Prasugrel (Effient)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_glp1_daily">GLP-1 Agonists - Daily Dosing:</label><span class="tooltip-text"><b>Daily GLP-1 Receptor Agonists</b>Daily subcutaneous injections or oral pills used for type 2 diabetes and blood sugar control.</span></div>
+                            <select id="med_glp1_daily" class="form-input med-select" data-days="1"><option value="No">No (None)</option><option value="Liraglutide daily (Saxenda / Victoza)">Liraglutide daily (Saxenda / Victoza)</option><option value="Lixisenatide (Adlyxine)">Lixisenatide (Adlyxine)</option><option value="Semaglutide oral pill (Rybelsus)">Semaglutide oral pill (Rybelsus)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_glp1_weekly">GLP-1 Agonists - Weekly Injections:</label><span class="tooltip-text"><b>Weekly GLP-1 / GIP Injections</b>Weekly injections used to treat diabetes and obesity by stimulating insulin and slowing digestion.</span></div>
+                            <select id="med_glp1_weekly" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Dulaglutide (Trulicity)">Dulaglutide (Trulicity)</option><option value="Exenatide ER (Bydureon)">Exenatide ER (Bydureon)</option><option value="Semaglutide injection (Ozempic / Wegovy)">Semaglutide injection (Ozempic / Wegovy)</option><option value="Tirzepatide (Mounjaro / Zepbound)">Tirzepatide (Mounjaro / Zepbound)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_lmwh">Injectable Blood Thinners (LMWH):</label><span class="tooltip-text"><b>Low Molecular Weight Heparins</b>Subcutaneous injections used to treat or bridge blood clot prevention around surgical procedures.</span></div>
+                            <select id="med_lmwh" class="form-input med-select" data-custom="lmwh"><option value="No">No (None)</option><option value="Dalteparin (Fragmin)">Dalteparin (Fragmin)</option><option value="Enoxaparin (Lovenox)">Enoxaparin (Lovenox)</option><option value="Fondaparinux (Arixtra)">Fondaparinux (Arixtra)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_insulin_long">Insulin - Long Acting:</label><span class="tooltip-text"><b>Basal Background Insulin</b>Provides steady, 24-hour background blood sugar control for patients with diabetes.</span></div>
+                            <select id="med_insulin_long" class="form-input med-select" data-custom="long-acting"><option value="No">No (None)</option><option value="Basaglar">Basaglar</option><option value="Insulin Degludec (Tresiba)">Insulin Degludec (Tresiba)</option><option value="Insulin Detemir (Levemir)">Insulin Detemir (Levemir)</option><option value="Insulin Glargine (Lantus / Toujeo)">Insulin Glargine (Lantus / Toujeo)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_insulin_short">Insulin - Short Acting / Mealtime:</label><span class="tooltip-text"><b>Bolus / Mealtime Insulin</b>Rapid-acting insulin used before meals or via insulin pump to control blood sugar spikes.</span></div>
+                            <select id="med_insulin_short" class="form-input med-select" data-custom="short-acting"><option value="No">No (None)</option><option value="Insulin Aspart (Novolog / Fiasp)">Insulin Aspart (Novolog / Fiasp)</option><option value="Insulin Glulisine (Apidra)">Insulin Glulisine (Apidra)</option><option value="Insulin Lispro (Humalog / Admelog)">Insulin Lispro (Humalog / Admelog)</option><option value="Regular Insulin (R) / Novolin">Regular Insulin (R) / Novolin</option><option value="Velosulin (Insulin Pump)">Velosulin (Insulin Pump)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_jak">JAK Inhibitors:</label><span class="tooltip-text"><b>Janus Kinase Inhibitors</b>Oral immunosuppressive drugs used for autoimmune conditions like rheumatoid arthritis and colitis.</span></div>
+                            <select id="med_jak" class="form-input med-select" data-days="3"><option value="No">No (None)</option><option value="Baricitinib (Olumiant)">Baricitinib (Olumiant)</option><option value="Tofacitinib (Xeljanz)">Tofacitinib (Xeljanz)</option><option value="Upadacitinib (Rinvoq)">Upadacitinib (Rinvoq)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_metformin">Metformin & Biguanides:</label><span class="tooltip-text"><b>First-Line Diabetes Medications</b>Lowers blood glucose by decreasing liver glucose production and boosting insulin sensitivity.</span></div>
+                            <select id="med_metformin" class="form-input med-select" data-custom="metformin"><option value="No">No (None)</option><option value="Metformin (Glucophage / Fortamet)">Metformin (Glucophage / Fortamet)</option><option value="Invokamet (Metformin / Canagliflozin)">Invokamet (Metformin / Canagliflozin)</option><option value="Janumet (Metformin / Sitagliptin)">Janumet (Metformin / Sitagliptin)</option><option value="Segluromet (Metformin / Ertugliflozin)">Segluromet (Metformin / Ertugliflozin)</option><option value="Synjardy (Metformin / Empagliflozin)">Synjardy (Metformin / Empagliflozin)</option><option value="Xigduo XR (Metformin / Dapagliflozin)">Xigduo XR (Metformin / Dapagliflozin)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_opioid_antag">Opioid Antagonists:</label><span class="tooltip-text"><b>Opioid Receptor Blockers</b>Used to treat alcohol and opioid dependence by blocking euphoric effects at receptors.</span></div>
+                            <select id="med_opioid_antag" class="form-input med-select" data-days="3"><option value="No">No (None)</option><option value="Naltrexone oral pill (ReVia)">Naltrexone oral pill (ReVia)</option><option value="Vivitrol injection (Naltrexone IM)">Vivitrol injection (Naltrexone IM)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_phenprocoumon">Phenprocoumon (Marcumar):</label><span class="tooltip-text"><b>Long-Acting Anticoagulant</b>Oral vitamin K antagonist widely used in Europe for long-term blood clot prevention.</span></div>
+                            <select id="med_phenprocoumon" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Phenprocoumon (Marcumar)">Phenprocoumon (Marcumar)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_phentermine">Phentermine & Stimulant Weight Loss:</label><span class="tooltip-text"><b>Appetite Suppressants / Stimulants</b>Used for short-term weight loss by stimulating the central nervous system to reduce hunger.</span></div>
+                            <select id="med_phentermine" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Adipex-P / Lomaira (Phentermine)">Adipex-P / Lomaira (Phentermine)</option><option value="Benzphetamine (Didrex)">Benzphetamine (Didrex)</option><option value="Qsymia (Phentermine / Topiramate)">Qsymia (Phentermine / Topiramate)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_pradaxa">Pradaxa (Dabigatran):</label><span class="tooltip-text"><b>Direct Thrombin Inhibitor</b>Oral blood thinner that directly blocks thrombin enzyme to prevent stroke in atrial fibrillation.</span></div>
+                            <select id="med_pradaxa" class="form-input med-select" data-days="5"><option value="No">No (None)</option><option value="Dabigatran (Pradaxa)">Dabigatran (Pradaxa)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_nsaid_rx">Prescription NSAIDs:</label><span class="tooltip-text"><b>Non-Steroidal Anti-Inflammatories</b>High-strength pain and inflammation relievers used for arthritis and severe musculoskeletal pain.</span></div>
+                            <select id="med_nsaid_rx" class="form-input med-select" data-days="5"><option value="No">No (None)</option><option value="Celecoxib (Celebrex)">Celecoxib (Celebrex)</option><option value="Diclofenac (Voltaren)">Diclofenac (Voltaren)</option><option value="Indomethacin (Indocin)">Indomethacin (Indocin)</option><option value="Ketorolac (Toradol)">Ketorolac (Toradol)</option><option value="Meloxicam (Mobic)">Meloxicam (Mobic)</option><option value="Nabumetone (Relafen)">Nabumetone (Relafen)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_serm">SERMs (Estrogen Modulators):</label><span class="tooltip-text"><b>Estrogen Receptor Modulators</b>Used for breast cancer treatment and osteoporosis prevention by altering estrogen pathways.</span></div>
+                            <select id="med_serm" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Raloxifene (Evista)">Raloxifene (Evista)</option><option value="Tamoxifen (Nolvadex)">Tamoxifen (Nolvadex)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_sglt2">SGLT2 Inhibitors ('-flozin's):</label><span class="tooltip-text"><b>SGLT2 Kidney / Heart Protectors</b>Used for diabetes and heart failure; causes glucose excretion through urine to lower blood sugar.</span></div>
+                            <select id="med_sglt2" class="form-input med-select" data-days="3"><option value="No">No (None)</option><option value="Canagliflozin (Invokana)">Canagliflozin (Invokana)</option><option value="Dapagliflozin (Farxiga)">Dapagliflozin (Farxiga)</option><option value="Empagliflozin (Jardiance)">Empagliflozin (Jardiance)</option><option value="Ertugliflozin (Steglatro)">Ertugliflozin (Steglatro)</option><option value="Sotagliflozin (Inpefa)">Sotagliflozin (Inpefa)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_sulfon">Sulfonylureas:</label><span class="tooltip-text"><b>Oral Insulin Stimulators</b>Lowers blood sugar in type 2 diabetes by directly stimulating the pancreas to release more insulin.</span></div>
+                            <select id="med_sulfon" class="form-input med-select" data-days="2"><option value="No">No (None)</option><option value="Glimepiride (Amaryl)">Glimepiride (Amaryl)</option><option value="Glipizide (Glucotrol / Glucotrol XL)">Glipizide (Glucotrol / Glucotrol XL)</option><option value="Glyburide (Glynase / Diabeta)">Glyburide (Glynase / Diabeta)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_vasodilators">Vasodilators & Antiplatelets:</label><span class="tooltip-text"><b>Vascular Circulation Agents</b>Used for peripheral artery disease (poor circulation in legs) and stroke prevention.</span></div>
+                            <select id="med_vasodilators" class="form-input med-select" data-days="5"><option value="No">No (None)</option><option value="Aggrenox (Aspirin / Dipyridamole)">Aggrenox (Aspirin / Dipyridamole)</option><option value="Cilostazol (Pletal)">Cilostazol (Pletal)</option><option value="Dipyridamole (Persantine)">Dipyridamole (Persantine)</option><option value="Pentoxifylline (Trental)">Pentoxifylline (Trental)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="med_weight_nonstim">Weight Loss - Non-Stimulant:</label><span class="tooltip-text"><b>Metabolic & Brain Hunger Blockers</b>Non-stimulant prescriptions used to manage appetite cravings and promote weight reduction.</span></div>
+                            <select id="med_weight_nonstim" class="form-input med-select" data-days="3"><option value="No">No (None)</option><option value="Contrave (Naltrexone / Bupropion)">Contrave (Naltrexone / Bupropion)</option><option value="Diethylpropion (Tenuate)">Diethylpropion (Tenuate)</option><option value="Plenity (Cellulose / Citric Acid)">Plenity (Cellulose / Citric Acid)</option></select>
+                        </div>
+
+                        <!-- SECTION 2: OVER-THE-COUNTER (OTC) MEDICATIONS (Alphabetical Order A-Z) -->
+                        <div class="category-header">2. Over-the-Counter (OTC) Medications (Alphabetical Order)</div>
+                        
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="otc_aspirin">Aspirin OTC (81mg / 325mg)*:</label><span class="tooltip-text"><b>OTC Aspirin Products</b>Reversibly inhibits platelet clotting. *Do NOT stop if taking for coronary stents without clearance.</span></div>
+                            <select id="otc_aspirin" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Bayer Low Dose (81mg)">Bayer Low Dose (81mg)</option><option value="Bayer Regular Strength (325mg)">Bayer Regular Strength (325mg)</option><option value="Ecotrin Enteric Coated Aspirin">Ecotrin Enteric Coated Aspirin</option><option value="Excedrin Migraine (Aspirin / Acetaminophen)">Excedrin Migraine (Aspirin / Acetaminophen)</option><option value="St. Joseph Low Dose Aspirin">St. Joseph Low Dose Aspirin</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="otc_ibuprofen">Ibuprofen (Advil / Motrin):</label><span class="tooltip-text"><b>OTC NSAID Pain Reliever</b>Common over-the-counter pain and fever reliever that temporarily impairs platelet blood clotting.</span></div>
+                            <select id="otc_ibuprofen" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Advil Liqui-Gels / Tablets">Advil Liqui-Gels / Tablets</option><option value="Motrin IB / Motrin Regular">Motrin IB / Motrin Regular</option><option value="Generic OTC Ibuprofen (200mg / 400mg)">Generic OTC Ibuprofen (200mg / 400mg)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="otc_naproxen">Naproxen (Aleve / Naprosyn):</label><span class="tooltip-text"><b>Longer-Acting OTC NSAID</b>Provides 12-hour relief for muscle aches and arthritis; inhibits prostaglandins and blood clotting.</span></div>
+                            <select id="otc_naproxen" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Aleve Caplets / Gelcaps">Aleve Caplets / Gelcaps</option><option value="Anaprox / Naprosyn">Anaprox / Naprosyn</option><option value="Midol Extended Relief (Naproxen)">Midol Extended Relief (Naproxen)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="otc_sleep">Sleep Aids & Antihistamines:</label><span class="tooltip-text"><b>Sedative OTC Antihistamines</b>Used for allergies and insomnia; causes drowsiness that can interact with anesthesia sedation.</span></div>
+                            <select id="otc_sleep" class="form-input med-select" data-days="1"><option value="No">No (None)</option><option value="Diphenhydramine (Benadryl / ZzzQuil)">Diphenhydramine (Benadryl / ZzzQuil)</option><option value="Doxylamine succinate (Unisom SleepTabs)">Doxylamine succinate (Unisom SleepTabs)</option><option value="Chlorpheniramine (Chlor-Trimeton)">Chlorpheniramine (Chlor-Trimeton)</option></select>
+                        </div>
+
+                        <!-- SECTION 3: SUPPLEMENTS & BOTANICALS (Alphabetical Order A-Z) -->
+                        <div class="category-header">3. Supplements & Botanicals (Alphabetical Order)</div>
+                        
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_coq10">Coenzyme Q10 (CoQ10):</label><span class="tooltip-text"><b>Antioxidant Enzyme Supplement</b>Used for cell energy and heart health; can alter blood pressure and interact with anesthesia.</span></div>
+                            <select id="supp_coq10" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Coenzyme Q10 (CoQ10 / Ubiquinone)">Coenzyme Q10 (CoQ10 / Ubiquinone)</option><option value="Ubiquinol (Active CoQ10 form)">Ubiquinol (Active CoQ10 form)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_echinacea">Echinacea:</label><span class="tooltip-text"><b>Immune Boosting Botanical</b>Taken to prevent colds; can cause liver inflammation when combined with anesthesia medications.</span></div>
+                            <select id="supp_echinacea" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Echinacea Purpurea Extract">Echinacea Purpurea Extract</option><option value="Airborne / Immune Support Blends">Airborne / Immune Support Blends</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_ephedra">Ephedra (Ma Huang):</label><span class="tooltip-text"><b>Herbal Stimulant</b>Used for energy and weight loss; causes severe heart rate and blood pressure spikes during surgery.</span></div>
+                            <select id="supp_ephedra" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Ephedra Extract (Ma Huang)">Ephedra Extract (Ma Huang)</option><option value="Traditional Chinese Herbal Stimulants">Traditional Chinese Herbal Stimulants</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_fishoil">Fish Oil / Omega-3 / Krill Oil:</label><span class="tooltip-text"><b>Essential Fatty Acid Supplements</b>Taken for heart and joint health; thins the blood and increases surgical bleeding risk.</span></div>
+                            <select id="supp_fishoil" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Omega-3 Fish Oil Softgels">Omega-3 Fish Oil Softgels</option><option value="Krill Oil / Antarctic Krill">Krill Oil / Antarctic Krill</option><option value="Flaxseed Oil / Cod Liver Oil">Flaxseed Oil / Cod Liver Oil</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_garlic">Garlic Supplements:</label><span class="tooltip-text"><b>Concentrated Garlic Extract</b>Taken for blood pressure and cholesterol; significantly inhibits blood clotting and platelet function.</span></div>
+                            <select id="supp_garlic" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Odorless Garlic Pills / Allicin">Odorless Garlic Pills / Allicin</option><option value="Aged Garlic Extract (Kyolic)">Aged Garlic Extract (Kyolic)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_ginger">Ginger & Turmeric / Curcumin:</label><span class="tooltip-text"><b>Anti-Inflammatory Root Extracts</b>Used for joint pain and digestion; acts as a natural blood thinner and inhibits platelet aggregation.</span></div>
+                            <select id="supp_ginger" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Turmeric / Curcumin Extract Pills">Turmeric / Curcumin Extract Pills</option><option value="Ginger Root Capsules / Ginger Extract">Ginger Root Capsules / Ginger Extract</option><option value="Joint Health Botanical Blends">Joint Health Botanical Blends</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_ginkgo">Ginkgo Biloba:</label><span class="tooltip-text"><b>Memory & Circulation Herbal</b>Taken for cognitive enhancement; potent inhibitor of platelet-activating factor causing excess bleeding.</span></div>
+                            <select id="supp_ginkgo" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Ginkgo Biloba Leaf Extract">Ginkgo Biloba Leaf Extract</option><option value="Brain / Memory Health Supplements">Brain / Memory Health Supplements</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_ginseng">Ginseng (Panax / American):</label><span class="tooltip-text"><b>Adaptogen Energy Root</b>Used for vitality and stress; causes blood sugar drops and unpredictable blood pressure during surgery.</span></div>
+                            <select id="supp_ginseng" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Panax / Asian Ginseng Root">Panax / Asian Ginseng Root</option><option value="American Ginseng Extract">American Ginseng Extract</option><option value="Siberian Ginseng (Eleuthero)">Siberian Ginseng (Eleuthero)</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_glucosamine">Glucosamine & Chondroitin:</label><span class="tooltip-text"><b>Cartilage Joint Supplements</b>Taken to cushion arthritic joints; can interact with blood sugar levels and bleeding pathways.</span></div>
+                            <select id="supp_glucosamine" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Glucosamine Sulfate / HCl">Glucosamine Sulfate / HCl</option><option value="Glucosamine Chondroitin with MSM">Glucosamine Chondroitin with MSM</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_kava">Kava Root:</label><span class="tooltip-text"><b>Calming Pacific Root Extract</b>Used for anxiety and relaxation; significantly prolongs the sedative effects of anesthesia drugs.</span></div>
+                            <select id="supp_kava" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Kava Kava Root Extract Pills">Kava Kava Root Extract Pills</option><option value="Kava Calming Teas / Tinctures">Kava Calming Teas / Tinctures</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_multi">Daily Multivitamins:</label><span class="tooltip-text"><b>General Daily Nutritional Blends</b>Daily vitamin formulas often contain Vitamin E or herbal extracts that can interfere with blood clotting.</span></div>
+                            <select id="supp_multi" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Daily Adult Multivitamins (Centrum / One-A-Day)">Daily Adult Multivitamins (Centrum / One-A-Day)</option><option value="Prenatal / Women's / Men's Health Blends">Prenatal / Women's / Men's Health Blends</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_sawpalmetto">Saw Palmetto:</label><span class="tooltip-text"><b>Prostate Botanical Extract</b>Taken for urinary flow and benign prostatic hyperplasia (BPH); associated with increased surgical bleeding.</span></div>
+                            <select id="supp_sawpalmetto" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Saw Palmetto Berry Extract">Saw Palmetto Berry Extract</option><option value="Men's Prostate Health Botanical Blends">Men's Prostate Health Botanical Blends</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_stjohns">St. John's Wort:</label><span class="tooltip-text"><b>Herbal Mood Support</b>Taken for depression; alters liver enzymes (CYP3A4) and interferes with anesthesia medication clearance.</span></div>
+                            <select id="supp_stjohns" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="St. John's Wort Extract Capsules">St. John's Wort Extract Capsules</option><option value="Mood / Positive Outlook Herbal Blends">Mood / Positive Outlook Herbal Blends</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_valerian">Valerian Root:</label><span class="tooltip-text"><b>Herbal Sleep & Sedative Root</b>Taken for insomnia and anxiety; potentiates anesthesia medications and causes delayed wake-up times.</span></div>
+                            <select id="supp_valerian" class="form-input med-select" data-days="14"><option value="No">No (None)</option><option value="Valerian Root Extract Capsules">Valerian Root Extract Capsules</option><option value="Nighttime Herbal Sleep Teas / Drops">Nighttime Herbal Sleep Teas / Drops</option></select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="tooltip-container"><label for="supp_vitamine">Vitamin E (>400 IU):</label><span class="tooltip-text"><b>High-Dose Antioxidant Vitamin</b>Taken for skin and cellular health; doses above 400 IU act as a blood thinner and prevent normal clotting.</span></div>
+                            <select id="supp_vitamine" class="form-input med-select" data-days="7"><option value="No">No (None)</option><option value="Vitamin E 400 IU Softgels">Vitamin E 400 IU Softgels</option><option value="High-Potency Vitamin E (1000 IU)">High-Potency Vitamin E (1000 IU)</option></select>
+                        </div>
+
                     </div>
+                    <small style="display: block; color: #d9534f; margin-top: 1.5rem; font-size: 0.85rem; font-weight: bold; border-top: 1px solid #eee; padding-top: 0.75rem;">
+                        *CRITICAL CLINICAL NOTE: Patients taking Aspirin, Plavix, Brilinta, Coumadin, or DOACs for coronary artery stents, mechanical heart valves, recent stroke, or atrial fibrillation must NEVER discontinue medication without explicit authorization from their managing cardiologist or surgeon.
+                    </small>
                 </div>
 
                 <div class="action-buttons no-print">
                     <button type="button" onclick="generateReport()" class="btn btn-primary">Generate Report</button>
                     <button type="button" onclick="window.print()" class="btn btn-secondary">Print Report</button>
-                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                    <button type="reset" class="btn btn-secondary" onclick="setTimeout(() => { document.getElementById('printableArea').style.display='none'; }, 50);">Reset Form</button>
                 </div>
             </form>
+            
+            <!-- CLINICAL REFERENCES (Hidden from printouts and generated reports) -->
+            <div class="card disclaimer-card no-print">
+                <h2 class="card-title" style="border-bottom: none; padding-bottom: 0;">Clinical Guidelines & References (Not Printed on Report)</h2>
+                <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0;">The medication and supplement discontinuation intervals utilized in this assessment tool are derived from peer-reviewed anesthesiology, cardiovascular, and surgical consensus guidelines:</p>
+                <ul>
+                    <li><b>American Society of Anesthesiologists (ASA):</b> Practice Guidelines for Preoperative Fasting and Perioperative Medication Management. Recommends discontinuation of non-essential herbal preparations 2 weeks prior to surgery, weekly GLP-1 agonists 7 days prior, and SGLT2 inhibitors 3 to 4 days prior to prevent euglycemic ketoacidosis.</li>
+                    <li><b>American College of Cardiology / American Heart Association (ACC/AHA):</b> Guideline for the Perioperative Management of Antithrombotic Therapy. Establishes the preoperative cessation windows for P2Y12 inhibitors (5-7 days), Warfarin (5 days), and Direct Oral Anticoagulants (48-72 hours based on renal clearance).</li>
+                    <li><b>The Iowa Clinic / Waukee Surgery Center & Iowa Ortho:</b> Preoperative Clinical Protocols for Outpatient Surgical Patients. Establishes standardized cessation timelines for anti-inflammatory medications, rheumatology biologics, stimulant weight loss agents, and over-the-counter analgesic preparations.</li>
+                    <li><b>US Food and Drug Administration (FDA) Drug Safety Communications:</b> Mandates temporary discontinuation of canagliflozin, dapagliflozin, and empagliflozin at least 3 days prior to scheduled surgery (ertugliflozin 4 days).</li>
+                </ul>
+            </div>
         </main>
         
         <div id="printableArea">
@@ -284,142 +582,120 @@
 
     <script>
         function generateReport() {
-            let practiceName = document.getElementById("PracticeName").value;
-            let firstName = document.getElementById("fname").value;
-            let lastName = document.getElementById("lname").value;
-            let surgery = document.getElementById("surgery").value;
+            let practiceName = document.getElementById("PracticeName").value || "Surgery Form";
+            let firstName = document.getElementById("fname").value || "Patient";
+            let lastName = document.getElementById("lname").value || "";
+            let surgery = document.getElementById("surgery").value || "Scheduled Procedure";
             let surgeryDateStr = document.getElementById("surgerydate").value;
-            let arrivalTime = document.getElementById("appt").value;
-            let surgeonName = document.getElementById("SurgeonName").value;
-            let surgeryLocation = document.getElementById("surg_location").value;
-            let surgeryPhone = document.getElementById("surg_phone").value;
-            let officePhone = document.getElementById("Officephone").value;
+            let arrivalTime = document.getElementById("appt").value || "TBD";
+            let surgeonName = document.getElementById("SurgeonName").value || "Attending Surgeon";
+            let surgeryLocation = document.getElementById("surg_location").value || "Hospital Surgical Center";
+            let surgeryPhone = document.getElementById("surg_phone").value || "(000) 000-0000";
+            let officePhone = document.getElementById("Officephone").value || "(000) 000-0000";
             
             if (!surgeryDateStr) {
-                alert("Please enter a surgery date.");
+                alert("Please enter a scheduled surgery date to generate medication timeline.");
                 return;
             }
             
-            let surgeryDate = new Date(surgeryDateStr + 'T00:00:00');
-            let formattedSurgeryDate = surgeryDate.toLocaleDateString();
+            // Timezone-safe date parsing: splits YYYY-MM-DD locally to avoid UTC midnight shifts
+            const [year, month, day] = surgeryDateStr.split('-').map(Number);
+            const surgeryDate = new Date(year, month - 1, day);
+            const formattedSurgeryDate = surgeryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
             let patientInfoHTML = `
                 <h1>${practiceName}</h1>
                 <p><b>Patient:</b> ${firstName} ${lastName}</p>
-                <p><b>Is scheduled for the surgery:</b> ${surgery}</p>
+                <p><b>Scheduled Procedure:</b> ${surgery}</p>
                 <p><b>Arrive at ${surgeryLocation} on:</b> ${formattedSurgeryDate} at ${arrivalTime}</p>
-                <p><b>Your surgeon will be:</b> ${surgeonName}</p>
+                <p><b>Surgeon:</b> ${surgeonName}</p>
             `;
 
-            let medInstructionsHTML = "<h2>Medication Instructions</h2><p>Some of your medications will need to be stopped prior to surgery. Prior to surgery:</p><ul>";
+            let medInstructionsHTML = "<h2>Pre-Operative Medication & Supplement Countdown Schedule</h2><p>Specific medications and over-the-counter supplements must be discontinued prior to surgery to reduce bleeding risks and anesthesia interactions. Please follow this chronological schedule for the specific medications you take:</p><ul>";
             
-            const medContainer = document.getElementById("medform");
-            const medSelects = medContainer.querySelectorAll('select');
+            const medSelects = document.querySelectorAll('#medform select');
             let instructionsArray = [];
             
-            for (let i = 0; i < medSelects.length; i++) {
-                const medSelect = medSelects[i];
-                if (medSelect.value !== "No") {
-                    let stopDate = new Date(surgeryDate.getTime());
-                    let customInstruction = null;
-                    let stopDays = 0;
-                    let instructionString = '';
+            medSelects.forEach(select => {
+                if (select.value === "No" || !select.value) return;
+                
+                const medName = select.value;
+                const customType = select.getAttribute('data-custom');
+                const stopDays = parseInt(select.getAttribute('data-days'), 10);
+                let instructionString = '';
 
-                    // Map med IDs to stop days or custom logic
-                    switch(medSelect.id) {
-                        case 'meds0': stopDays = 1; break;  // Aspirin
-                        case 'meds1': stopDays = 3; break;  // ACE
-                        case 'meds2': stopDays = 3; break;  // ARB
-                        case 'meds3': stopDays = 6; break;  // Brilinta
-                        case 'meds4': stopDays = 6; break;  // Plavix
-                        case 'meds5': stopDays = 6; break;  // Coumadin
-                        case 'meds6': stopDays = 8; break;  // Effient
-                        case 'meds7': stopDays = 3; break;  // DOACs
-                        case 'meds8': // Metformin
-                            const restartDate = new Date(surgeryDate.getTime());
-                            restartDate.setDate(restartDate.getDate() + 4);
-                            customInstruction = `Do NOT take ${medSelect.value} on the day of your surgery. You may resume it on <b>${restartDate.toLocaleDateString()}</b>.`;
-                            break;
-                        case 'meds9': stopDays = 6; break;  // Phenprocoumon
-                        case 'meds10': stopDays = 6; break; // Pradaxa
-                        case 'meds11': stopDays = 3; break; // ED Meds
-                        case 'meds12': // Insulin-Long
-                            const longActingDate = new Date(surgeryDate.getTime());
-                            longActingDate.setDate(longActingDate.getDate() - 2);
-                            customInstruction = `Take a <b>half dose</b> of your ${medSelect.value} on the evening of <b>${longActingDate.toLocaleDateString()}</b>.`;
-                            break;
-                        case 'meds13': // Insulin-Short
-                            const shortActingDate = new Date(surgeryDate.getTime());
-                            shortActingDate.setDate(shortActingDate.getDate() - 1);
-                            customInstruction = `Do NOT take your morning dose of ${medSelect.value} on the day of your surgery, <b>${formattedSurgeryDate}</b>. Your last dose should be on <b>${shortActingDate.toLocaleDateString()}</b>.`;
-                            break;
-                        case 'meds14': stopDays = 2; break; // Sulfonylureas
-                        case 'meds15': stopDays = 7; break; // GLP1
-                        case 'meds16': stopDays = 3; break; // SGLT2
-                    }
-
-                    if (customInstruction) {
-                        instructionString = customInstruction;
-                    } else if (stopDays > 0) {
-                        stopDate.setDate(stopDate.getDate() - stopDays);
-                        instructionString = `Take your last dose of <b>${medSelect.value}</b> on <b>${stopDate.toLocaleDateString()}</b>.`;
-                    }
-                    
-                    if(instructionString) {
-                       instructionsArray.push({name: medSelect.value, instruction: instructionString});
-                    }
+                if (customType === 'metformin') {
+                    const restartDate = new Date(year, month - 1, day + 4);
+                    instructionString = `Do NOT take <b>${medName}</b> on the day of your surgery. You may resume taking it on <b>${restartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</b>.`;
+                    instructionsArray.push({ name: medName, instruction: instructionString, days: 0 });
+                } else if (customType === 'long-acting') {
+                    const longDate = new Date(year, month - 1, day - 1);
+                    instructionString = `Take a <b>50% to 80% reduced dose</b> of your <b>${medName}</b> on the evening before or morning of surgery (confirm exact dose with your prescribing physician).`;
+                    instructionsArray.push({ name: medName, instruction: instructionString, days: 1 });
+                } else if (customType === 'short-acting') {
+                    const shortDate = new Date(year, month - 1, day - 1);
+                    instructionString = `Do NOT take your morning dose of <b>${medName}</b> on the day of your surgery (${formattedSurgeryDate}) while fasting. Your last dose should be taken on <b>${shortDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</b>.`;
+                    instructionsArray.push({ name: medName, instruction: instructionString, days: 0 });
+                } else if (customType === 'lmwh') {
+                    const lmwhDate = new Date(year, month - 1, day - 1);
+                    instructionString = `Take your last injection of <b>${medName}</b> exactly <b>12 to 24 hours prior</b> to your procedure on <b>${lmwhDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</b> (confirm timing with surgical team).`;
+                    instructionsArray.push({ name: medName, instruction: instructionString, days: 1 });
+                } else if (!isNaN(stopDays) && stopDays > 0) {
+                    const stopDate = new Date(year, month - 1, day - stopDays);
+                    const formattedStop = stopDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                    instructionString = `Take your last dose of <b>${medName}</b> on <b>${formattedStop}</b> (${stopDays} ${stopDays === 1 ? 'day' : 'days'} prior to surgery).`;
+                    instructionsArray.push({ name: medName, instruction: instructionString, days: stopDays });
                 }
-            }
+            });
             
             if (instructionsArray.length > 0) {
-                instructionsArray.sort((a, b) => a.name.localeCompare(b.name));
+                // Sort chronologically descending so 14-day holds appear at the top of the report
+                instructionsArray.sort((a, b) => b.days - a.days || a.name.localeCompare(b.name));
                 instructionsArray.forEach(item => {
-                    medInstructionsHTML += `<li>${item.instruction}</li>`;
+                    medInstructionsHTML += `<li style="margin-bottom: 8px;">${item.instruction}</li>`;
                 });
             } else {
-                medInstructionsHTML += "<li>No specific medication holds identified. Please follow your surgeon's instructions.</li>";
+                medInstructionsHTML += "<li>No specific medication holds identified from checklist. Continue your standard regimen unless instructed otherwise by your surgeon or anesthesiologist.</li>";
             }
             medInstructionsHTML += "</ul>";
 
             let finalInstructionsHTML = `
-                <h2>Day of Surgery</h2>
+                <h2>Day of Surgery Guidelines</h2>
                 <ul>
-                    <li>Do NOT eat or drink anything after midnight before surgery.</li>
-                    <li>Do NOT take any of your regular medications the morning of surgery unless instructed to do so by anesthesia at your pre-admission appointment.</li>
-                    <li>Your family will be shown to the surgery waiting room and will receive periodic updates.</li>
-                    <li>The surgeon will talk with you or your family after surgery.</li>
-                    <li>If you have questions regarding visitation during hospitalization please call: <b>${surgeryPhone}</b></li>
+                    <li>Do NOT eat or drink anything after midnight before your surgery.</li>
+                    <li>Do NOT take any of your regular morning medications unless explicitly instructed to do so by the anesthesiology team during your pre-admission testing.</li>
+                    <li>Your family will be shown to the surgical waiting room and will receive periodic updates from the clinical staff.</li>
+                    <li>The attending surgeon will consult with you or your designated family members following the procedure.</li>
+                    <li>If you have questions regarding hospital visitation policies, please call: <b>${surgeryPhone}</b></li>
                 </ul>
-                <h2>Call the office at ${officePhone} if...</h2>
+                <h2>Contact the Office at ${officePhone} immediately if...</h2>
                 <ul>
-                    <li>any questions regarding surgery</li>
-                    <li>you develop an infection that requires antibiotics of any kind</li>
-                    <li>there is any change in your condition</li>
-                    <li>you develop a fever, cold, or flu symptoms</li>
-                    <li>you are prescribed new medications</li>
+                    <li>You have any questions or concerns regarding your scheduled procedure.</li>
+                    <li>You develop a fever, cold, chest congestion, or flu-like symptoms.</li>
+                    <li>You develop any skin infection, dental issue, or are prescribed antibiotics by another physician.</li>
+                    <li>There is any significant change in your general medical condition.</li>
+                    <li>You are started on any new prescription blood thinners or cardiac medications.</li>
                 </ul>
             `;
 
             const printableArea = document.getElementById('printableArea');
             printableArea.innerHTML = `
                 <style>
-                    body { font-family: Arial, sans-serif; font-size: 10pt; line-height: 1.4; }
+                    body { font-family: Arial, sans-serif; font-size: 10pt; line-height: 1.4; color: #000; }
                     h1 { font-size: 16pt; text-align: center; margin: 0 0 10px 0; padding-bottom: 5px; border-bottom: 1px solid #ccc; }
-                    h2 { font-size: 12pt; margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 3px; }
+                    h2 { font-size: 12pt; margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 3px; color: #1D4ED8; }
                     p { margin: 5px 0; }
                     ul { list-style-type: '— '; padding-left: 20px; margin-top: 5px; }
-                    li { margin-bottom: 4px; }
+                    li { margin-bottom: 6px; }
                 </style>
                 ${patientInfoHTML}
                 ${medInstructionsHTML}
                 ${finalInstructionsHTML}
             `;
             printableArea.style.display = 'block';
-        }
-
-        function generateAndPrint() {
-            generateReport();
-            setTimeout(() => window.print(), 100); // Timeout to ensure content is rendered
+            
+            // Smoothly scroll down to the generated report so the user sees it immediately
+            printableArea.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
