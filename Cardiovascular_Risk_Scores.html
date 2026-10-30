@@ -86,7 +86,6 @@
             text-decoration: underline;
         }
 
-
         /* --- Calculator Header --- */
         .header {
             text-align: center;
@@ -123,6 +122,8 @@
             border-bottom: 3px solid transparent;
             margin-bottom: -1px;
             transition: color 0.2s, border-color 0.2s;
+            flex-grow: 1; /* Makes tabs touch-friendly on mobile */
+            text-align: center;
         }
         .tab-link:hover {
             color: var(--primary-blue);
@@ -183,51 +184,22 @@
             padding: 0.25rem 0.5rem;
             border-radius: 0.25rem;
         }
-
-        .slider-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
         
         input[type="number"], input[type="date"], select {
             width: 100%;
-            padding: 0.5rem;
+            padding: 0.65rem 0.75rem;
             border: 1px solid var(--medium-gray);
-            border-radius: 0.25rem;
+            border-radius: 0.375rem;
             font-size: 1rem;
             box-sizing: border-box;
             background-color: var(--white);
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
-        
-        input[type="number"] {
-            width: 70px;
-            text-align: center;
-        }
-        
-        /* --- Custom Slider Styles --- */
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 8px;
-            background: var(--medium-gray);
-            border-radius: 5px;
+
+        input[type="number"]:focus, input[type="date"]:focus, select:focus {
             outline: none;
-            transition: opacity .2s;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 20px; height: 20px;
-            background: var(--primary-blue); cursor: pointer;
-            border-radius: 50%; border: 2px solid var(--white);
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
-        }
-        input[type="range"]::-moz-range-thumb {
-            width: 20px; height: 20px;
-            background: var(--primary-blue); cursor: pointer;
-            border-radius: 50%; border: 2px solid var(--white);
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
         }
 
         /* --- Custom Radio/Checkbox Buttons --- */
@@ -266,6 +238,14 @@
         }
         .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
         .tooltip-text b { color: var(--light-blue); }
+        
+        /* Mobile Tooltip Fix */
+        @media (max-width: 639px) {
+            .tooltip-container .tooltip-text {
+                width: 80vw;
+                white-space: normal;
+            }
+        }
 
         /* --- Submit Button --- */
         .submit-container { text-align: center; margin-top: 2.5rem; }
@@ -345,8 +325,8 @@
                 <a href="https://cblewellyn.github.io/heartforms/KCCQ12.html">KCCQ-12</a> /
                 <a href="https://cblewellyn.github.io/heartforms/NYHA_HF_Scale.html">NYHA Classification</a> /
                 <a href="https://cblewellyn.github.io/heartforms/ROS_doc.html">Review of Systems</a> /
-		        <a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a> /
-<a href="https://cblewellyn.github.io/heartforms/Cardiovascular_Risk_Scores.html">Cardiovascular Risk Scores</a>
+                <a href="https://cblewellyn.github.io/heartforms/CathCalc.html">Cath Lab Calculations</a> /
+                <a href="https://cblewellyn.github.io/heartforms/Cardiovascular_Risk_Scores.html">Cardiovascular Risk Scores</a>
             </nav>
         </header>
 
@@ -355,6 +335,7 @@
             <button class="tab-link" data-tab="heart">HEART Score</button>
             <button class="tab-link" data-tab="timi">TIMI Score</button>
             <button class="tab-link" data-tab="ascvd">ASCVD Risk</button>
+            <button class="tab-link" data-tab="rope">RoPE Score</button>
         </nav>
 
         <main>
@@ -373,10 +354,7 @@
                                 <span class="tooltip-text"><b>Age Points:</b><br>30-39: +8<br>40-49: +25<br>50-59: +41<br>60-69: +58<br>70-79: +75<br>80-89: +91<br>&ge; 90: +100</span>
                                 <span class="score-badge">+<span id="grace-age-score">58</span> pts</span>
                             </div>
-                            <div class="slider-group">
-                                <input type="range" id="grace-age-slider" min="18" max="100" value="65">
-                                <input type="number" id="grace-age-input" min="18" max="100" value="65">
-                            </div>
+                            <input type="number" id="grace-age-input" inputmode="numeric" pattern="[0-9]*" min="18" max="110" value="65" placeholder="e.g. 65">
                         </div>
                         <div class="form-group">
                             <div class="form-group-header tooltip-container">
@@ -384,10 +362,7 @@
                                 <span class="tooltip-text"><b>HR Points (bpm):</b><br>50-69: +3<br>70-89: +9<br>90-109: +15<br>110-149: +24<br>150-199: +38<br>&ge; 200: +46</span>
                                 <span class="score-badge">+<span id="grace-hr-score">9</span> pts</span>
                             </div>
-                            <div class="slider-group">
-                                <input type="range" id="grace-hr-slider" min="30" max="250" value="80">
-                                <input type="number" id="grace-hr-input" min="30" max="250" value="80">
-                            </div>
+                            <input type="number" id="grace-hr-input" inputmode="numeric" pattern="[0-9]*" min="30" max="250" value="80" placeholder="e.g. 80">
                         </div>
                         <div class="form-group">
                             <div class="form-group-header tooltip-container">
@@ -395,10 +370,7 @@
                                 <span class="tooltip-text"><b>SBP Points (mmHg):</b><br>&lt; 80: +58<br>80-99: +53<br>100-119: +43<br>120-139: +34<br>140-159: +24<br>160-199: +10</span>
                                 <span class="score-badge">+<span id="grace-sbp-score">34</span> pts</span>
                             </div>
-                            <div class="slider-group">
-                                <input type="range" id="grace-sbp-slider" min="50" max="250" value="120">
-                                <input type="number" id="grace-sbp-input" min="50" max="250" value="120">
-                            </div>
+                            <input type="number" id="grace-sbp-input" inputmode="numeric" pattern="[0-9]*" min="50" max="250" value="120" placeholder="e.g. 120">
                         </div>
                         <div class="form-group">
                             <div class="form-group-header tooltip-container">
@@ -406,29 +378,59 @@
                                 <span class="tooltip-text"><b>Creatinine Points (mg/dL):</b><br>0.0-0.39: +1<br>0.4-0.79: +4<br>0.8-1.19: +7<br>1.2-1.59: +10<br>1.6-1.99: +13<br>2.0-3.99: +21<br>&ge; 4.0: +28</span>
                                 <span class="score-badge">+<span id="grace-creatinine-score">7</span> pts</span>
                             </div>
-                            <div class="slider-group">
-                                <input type="range" id="grace-creatinine-slider" min="0.1" max="5.0" value="1.0" step="0.1">
-                                <input type="number" id="grace-creatinine-input" min="0.1" max="5.0" value="1.0" step="0.1">
-                            </div>
+                            <input type="number" id="grace-creatinine-input" inputmode="decimal" min="0.1" max="10.0" value="1.0" step="0.1" placeholder="e.g. 1.0">
                         </div>
+                        
+                        <!-- UPDATED: Killip Class with Group Tooltip and Option Tooltips -->
                         <div class="form-group">
-                            <div class="form-group-header">
-                                <label>Killip Class</label>
+                            <div class="form-group-header tooltip-container">
+                                <label class="label-with-tooltip">Killip Class</label>
+                                <span class="tooltip-text"><b>Killip Classification</b><br>Clinical assessment of heart failure severity in patients with acute myocardial infarction.</span>
                                 <span class="score-badge">+<span id="grace-killip-score">0</span> pts</span>
                             </div>
                             <div class="choice-group">
-                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="1" checked><span>I</span><span class="tooltip-text">No clinical signs of heart failure.</span></label>
-                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="2"><span>II</span><span class="tooltip-text">Rales, S3, elevated JVP.</span></label>
-                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="3"><span>III</span><span class="tooltip-text">Frank pulmonary edema.</span></label>
-                                <label class="choice-label tooltip-container"><input type="radio" name="killip" value="4"><span>IV</span><span class="tooltip-text">Cardiogenic shock.</span></label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="radio" name="killip" value="1" checked>
+                                    <span>I</span>
+                                    <span class="tooltip-text"><b>Class I</b><br>No clinical signs of heart failure.</span>
+                                </label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="radio" name="killip" value="2">
+                                    <span>II</span>
+                                    <span class="tooltip-text"><b>Class II</b><br>Rales, S3 gallop, or elevated jugular venous pressure.</span>
+                                </label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="radio" name="killip" value="3">
+                                    <span>III</span>
+                                    <span class="tooltip-text"><b>Class III</b><br>Frank acute pulmonary edema.</span>
+                                </label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="radio" name="killip" value="4">
+                                    <span>IV</span>
+                                    <span class="tooltip-text"><b>Class IV</b><br>Cardiogenic shock (hypotension and peripheral hypoperfusion).</span>
+                                </label>
                             </div>
                         </div>
+                        
+                        <!-- UPDATED: Other Factors with Detailed Tooltips -->
                         <div class="form-group" style="grid-column: 1 / -1;">
-                            <label>Other Factors</label>
+                            <label>Other Clinical Factors</label>
                             <div class="choice-group-vertical">
-                                <label class="choice-label"><input type="checkbox" id="grace-cardiac-arrest"><span>Cardiac Arrest at Admission (+39)</span></label>
-                                <label class="choice-label"><input type="checkbox" id="grace-st-deviation"><span>ST Segment Deviation (+28)</span></label>
-                                <label class="choice-label"><input type="checkbox" id="grace-cardiac-enzymes"><span>Abnormal Cardiac Enzymes (+14)</span></label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="checkbox" id="grace-cardiac-arrest">
+                                    <span>Cardiac Arrest at Admission (+39)</span>
+                                    <span class="tooltip-text"><b>Cardiac Arrest</b><br>Patient suffered cardiac arrest at or just prior to presentation, requiring resuscitation in the field or ED.</span>
+                                </label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="checkbox" id="grace-st-deviation">
+                                    <span>ST Segment Deviation (+28)</span>
+                                    <span class="tooltip-text"><b>ST Segment Deviation</b><br>Any new ST-segment depression &ge; 0.5 mm or transient ST-segment elevation &ge; 1 mm (lasting &lt; 20 minutes) in &ge; 2 contiguous leads on the initial ECG. Represents acute myocardial ischemia. Excludes fixed or known prior deviations.</span>
+                                </label>
+                                <label class="choice-label tooltip-container">
+                                    <input type="checkbox" id="grace-cardiac-enzymes">
+                                    <span>Abnormal Cardiac Enzymes (+14)</span>
+                                    <span class="tooltip-text"><b>Elevated Cardiac Enzymes</b><br>Initial cardiac biomarkers (e.g., High-Sensitivity Troponin I or T, or CK-MB) are elevated above the 99th percentile upper reference limit.</span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -538,23 +540,148 @@
                 <form id="ascvd-form">
                     <p class="header-p" style="text-align:center; margin-bottom: 1.5rem;">Estimates 10-year risk for a first Atherosclerotic Cardiovascular Disease event.</p>
                     <div class="form-grid">
-                        <div class="form-group"><label for="ascvd-age-input">Age (40-79)</label><div class="slider-group"><input type="range" id="ascvd-age-slider" min="40" max="79" value="55"><input type="number" id="ascvd-age-input" min="40" max="79" value="55"></div></div>
-                        <div class="form-group"><label for="ascvd-sbp-input">Systolic BP (mmHg)</label><div class="slider-group"><input type="range" id="ascvd-sbp-slider" min="90" max="200" value="120"><input type="number" id="ascvd-sbp-input" min="90" max="200" value="120"></div></div>
-                        <div class="form-group"><label for="ascvd-total-chol-input">Total Cholesterol (mg/dL)</label><div class="slider-group"><input type="range" id="ascvd-total-chol-slider" min="130" max="320" value="200"><input type="number" id="ascvd-total-chol-input" min="130" max="320" value="200"></div></div>
-                        <div class="form-group"><label for="ascvd-hdl-chol-input">HDL Cholesterol (mg/dL)</label><div class="slider-group"><input type="range" id="ascvd-hdl-chol-slider" min="20" max="100" value="50"><input type="number" id="ascvd-hdl-chol-input" min="20" max="100" value="50"></div></div>
-                        <div class="form-group"><label>Sex</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_sex" value="female" checked><span>Female</span></label><label class="choice-label"><input type="radio" name="ascvd_sex" value="male"><span>Male</span></label></div></div>
-                        <div class="form-group"><label>Race</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_race" value="white" checked><span>White / Other</span></label><label class="choice-label"><input type="radio" name="ascvd_race" value="aa"><span>African American</span></label></div></div>
-                         <div class="form-group"><label>Has Diabetes?</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_diabetic" value="no" checked><span>No</span></label><label class="choice-label"><input type="radio" name="ascvd_diabetic" value="yes"><span>Yes</span></label></div></div>
-                         <div class="form-group"><label>Smoker?</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_smoker" value="no" checked><span>No</span></label><label class="choice-label"><input type="radio" name="ascvd_smoker" value="yes"><span>Yes</span></label></div></div>
-                         <div class="form-group" style="grid-column: 1 / -1;"><label>On HTN Treatment?</label><div class="choice-group-vertical"><label class="choice-label"><input type="radio" name="ascvd_bp_treated" value="no" checked><span>No</span></label><label class="choice-label"><input type="radio" name="ascvd_bp_treated" value="yes"><span>Yes</span></label></div></div>
+                        <div class="form-group">
+                            <label for="ascvd-age-input">Age (40-79)</label>
+                            <input type="number" id="ascvd-age-input" inputmode="numeric" pattern="[0-9]*" min="40" max="79" value="55" placeholder="e.g. 55">
+                        </div>
+                        <div class="form-group">
+                            <label for="ascvd-sbp-input">Systolic BP (mmHg)</label>
+                            <input type="number" id="ascvd-sbp-input" inputmode="numeric" pattern="[0-9]*" min="90" max="200" value="120" placeholder="e.g. 120">
+                        </div>
+                        <div class="form-group">
+                            <label for="ascvd-total-chol-input">Total Cholesterol (mg/dL)</label>
+                            <input type="number" id="ascvd-total-chol-input" inputmode="numeric" pattern="[0-9]*" min="130" max="320" value="200" placeholder="e.g. 200">
+                        </div>
+                        <div class="form-group">
+                            <label for="ascvd-hdl-chol-input">HDL Cholesterol (mg/dL)</label>
+                            <input type="number" id="ascvd-hdl-chol-input" inputmode="numeric" pattern="[0-9]*" min="20" max="100" value="50" placeholder="e.g. 50">
+                        </div>
+                        <div class="form-group">
+                            <label>Sex</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="ascvd_sex" value="female" checked><span>Female</span></label>
+                                <label class="choice-label"><input type="radio" name="ascvd_sex" value="male"><span>Male</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Race</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="ascvd_race" value="white" checked><span>White / Other</span></label>
+                                <label class="choice-label"><input type="radio" name="ascvd_race" value="aa"><span>African American</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Has Diabetes?</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="ascvd_diabetic" value="no" checked><span>No</span></label>
+                                <label class="choice-label"><input type="radio" name="ascvd_diabetic" value="yes"><span>Yes</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Smoker?</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="ascvd_smoker" value="no" checked><span>No</span></label>
+                                <label class="choice-label"><input type="radio" name="ascvd_smoker" value="yes"><span>Yes</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>On HTN Treatment?</label>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="ascvd_bp_treated" value="no" checked><span>No</span></label>
+                                <label class="choice-label"><input type="radio" name="ascvd_bp_treated" value="yes"><span>Yes</span></label>
+                            </div>
+                        </div>
                     </div>
                     <div class="submit-container"><button type="submit" class="submit-btn">Calculate ASCVD Risk</button></div>
                 </form>
                 <div class="results-section" id="ascvd-results-section">
                     <h2>Results</h2>
-                    <div class="result-card" id="ascvd-result-card"><p class="label">10-Year ASCVD Risk:</p><p class="score" id="ascvd-score">0.0%</p><p class="risk-level" id="ascvd-risk-level">Low Risk</p><p class="risk-percentage" id="ascvd-risk-percentage">(Lifestyle modification encouraged)</p></div>
+                    <div class="result-card" id="ascvd-result-card">
+                        <p class="label">10-Year ASCVD Risk:</p>
+                        <p class="score" id="ascvd-score">0.0%</p>
+                        <p class="risk-level" id="ascvd-risk-level">Low Risk</p>
+                        <p class="risk-percentage" id="ascvd-risk-percentage">(Lifestyle modification encouraged)</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- RoPE Score Tab -->
+            <div id="rope" class="tab-content">
+                <form id="rope-form">
+                    <p class="header-p" style="text-align:center; margin-bottom: 1.5rem;">Estimates the probability that a cryptogenic stroke is due to a Patent Foramen Ovale (PFO).</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label for="rope-age-input" class="label-with-tooltip">Age (years)</label>
+                                <span class="tooltip-text"><b>Age Points:</b><br>18-29: +5<br>30-39: +4<br>40-49: +3<br>50-59: +2<br>60-69: +1<br>&ge; 70: 0</span>
+                                <span class="score-badge">+<span id="rope-age-score">2</span> pts</span>
+                            </div>
+                            <input type="number" id="rope-age-input" inputmode="numeric" pattern="[0-9]*" min="18" max="110" value="55" placeholder="e.g. 55">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label class="label-with-tooltip">History of Hypertension?</label>
+                                <span class="tooltip-text"><b>Hypertension</b><br>History of high blood pressure (>140/90) or currently on antihypertensive therapy.</span>
+                            </div>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="rope_htn" value="1" checked><span>No (+1)</span></label>
+                                <label class="choice-label"><input type="radio" name="rope_htn" value="0"><span>Yes (+0)</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label class="label-with-tooltip">History of Diabetes?</label>
+                                <span class="tooltip-text"><b>Diabetes Mellitus</b><br>History of diabetes treated with oral medication or insulin.</span>
+                            </div>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="rope_dm" value="1" checked><span>No (+1)</span></label>
+                                <label class="choice-label"><input type="radio" name="rope_dm" value="0"><span>Yes (+0)</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label class="label-with-tooltip">History of Stroke or TIA?</label>
+                                <span class="tooltip-text"><b>Prior Stroke or TIA</b><br>History of a stroke or transient ischemic attack prior to the index stroke event.</span>
+                            </div>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="rope_stroke" value="1" checked><span>No (+1)</span></label>
+                                <label class="choice-label"><input type="radio" name="rope_stroke" value="0"><span>Yes (+0)</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label class="label-with-tooltip">Current Smoker?</label>
+                                <span class="tooltip-text"><b>Current Tobacco Smoker</b><br>Patient actively smokes tobacco products.</span>
+                            </div>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="rope_smoker" value="1" checked><span>No (+1)</span></label>
+                                <label class="choice-label"><input type="radio" name="rope_smoker" value="0"><span>Yes (+0)</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-header tooltip-container">
+                                <label class="label-with-tooltip">Cortical Infarct on Imaging?</label>
+                                <span class="tooltip-text"><b>Cortical Infarct</b><br>Cortical stroke seen on MRI or CT imaging (as opposed to subcortical).</span>
+                            </div>
+                            <div class="choice-group-vertical">
+                                <label class="choice-label"><input type="radio" name="rope_infarct" value="0" checked><span>No (+0)</span></label>
+                                <label class="choice-label"><input type="radio" name="rope_infarct" value="1"><span>Yes (+1)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-container"><button type="submit" class="submit-btn">Calculate RoPE Score</button></div>
+                </form>
+                <div class="results-section" id="rope-results-section">
+                    <h2>Results</h2>
+                    <div class="result-card" id="rope-result-card">
+                        <p class="label">Total RoPE Score:</p>
+                        <p class="score" id="rope-score">0</p>
+                        <p class="risk-level" id="rope-risk-level">0% PFO-attributable fraction</p>
+                        <p class="risk-percentage" id="rope-risk-percentage">Probability that the cryptogenic stroke is due to PFO.</p>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
         <footer class="footer-section">
@@ -564,6 +691,7 @@
                 <li><strong>GRACE 2.0:</strong> <a href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.112.094490" target="_blank" rel="noopener noreferrer">Elbez, Y., et al. (2017). Circulation.</a></li>
                 <li><strong>HEART & TIMI Score:</strong> <a href="https://www.ahajournals.org/doi/10.1161/CIR.0000000000001029" target="_blank" rel="noopener noreferrer">Gulati, M., et al. (2021). 2021 AHA/ACC/ASE/CHEST/SAEM/SCCT/SCMR Guideline for the Evaluation and Diagnosis of Chest Pain. Circulation.</a></li>
                 <li><strong>ASCVD Risk (PREVENT):</strong> <a href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.123.067626" target="_blank" rel="noopener noreferrer">Khan, S. S., et al. (2024). Predicting Risk of Cardiovascular Disease Events (PREVENT) Equations. Circulation.</a></li>
+                <li><strong>RoPE Score:</strong> <a href="https://n.neurology.org/content/81/7/619" target="_blank" rel="noopener noreferrer">Kent, D. M., et al. (2013). An index to identify stroke-related vs incidental patent foramen ovale in cryptogenic stroke. Neurology.</a></li>
             </ul>
         </footer>
     </div>
@@ -582,24 +710,6 @@
             });
         });
 
-        // --- Generic Slider Sync Function ---
-        const syncSliderAndInput = (sliderId, inputId, callback) => {
-            const slider = document.getElementById(sliderId);
-            const input = document.getElementById(inputId);
-            if (!slider || !input) return;
-            
-            const update = () => {
-                if (callback) callback();
-            };
-
-            slider.addEventListener('input', () => { input.value = slider.value; update(); });
-            input.addEventListener('input', () => {
-                const val = parseFloat(input.value), min = parseFloat(slider.min), max = parseFloat(slider.max);
-                if (val > max) input.value = max; if (val < min) input.value = min;
-                slider.value = input.value; update();
-            });
-        };
-
         // --- GRACE Calculator Logic ---
         const graceForm = document.getElementById('grace-form');
         const graceScoreSpans = {
@@ -608,13 +718,10 @@
             killip: document.getElementById('grace-killip-score')
         };
         
-        syncSliderAndInput('grace-age-slider', 'grace-age-input', () => {
-            document.getElementById('grace-dob-input').value = '';
-            updateGraceScores();
+        // Listen to numerical input typing for real-time score updates
+        ['grace-age-input', 'grace-hr-input', 'grace-sbp-input', 'grace-creatinine-input'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateGraceScores);
         });
-        syncSliderAndInput('grace-hr-slider', 'grace-hr-input', updateGraceScores);
-        syncSliderAndInput('grace-sbp-slider', 'grace-sbp-input', updateGraceScores);
-        syncSliderAndInput('grace-creatinine-slider', 'grace-creatinine-input', updateGraceScores);
 
         document.getElementById('grace-dob-input').addEventListener('input', (e) => {
             if (!e.target.value) return;
@@ -624,7 +731,6 @@
             const m = today.getMonth() - birthDate.getMonth();
             if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
             document.getElementById('grace-age-input').value = age;
-            document.getElementById('grace-age-slider').value = age;
             updateGraceScores();
         });
 
@@ -637,26 +743,34 @@
 
         function calculateGraceIndividualScores() {
             const scores = {};
-            const age = parseInt(document.getElementById('grace-age-input').value);
+            const age = parseInt(document.getElementById('grace-age-input').value) || 0;
             if (age >= 90) scores.age = 100; else if (age >= 80) scores.age = 91; else if (age >= 70) scores.age = 75; else if (age >= 60) scores.age = 58; else if (age >= 50) scores.age = 41; else if (age >= 40) scores.age = 25; else if (age >= 30) scores.age = 8; else scores.age = 0;
-            const hr = parseInt(document.getElementById('grace-hr-input').value);
+            
+            const hr = parseInt(document.getElementById('grace-hr-input').value) || 0;
             if (hr >= 200) scores.hr = 46; else if (hr >= 150) scores.hr = 38; else if (hr >= 110) scores.hr = 24; else if (hr >= 90) scores.hr = 15; else if (hr >= 70) scores.hr = 9; else if (hr >= 50) scores.hr = 3; else scores.hr = 0;
-            const sbp = parseInt(document.getElementById('grace-sbp-input').value);
-            if (sbp < 80) scores.sbp = 58; else if (sbp < 100) scores.sbp = 53; else if (sbp < 120) scores.sbp = 43; else if (sbp < 140) scores.sbp = 34; else if (sbp < 160) scores.sbp = 24; else if (sbp < 200) scores.sbp = 10; else scores.sbp = 0;
-            const creatinine = parseFloat(document.getElementById('grace-creatinine-input').value);
-            if (creatinine >= 4.0) scores.creatinine = 28; else if (creatinine >= 2.0) scores.creatinine = 21; else if (creatinine >= 1.6) scores.creatinine = 13; else if (creatinine >= 1.2) scores.creatinine = 10; else if (creatinine >= 0.8) scores.creatinine = 7; else if (creatinine >= 0.4) scores.creatinine = 4; else if (creatinine >= 0.0) scores.creatinine = 1; else scores.creatinine = 0;
+            
+            const sbp = parseInt(document.getElementById('grace-sbp-input').value) || 0;
+            if (sbp > 0 && sbp < 80) scores.sbp = 58; else if (sbp >= 80 && sbp < 100) scores.sbp = 53; else if (sbp >= 100 && sbp < 120) scores.sbp = 43; else if (sbp >= 120 && sbp < 140) scores.sbp = 34; else if (sbp >= 140 && sbp < 160) scores.sbp = 24; else if (sbp >= 160 && sbp < 200) scores.sbp = 10; else scores.sbp = 0;
+            
+            const creatinine = parseFloat(document.getElementById('grace-creatinine-input').value) || 0;
+            if (creatinine >= 4.0) scores.creatinine = 28; else if (creatinine >= 2.0) scores.creatinine = 21; else if (creatinine >= 1.6) scores.creatinine = 13; else if (creatinine >= 1.2) scores.creatinine = 10; else if (creatinine >= 0.8) scores.creatinine = 7; else if (creatinine >= 0.4) scores.creatinine = 4; else if (creatinine > 0.0) scores.creatinine = 1; else scores.creatinine = 0;
+            
             const killip = graceForm.elements.killip.value;
             if (killip === '2') scores.killip = 20; else if (killip === '3') scores.killip = 39; else if (killip === '4') scores.killip = 59; else scores.killip = 0;
+            
             scores.cardiacArrest = document.getElementById('grace-cardiac-arrest').checked ? 39 : 0;
             scores.stDeviation = document.getElementById('grace-st-deviation').checked ? 28 : 0;
             scores.cardiacEnzymes = document.getElementById('grace-cardiac-enzymes').checked ? 14 : 0;
             return scores;
         }
+        
         function calculateGraceTotalScore() { return Object.values(calculateGraceIndividualScores()).reduce((t, c) => t + c, 0); }
+        
         function updateGraceScores() {
             const scores = calculateGraceIndividualScores();
             for (const key in graceScoreSpans) { graceScoreSpans[key].textContent = scores[key]; }
         }
+        
         function updateGraceUI(score) {
             const resultsSection = document.getElementById('grace-results-section');
             const scoreEl = document.getElementById('grace-score'), levelEl = document.getElementById('grace-risk-level'), percentEl = document.getElementById('grace-risk-percentage'), cardEl = document.getElementById('grace-result-card');
@@ -668,7 +782,7 @@
             levelEl.textContent = riskLevel; percentEl.textContent = riskPercentage; cardEl.className = `result-card ${riskClass}`;
             resultsSection.style.display = 'block';
         }
-        updateGraceScores(); // Initial call
+        updateGraceScores(); 
 
         // --- HEART Score Logic ---
         const heartForm = document.getElementById('heart-form');
@@ -732,7 +846,7 @@
             levelEl.textContent = riskLevel; percentEl.textContent = riskPercent; cardEl.className = `result-card ${riskClass}`;
             resultsSection.style.display = 'block';
         }
-        updateHeartRiskScore(); // Initial call
+        updateHeartRiskScore(); 
 
         // --- TIMI Score Logic ---
         const timiForm = document.getElementById('timi-form');
@@ -753,18 +867,22 @@
 
         // --- ASCVD Score Logic ---
         const ascvdForm = document.getElementById('ascvd-form');
-        syncSliderAndInput('ascvd-age-slider', 'ascvd-age-input');
-        syncSliderAndInput('ascvd-sbp-slider', 'ascvd-sbp-input');
-        syncSliderAndInput('ascvd-total-chol-slider', 'ascvd-total-chol-input');
-        syncSliderAndInput('ascvd-hdl-chol-slider', 'ascvd-hdl-chol-input');
         
         ascvdForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const age = parseFloat(document.getElementById('ascvd-age-input').value), totalChol = parseFloat(document.getElementById('ascvd-total-chol-input').value), hdlChol = parseFloat(document.getElementById('ascvd-hdl-chol-input').value), sbp = parseFloat(document.getElementById('ascvd-sbp-input').value);
-            const bpTreated = ascvdForm.elements.ascvd_bp_treated.value === 'yes', diabetic = ascvdForm.elements.ascvd_diabetic.value === 'yes', smoker = ascvdForm.elements.ascvd_smoker.value === 'yes';
+            const age = parseFloat(document.getElementById('ascvd-age-input').value) || 0; 
+            const totalChol = parseFloat(document.getElementById('ascvd-total-chol-input').value) || 0;
+            const hdlChol = parseFloat(document.getElementById('ascvd-hdl-chol-input').value) || 0; 
+            const sbp = parseFloat(document.getElementById('ascvd-sbp-input').value) || 0;
+            
+            const bpTreated = ascvdForm.elements.ascvd_bp_treated.value === 'yes';
+            const diabetic = ascvdForm.elements.ascvd_diabetic.value === 'yes'; 
+            const smoker = ascvdForm.elements.ascvd_smoker.value === 'yes';
             const sex = ascvdForm.elements.ascvd_sex.value, race = ascvdForm.elements.ascvd_race.value;
+            
             let sbpTreatedVal = bpTreated ? sbp : 1, sbpUntreatedVal = bpTreated ? 1 : sbp;
             let sum = 0;
+            
             if (sex === 'female') {
                 if (race === 'white') { sum = -29.799 * Math.log(age) + 4.884 * Math.pow(Math.log(age), 2) + 13.540 * Math.log(totalChol) - 3.114 * Math.log(age) * Math.log(totalChol) - 13.578 * Math.log(hdlChol) + 3.149 * Math.log(age) * Math.log(hdlChol) + 2.019 * Math.log(sbpTreatedVal) + 1.957 * Math.log(sbpUntreatedVal) + 7.574 * (smoker ? 1 : 0) - 1.665 * Math.log(age) * (smoker ? 1 : 0) + 0.661 * (diabetic ? 1 : 0); }
                 else { sum = 17.114 * Math.log(age) + 0.963 * Math.log(totalChol) - 18.920 * Math.log(hdlChol) + 4.475 * Math.log(age) * Math.log(hdlChol) + 29.291 * Math.log(sbpTreatedVal) - 6.432 * Math.log(age) * Math.log(sbpTreatedVal) + 27.820 * Math.log(sbpUntreatedVal) - 6.087 * Math.log(age) * Math.log(sbpUntreatedVal) + 0.691 * (smoker ? 1 : 0) + 0.874 * (diabetic ? 1 : 0); }
@@ -779,6 +897,7 @@
             const risk = 1 - Math.pow(baselineSurvival, Math.exp(sum - mean));
             updateAscvdUI(risk * 100);
         });
+        
         function updateAscvdUI(risk) {
             const resultsSection = document.getElementById('ascvd-results-section');
             const scoreEl = document.getElementById('ascvd-score'), levelEl = document.getElementById('ascvd-risk-level'), percentEl = document.getElementById('ascvd-risk-percentage'), cardEl = document.getElementById('ascvd-result-card');
@@ -789,6 +908,66 @@
             else if (risk < 20) { riskLevel = 'Intermediate Risk'; riskAdvice = '(Statin recommended)'; riskClass = 'risk-high'; }
             else { riskLevel = 'High Risk'; riskAdvice = '(High-intensity statin)'; riskClass = 'risk-very-high'; }
             levelEl.textContent = riskLevel; percentEl.textContent = riskAdvice; cardEl.className = `result-card ${riskClass}`;
+            resultsSection.style.display = 'block';
+        }
+
+        // --- RoPE Score Logic ---
+        const ropeForm = document.getElementById('rope-form');
+        const ropeAgeScoreEl = document.getElementById('rope-age-score');
+        
+        document.getElementById('rope-age-input').addEventListener('input', updateRopeAgeScore);
+        
+        function updateRopeAgeScore() {
+            const age = parseInt(document.getElementById('rope-age-input').value) || 0;
+            let pts = 0;
+            if (age >= 18 && age <= 29) pts = 5;
+            else if (age >= 30 && age <= 39) pts = 4;
+            else if (age >= 40 && age <= 49) pts = 3;
+            else if (age >= 50 && age <= 59) pts = 2;
+            else if (age >= 60 && age <= 69) pts = 1;
+            else pts = 0;
+            ropeAgeScoreEl.textContent = pts;
+        }
+        
+        updateRopeAgeScore(); 
+        
+        ropeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const agePts = parseInt(ropeAgeScoreEl.textContent);
+            const htnPts = parseInt(ropeForm.elements.rope_htn.value);
+            const dmPts = parseInt(ropeForm.elements.rope_dm.value);
+            const strokePts = parseInt(ropeForm.elements.rope_stroke.value);
+            const smokerPts = parseInt(ropeForm.elements.rope_smoker.value);
+            const infarctPts = parseInt(ropeForm.elements.rope_infarct.value);
+            
+            const totalScore = agePts + htnPts + dmPts + strokePts + smokerPts + infarctPts;
+            updateRopeUI(totalScore);
+        });
+        
+        function updateRopeUI(score) {
+            const resultsSection = document.getElementById('rope-results-section');
+            const scoreEl = document.getElementById('rope-score');
+            const levelEl = document.getElementById('rope-risk-level');
+            const percentEl = document.getElementById('rope-risk-percentage');
+            const cardEl = document.getElementById('rope-result-card');
+            
+            scoreEl.textContent = score;
+            
+            let pfoFraction = "0%";
+            let riskClass = "risk-low";
+            
+            if (score <= 3) { pfoFraction = "0%"; riskClass = "risk-low"; }
+            else if (score === 4) { pfoFraction = "38%"; riskClass = "risk-low"; }
+            else if (score === 5) { pfoFraction = "62%"; riskClass = "risk-intermediate"; }
+            else if (score === 6) { pfoFraction = "79%"; riskClass = "risk-intermediate"; }
+            else if (score === 7) { pfoFraction = "88%"; riskClass = "risk-high"; }
+            else if (score === 8) { pfoFraction = "94%"; riskClass = "risk-high"; }
+            else if (score >= 9) { pfoFraction = "99%"; riskClass = "risk-very-high"; }
+            
+            levelEl.textContent = pfoFraction + " PFO-attributable fraction";
+            percentEl.textContent = "Probability that the cryptogenic stroke is due to PFO.";
+            cardEl.className = `result-card ${riskClass}`;
+            
             resultsSection.style.display = 'block';
         }
     });
